@@ -1,0 +1,253 @@
+# Guía detallada de usuarios y staff
+
+Esta guía complementa `guia-staff.txt`; no la reemplaza.
+
+Base URL local: `http://localhost:8000`
+Prefijo API: `/api`
+
+Todas las rutas requieren:
+
+```http
+Authorization: Bearer <token>
+Accept: application/json
+Content-Type: application/json
+```
+
+`ADMINISTRATIVO` y `ADMINISTRADOR` pueden consultar el padrón general y los
+detalles de usuarios. Solo `ADMINISTRADOR` puede cambiar roles o eliminar
+usuarios. Cualquier usuario autenticado puede consultar `/api/users/staff`,
+pero los campos que recibe dependen de su rol.
+
+## Endpoints
+
+| Método | Endpoint | Acceso | Función |
+|---|---|---|---|
+| GET | `/api/users/staff` | Cualquier usuario autenticado | Directorio de staff, con campos según el rol del consultante. |
+| GET | `/api/users` | Roles altos | Lista y filtra usuarios, excluyendo al consultante. |
+| GET | `/api/users/{userId}` | Roles altos | Consulta el detalle de un usuario. |
+| PUT | `/api/users/{userId}/role` | Administrador | Cambia el rol del usuario. |
+| DELETE | `/api/users/{userId}` | Administrador | Elimina lógicamente al usuario. |
+
+`{userId}` es el UUID del usuario. Los recursos de colecciones incluyen
+`data`, `links` y `meta` de paginación.
+
+## Directorio de staff
+
+```http
+GET /api/users/staff?page=1&per_page=15
+```
+
+Lista usuarios con rol `ADMINISTRATIVO` o `ADMINISTRADOR`, ordenados por
+apellido y nombre. `per_page` es opcional (por defecto 15; internamente se
+limita al rango 1–100).
+
+Un `TUTOR` recibe solo resumen:
+
+```json
+{
+  "data": [
+    {
+      "role": "ADMINISTRATIVO",
+      "name": "Carla",
+      "lastname": "Gómez"
+    }
+  ],
+  "links": {},
+  "meta": {}
+}
+```
+
+`ADMINISTRATIVO` y `ADMINISTRADOR` reciben datos de contacto y perfil:
+
+```json
+{
+  "data": [
+    {
+      "id": "uuid-del-usuario",
+      "role": "ADMINISTRATIVO",
+      "name": "Carla",
+      "lastname": "Gómez",
+      "email": "carla@example.com",
+      "dni": "30123456",
+      "cuil": "20301234567",
+      "user_phone": "3871234567",
+      "occupation": "Administrativa",
+      "education_level": "UNIVERSITARIO",
+      "birthdate": "1990-01-15"
+    }
+  ],
+  "links": {},
+  "meta": {}
+}
+```
+
+Los campos con valor null se omiten.
+
+## Padrón general
+
+```http
+GET /api/users?page=1&per_page=15
+```
+
+Lista usuarios con los campos básicos `id`, `role`, `name`, `lastname`,
+`dni`, `cuil` y `email`. Excluye al usuario que realiza la consulta y, por
+el comportamiento normal de soft deletes, a los usuarios eliminados.
+
+Filtros opcionales combinables:
+
+| Parámetro | Búsqueda |
+|---|---|
+| `dni` | Exacta; solo dígitos. |
+| `cuil` | Exacta; solo dígitos. |
+| `name` | Parcial, sin distinguir mayúsculas ni tildes. |
+| `lastname` | Parcial, sin distinguir mayúsculas ni tildes. |
+| `email` | Parcial, sin distinguir mayúsculas. |
+| `page` | Página (entero desde 1). |
+| `per_page` | Resultados por página (1–100; por defecto 15). |
+
+Ejemplo:
+
+```http
+GET /api/users?dni=30111222&cuil=20301112223&name=ana&lastname=perez&email=ana%40example.com&page=1&per_page=15
+```
+
+La respuesta usa el recurso básico y la estructura paginada:
+
+```json
+{
+  "data": [
+    {
+      "id": "uuid-del-usuario",
+      "role": "TUTOR",
+      "name": "Ana",
+      "lastname": "Pérez",
+      "dni": "30111222",
+      "cuil": "20301112223",
+      "email": "ana@example.com"
+    }
+  ],
+  "links": {},
+  "meta": {}
+}
+```
+
+`dni` y `cuil` deben enviarse sin puntos, espacios, guiones ni guiones bajos;
+si incluyen otros caracteres, responde `422`.
+
+## Detalle de usuario
+
+```http
+GET /api/users/{userId}
+```
+
+`ADMINISTRATIVO` y `ADMINISTRADOR` pueden consultar cualquier usuario activo,
+incluso si aún no verificó su correo.
+
+`ADMINISTRATIVO` recibe los datos del usuario:
+
+```json
+{
+  "data": {
+    "id": "uuid-del-usuario",
+    "role": "TUTOR",
+    "name": "Ana",
+    "lastname": "Pérez",
+    "email": "ana@example.com",
+    "dni": "30111222",
+    "cuil": "20301112223",
+    "user_phone": "3871234567",
+    "occupation": "Docente",
+    "education_level": "UNIVERSITARIO",
+    "birthdate": "1990-01-15"
+  }
+}
+```
+
+`ADMINISTRADOR` recibe además `created_at`, `updated_at` y, si está definido,
+`email_verified_at` en ISO 8601. Los campos con valor null se omiten.
+
+Responde `404` si no existe el UUID o el usuario está eliminado.
+
+## Cambiar el rol de usuario
+
+```http
+PUT /api/users/{userId}/role
+
+{
+  "newRole": "ADMINISTRATIVO"
+}
+```
+
+Solo `ADMINISTRADOR` puede realizar esta operación. `newRole` es obligatorio
+y acepta `TUTOR`, `ADMINISTRATIVO` o `ADMINISTRADOR`.
+
+Respuesta exitosa: `200` con los datos del usuario actualizado:
+
+```json
+{
+  "data": {
+    "id": "uuid-del-usuario",
+    "role": "ADMINISTRATIVO",
+    "name": "Ana",
+    "lastname": "Pérez",
+    "email": "ana@example.com",
+    "dni": "30111222",
+    "cuil": "20301112223",
+    "user_phone": "3871234567",
+    "birthdate": "1990-01-15"
+  }
+}
+```
+
+Reglas y errores:
+
+- `403`: el administrador intenta cambiar su propio rol.
+- `404`: el usuario objetivo no existe o está eliminado.
+- `409`: el rol solicitado ya es el actual.
+- `409`: el usuario objetivo todavía no verificó el correo.
+- `409`: el cambio dejaría al sistema sin ningún administrador activo.
+- `422`: falta `newRole` o el valor no pertenece a la lista permitida.
+
+El token JWT del usuario modificado no se revoca en ese momento; en solicitudes
+siguientes, los permisos se verifican según el rol actual cargado desde el
+usuario.
+
+## Eliminar un usuario
+
+```http
+DELETE /api/users/{userId}
+```
+
+Solo `ADMINISTRADOR` puede hacerlo. Es una baja lógica: el registro se conserva
+en la base de datos, pero el usuario deja de estar disponible.
+
+Respuesta exitosa: `200`
+
+```json
+{
+  "message": "Usuario eliminado correctamente."
+}
+```
+
+Reglas y errores:
+
+- `403`: no se puede eliminar la propia cuenta.
+- `404`: el usuario no existe o ya fue eliminado.
+- `409`: no se puede eliminar al último administrador activo.
+
+Después de la baja, el usuario no puede volver a iniciar sesión y los JWT que
+tenía dejan de autenticarlo (`401`). Sus alumnos e inscripciones se conservan.
+Los DNI y CUIL registrados no quedan disponibles para un nuevo registro.
+
+## Errores habituales
+
+| Código | Significado |
+|---|---|
+| 401 | Falta el JWT o no es válido. |
+| 403 | El rol no permite la operación o se intenta operar sobre la propia cuenta. |
+| 404 | Usuario inexistente o eliminado. |
+| 409 | Conflicto con las reglas de cambio de rol o último administrador. |
+| 422 | Filtros o datos inválidos. |
+
+`GET /api/auth/me` pertenece al flujo de autenticación y está descrito en
+`guia-auth-detallada.txt`.

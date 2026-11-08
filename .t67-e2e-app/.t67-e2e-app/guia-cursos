@@ -1,0 +1,716 @@
+Rutas disponibles:
+
+| Método | Ruta | Roles | Uso | -
+| `GET` | `/api/courses` | ADMINISTRATIVO, ADMINISTRADOR, TUTOR | Listado general paginado |-
+
+| `GET` | `/api/courses/available` | ADMINISTRATIVO, ADMINISTRADOR, TUTOR | Cursos activos con cupos disponibles |
+
+| `GET` | `/api/courses/{course}` | ADMINISTRATIVO, ADMINISTRADOR, TUTOR | Detalle de un curso |
+
+| `GET` | `/api/courses/{course}/report` | ADMINISTRATIVO, ADMINISTRADOR, TUTOR | Reporte JSON de inscripciones activas |
+
+| `POST` | `/api/courses/create` | ADMINISTRATIVO, ADMINISTRADOR | Crear curso |
+
+| `PUT`, `PATCH` | `/api/courses/{course}` | ADMINISTRATIVO, ADMINISTRADOR | Actualizar curso |
+
+| `DELETE` | `/api/courses/{course}` | ADMINISTRATIVO, ADMINISTRADOR | Eliminar lógicamente un curso |
+
+| `POST` | `/api/courses/{course}/clone` | ADMINISTRATIVO, ADMINISTRADOR | Clonar un curso |
+
+| `PATCH` | `/api/courses/{course}/hide` | ADMINISTRATIVO, ADMINISTRADOR | Desactivar curso |
+
+| `PATCH` | `/api/courses/{course}/show` | ADMINISTRATIVO, ADMINISTRADOR | Activar curso |
+
+| `POST` | `/api/courses/clone/{oldYear}` | ADMINISTRATIVO, ADMINISTRADOR | Clonar cursos de un año al año actual |
+
+`{course}` es el UUID (`id`) del curso. No confundirlo con `code`, que es un código legible generado por el servidor.
+
+## 4. Estructura de curso
+
+Los nombres de propiedades son sensibles a mayúsculas/minúsculas y se envían en `camelCase` cuando así se muestran.
+
+| Campo | Tipo | Detalle |
+
+|---|---|---|
+
+| `id` | string UUID | Identificador del curso, generado por el servidor |
+
+| `code` | string | Código legible generado por el servidor |
+
+| `year` | integer | Año lectivo; debe ser el año actual o uno futuro |
+
+| `studyYear` | integer | Año de cursada: `1` a `6` |
+
+| `division` | string | División, máximo 10 caracteres |
+
+| `cycle` | string | `basic` o `superior` |
+
+| `speciality` | string | `basic`, `informatics` o `electronics` |
+
+| `shift` | string | `morning`, `afternoon` o `night` |
+
+| `maxCapacity` | integer | Cupo máximo, mayor que cero |
+
+| `currentCapacity` | integer | Cantidad actual; empieza en `0` al crear o clonar |
+
+| `availablePlaces` | integer | `maxCapacity - currentCapacity` |
+
+| `pendingRequests` | — | Se calcula internamente en `/available`, pero actualmente no se incluye en el JSON serializado |
+
+| `status` | string | `active` o `inactive` |
+
+| `created_at`, `updated_at` | string o null | Fecha `DD/MM/YYYY HH:mm:ss` |
+
+La combinación `year`, `studyYear`, `division`, `cycle`, `shift` y `speciality` debe ser única. El campo `code` se compone como `{year}-{studyYear}-{division}-{cycleAbrev}-{specialityAbrev}-{shiftAbrev}`; por ejemplo, `2026-1-1-BAS-INF-M`. Las abreviaturas de ciclo son `BAS`/`SUP`, de especialidad `BAS`/`INF`/`ELE` y de turno `M`/`T`/`N`.
+
+Los recursos de curso individuales y listados incluyen los datos bajo la propiedad `data`. Las respuestas de curso contienen `availablePlaces`. Aunque `/available` calcula internamente `pendingRequests`, el `CourseResource` lo omite y no aparece en su JSON.
+
+## 5. Consultar cursos
+
+### 5.1 Listado general paginado
+
+`GET /api/courses?per_page=15&page=1`
+
+- `per_page` es opcional; por defecto vale `15`.
+
+- `page` controla la página mediante la paginación estándar de Laravel.
+
+- Orden: `studyYear`, `division` y `shift`, ascendente.
+
+**Respuesta — HTTP 200**
+
+```json
+
+{
+
+  "data": [
+
+    {
+
+      "id": "01a16659-d4fc-73a1-9de8-4aa196a4d573",
+
+      "code": "2026-1-1-BAS-INF-M",
+
+      "year": 2026,
+
+      "studyYear": 1,
+
+      "division": "1",
+
+      "cycle": "basic",
+
+      "speciality": "informatics",
+
+      "shift": "morning",
+
+      "maxCapacity": 30,
+
+      "currentCapacity": 10,
+
+      "availablePlaces": 20,
+
+      "status": "active",
+
+      "created_at": "23/10/2026 01:22:00",
+
+      "updated_at": "23/10/2026 01:22:00"
+
+    }
+
+  ],
+
+  "links": {
+
+    "first": "http://localhost:8000/api/courses?page=1",
+
+    "last": "http://localhost:8000/api/courses?page=2",
+
+    "prev": null,
+
+    "next": "http://localhost:8000/api/courses?page=2"
+
+  },
+
+  "meta": {
+
+    "current_page": 1,
+
+    "from": 1,
+
+    "last_page": 2,
+
+    "path": "http://localhost:8000/api/courses",
+
+    "per_page": 15,
+
+    "to": 15,
+
+    "total": 20
+
+  }
+
+}
+
+```
+
+Los valores de `links` y `meta` son ilustrativos: la API calcula la paginación según los datos y la URL recibida. Seguir `links.next` (o incrementar `page`) para cargar resultados siguientes.
+
+### 5.2 Cursos disponibles para inscripción
+
+`GET /api/courses/available?year=2026`
+
+- `year` es opcional; si se omite, el backend usa el año actual.
+
+- Devuelve una lista no paginada de cursos del año solicitado que estén `active` y tengan `currentCapacity < maxCapacity`.
+
+- El controlador calcula `pendingRequests`, pero el `CourseResource` usado al serializar esta respuesta no lo incluye. Por lo tanto, el frontend no debe depender de ese campo mientras el backend no lo exponga.
+
+**Respuesta — HTTP 200**
+
+```json
+
+{
+
+  "data": [
+
+    {
+
+      "id": "01a16659-d4fc-73a1-9de8-4aa196a4d573",
+
+      "code": "2026-1-1-BAS-INF-M",
+
+      "year": 2026,
+
+      "studyYear": 1,
+
+      "division": "1",
+
+      "cycle": "basic",
+
+      "speciality": "informatics",
+
+      "shift": "morning",
+
+      "maxCapacity": 30,
+
+      "currentCapacity": 10,
+
+      "availablePlaces": 20,
+
+      "status": "active",
+
+      "created_at": null,
+
+      "updated_at": null
+
+    }
+
+  ]
+
+}
+
+```
+
+Si no hay cursos disponibles, `data` es un arreglo vacío: `{"data":[]}`. Aunque se permite consultar este endpoint con los tres roles, su uso habitual es mostrar opciones a tutores.
+
+### 5.3 Detalle de un curso
+
+`GET /api/courses/{course}`
+
+**Respuesta — HTTP 200**
+
+```json
+
+{
+
+  "data": {
+
+    "id": "01a16659-d4fc-73a1-9de8-4aa196a4d573",
+
+    "code": "2026-1-1-BAS-INF-M",
+
+    "year": 2026,
+
+    "studyYear": 1,
+
+    "division": "1",
+
+    "cycle": "basic",
+
+    "speciality": "informatics",
+
+    "shift": "morning",
+
+    "maxCapacity": 30,
+
+    "currentCapacity": 10,
+
+    "availablePlaces": 20,
+
+    "status": "active",
+
+    "created_at": "23/10/2026 01:22:00",
+
+    "updated_at": "23/10/2026 01:22:00"
+
+  }
+
+}
+
+Un UUID inexistente o eliminado lógicamente responde HTTP 404.
+
+## 6. Operaciones administrativas
+
+### 6.1 Crear curso
+
+`POST /api/courses/create`
+
+**Petición**
+
+```json
+
+{
+
+  "year": 2026,
+
+  "studyYear": 1,
+
+  "division": "1",
+
+  "cycle": "basic",
+
+  "speciality": "informatics",
+
+  "shift": "morning",
+
+  "maxCapacity": 30
+
+}
+
+```
+
+Campos requeridos: `year`, `studyYear`, `division`, `cycle`, `speciality`, `shift` y `maxCapacity`. `status` es opcional (`active` o `inactive`) y por defecto es `active`. No enviar `id`, `code` ni `currentCapacity`: los genera o inicializa el backend.
+
+**Respuesta — HTTP 201**
+
+```json
+
+{
+
+  "data": {
+
+    "id": "01a16659-d4fc-73a1-9de8-4aa196a4d573",
+
+    "code": "2026-1-1-BAS-INF-M",
+
+    "year": 2026,
+
+    "studyYear": 1,
+
+    "division": "1",
+
+    "cycle": "basic",
+
+    "speciality": "informatics",
+
+    "shift": "morning",
+
+    "maxCapacity": 30,
+
+    "currentCapacity": 0,
+
+    "availablePlaces": 30,
+
+    "status": "active",
+
+    "created_at": "23/10/2026 01:22:00",
+
+    "updated_at": "23/10/2026 01:22:00"
+
+  }
+
+}
+
+```
+
+`year` no puede ser menor al año actual; `studyYear` debe estar entre `1` y `6`; `division` admite hasta 10 caracteres; `maxCapacity` debe ser entero positivo. Las categorías enumeradas deben coincidir exactamente con las opciones indicadas en la tabla de campos.
+
+### 6.2 Actualizar curso
+
+`PUT /api/courses/{course}` y `PATCH /api/courses/{course}` aceptan los mismos campos opcionales. Enviar únicamente los campos que se desea cambiar; `PATCH` suele ser la opción más clara para actualizaciones parciales.
+
+**Petición**
+
+```json
+
+{
+
+  "maxCapacity": 40,
+
+  "shift": "afternoon"
+
+}
+
+```
+
+**Respuesta — HTTP 200**
+
+```json
+
+{
+
+  "data": {
+
+    "id": "01a16659-d4fc-73a1-9de8-4aa196a4d573",
+
+    "code": "2026-1-1-BAS-INF-M",
+
+    "year": 2026,
+
+    "studyYear": 1,
+
+    "division": "1",
+
+    "cycle": "basic",
+
+    "speciality": "informatics",
+
+    "shift": "afternoon",
+
+    "maxCapacity": 40,
+
+    "currentCapacity": 10,
+
+    "availablePlaces": 30,
+
+    "status": "active",
+
+    "created_at": "23/10/2026 01:22:00",
+
+    "updated_at": "24/10/2026 09:15:00"
+
+  }
+
+}
+
+```
+
+No se pueden actualizar `id`, `code` ni `currentCapacity`. `maxCapacity` no puede quedar por debajo de `currentCapacity`. La nueva combinación académica también debe seguir siendo única.
+
+### 6.3 Ocultar y mostrar
+
+**Ocultar:** `PATCH /api/courses/{course}/hide`  
+
+Se puede enviar `{}`; el backend coloca `status` en `inactive`. También acepta opcionalmente `{"status":"inactive"}`.
+
+**Mostrar:** `PATCH /api/courses/{course}/show`  
+
+Se puede enviar `{}`; el backend coloca `status` en `active`. También acepta opcionalmente `{"status":"active"}`.
+
+Ambas rutas responden HTTP 200 con el curso actualizado en `data`, en el mismo formato de detalle. La API valida que el `status` opcional sea `active` o `inactive`.
+
+**Ejemplo de respuesta — HTTP 200**
+
+```json
+
+{
+
+  "data": {
+
+    "id": "01a16659-d4fc-73a1-9de8-4aa196a4d573",
+
+    "code": "2026-1-1-BAS-INF-M",
+
+    "year": 2026,
+
+    "studyYear": 1,
+
+    "division": "1",
+
+    "cycle": "basic",
+
+    "speciality": "informatics",
+
+    "shift": "morning",
+
+    "maxCapacity": 30,
+
+    "currentCapacity": 0,
+
+    "availablePlaces": 30,
+
+    "status": "inactive",
+
+    "created_at": "23/10/2026 01:22:00",
+
+    "updated_at": "24/10/2026 09:15:00"
+
+  }
+
+}
+
+```
+
+**Importante:** la lógica de negocio no permite desactivar cursos con `currentCapacity > 0`. Actualmente esa condición lanza una excepción de servidor no transformada por el controlador; no asumir que devuelve un JSON de validación 422. Para el frontend, tratar HTTP 5xx como error inesperado y mostrar un mensaje genérico, sin cambiar el estado local como si la operación hubiera tenido éxito.
+
+### 6.4 Eliminar curso
+
+`DELETE /api/courses/{course}`
+
+- Si `currentCapacity` es mayor que `0`, responde HTTP 422:
+
+```json
+
+{
+
+  "error": "No puede eliminar un curso con inscripciones activas."
+
+}
+
+```
+
+- Si no tiene inscripciones activas, se realiza un soft delete y responde **HTTP 204 sin cuerpo**.
+
+- El curso eliminado deja de aparecer en consultas normales.
+
+Para HTTP 204, no intentar parsear JSON: marcar la operación como exitosa al recibir el estado HTTP.
+
+### 6.5 Clonar un curso
+
+`POST /api/courses/{course}/clone`
+
+El cuerpo es opcional. Se pueden enviar campos para sobreescribir los valores del original; los omitidos se copian. Los campos aceptados son `year`, `studyYear`, `division`, `cycle`, `speciality`, `shift`, `maxCapacity` y `status`.
+
+**Petición**
+
+```json
+
+{
+
+  "year": 2027,
+
+  "maxCapacity": 40
+
+}
+
+```
+
+**Respuesta — HTTP 201**
+
+```json
+
+{
+
+  "data": {
+
+    "id": "uuid-del-nuevo-curso",
+
+    "code": "2027-1-1-BAS-INF-M",
+
+    "year": 2027,
+
+    "studyYear": 1,
+
+    "division": "1",
+
+    "cycle": "basic",
+
+    "speciality": "informatics",
+
+    "shift": "morning",
+
+    "maxCapacity": 40,
+
+    "currentCapacity": 0,
+
+    "availablePlaces": 40,
+
+    "status": "active",
+
+    "created_at": "23/10/2026 01:22:00",
+
+    "updated_at": "23/10/2026 01:22:00"
+
+  }
+
+}
+
+```
+
+Devuelve el nuevo curso bajo `data`, con un UUID y `code` nuevos, `currentCapacity: 0` y `availablePlaces` igual a `maxCapacity`. Las inscripciones del original no se copian.
+
+La combinación del nuevo curso debe ser única. Una combinación duplicada se devuelve como error de validación HTTP 422. El año debe ser el actual o futuro y el cupo máximo debe ser positivo.
+
+### 6.6 Clonar cursos de un año completo
+
+`POST /api/courses/clone/{oldYear}`
+
+No requiere cuerpo. El backend crea copias de los cursos del año indicado para el año actual. No copia inscripciones, inicia `currentCapacity` en cero y conserva los demás datos del curso de origen. Si la combinación destino ya existe, omite ese curso y continúa con el resto.
+
+**Respuesta — HTTP 201**
+
+```json
+
+{
+
+  "message": "Cursos clonados del año 2025 al año 2026",
+
+  "cloned": 2,
+
+  "courses": [
+
+    {
+
+      "id": "uuid-nuevo-1",
+
+      "code": "2026-1-1-BAS-INF-M",
+
+      "year": 2026,
+
+      "studyYear": 1,
+
+      "division": "1",
+
+      "cycle": "basic",
+
+      "speciality": "informatics",
+
+      "shift": "morning",
+
+      "maxCapacity": 30,
+
+      "currentCapacity": 0,
+
+      "availablePlaces": 30,
+
+      "status": "active",
+
+      "created_at": "23/10/2026 01:22:00",
+
+      "updated_at": "23/10/2026 01:22:00"
+
+    }
+
+  ]
+
+}
+
+```
+
+`cloned` indica la cantidad realmente creada y `courses` contiene esos cursos. Si no había cursos de origen o todos fueron omitidos por duplicados, devuelve `cloned: 0` y `courses: []`.
+
+## 7. Reporte de inscripciones
+
+`GET /api/courses/{course}/report`
+
+Acepta los tres roles de lectura. Devuelve JSON directamente, sin envoltorio `data`; la lista incluye solo inscripciones activas, ordenadas por apellido y nombre.
+
+**Respuesta — HTTP 200**
+
+```json
+
+{
+
+  "header": {
+
+    "courseDivision": "1º 1",
+
+    "speciality": "informatics",
+
+    "year": 2026,
+
+    "shift": "morning",
+
+    "totalInscriptions": 2
+
+  },
+
+  "list": [
+
+    {
+
+      "orderNumber": 1,
+
+      "lastname": "García",
+
+      "firstname": "María",
+
+      "dni": "12345678",
+
+      "phone": "3871234567",
+
+      "email": "maria.garcia@example.com"
+
+    },
+
+    {
+
+      "orderNumber": 2,
+
+      "lastname": "López",
+
+      "firstname": "Juan",
+
+      "dni": "87654321",
+
+      "phone": "3879876543",
+
+      "email": "juan.lopez@example.com"
+
+    }
+
+  ]
+
+}
+
+```
+
+`header.totalInscriptions` coincide con la cantidad de elementos de `list`. Si no hay inscripciones activas, `list` será `[]` y el total `0`. El endpoint entrega JSON; no genera por sí mismo Excel, CSV ni PDF.
+
+## 8. Errores y manejo en el cliente
+
+| HTTP | Significado | Acción sugerida |
+
+|---|---|---|
+
+| `200` | Consulta o actualización exitosa | Leer el JSON de respuesta |
+
+| `201` | Recurso creado/clonado | Leer el recurso devuelto |
+
+| `204` | Eliminación exitosa, sin cuerpo | No parsear respuesta JSON |
+
+| `401` | JWT ausente, inválido o expirado | Borrar token e iniciar sesión otra vez |
+
+| `403` | Rol sin permisos | Mostrar acceso denegado |
+
+| `404` | Curso inexistente o eliminado | Actualizar listado o mostrar no encontrado |
+
+| `422` | Datos inválidos o validación de negocio | Mostrar errores junto a los campos |
+
+| `5xx` | Error inesperado del servidor | Mostrar mensaje genérico; no asumir éxito |
+
+Los errores de Form Request (campos requeridos, formatos, rangos y combinaciones duplicadas) utilizan HTTP 422 con una estructura similar a:
+
+```json
+
+{
+
+  "message": "The given data was invalid.",
+
+  "errors": {
+
+    "year": [
+
+      "The year field is required."
+
+    ],
+
+    "maxCapacity": [
+
+      "The maxCapacity field must be greater than 0."
+
+    ]
+
+  }
+
+}

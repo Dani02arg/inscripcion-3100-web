@@ -1,0 +1,250 @@
+# Guía detallada de alumnos
+
+
+
+Base URL local: `http://localhost:8000`
+Prefijo API: `/api`
+
+Todas las rutas requieren un JWT:
+
+```http
+Authorization: Bearer <token>
+Accept: application/json
+Content-Type: application/json
+```
+
+Los tutores pueden registrar, listar y actualizar únicamente sus propios
+alumnos. `ADMINISTRATIVO` y `ADMINISTRADOR` tienen acceso de solo lectura al
+listado, detalle y tutor responsable.
+
+## Endpoints
+
+| Método | Endpoint | Acceso | Función |
+|---|---|---|---|
+| POST | `/api/students` | TUTOR | Registra un alumno a cargo. |
+| GET | `/api/students/me` | TUTOR | Lista los alumnos propios. |
+| PUT | `/api/students/{student}` | TUTOR propietario | Actualiza un alumno propio. |
+| GET | `/api/students` | Roles altos | Lista y filtra alumnos, paginado. |
+| GET | `/api/students/{student}` | Roles altos | Consulta el detalle de un alumno. |
+| GET | `/api/students/{student}/tutor` | Roles altos | Consulta los datos de contacto del tutor responsable. |
+
+`{student}` es el UUID del alumno.
+
+## Formato de alumno
+
+```json
+{
+  "id": "uuid-del-alumno",
+  "studentDni": "50123456",
+  "studentCuil": "20501234567",
+  "firstName": "Lucas",
+  "lastName": "Pérez",
+  "studentEmail": "lucas@example.com",
+  "studentPhone": "3874112233",
+  "birthdate": "2010-08-20",
+  "gender": "Masculino",
+  "birthplace": "Salta Capital",
+  "address": "Av. San Martin 123",
+  "created_at": "2026-10-24T18:50:01+00:00",
+  "updated_at": "2026-10-24T18:50:01+00:00"
+}
+```
+
+Los campos opcionales que valen null pueden aparecer como null en la respuesta.
+`birthdate` se representa como `YYYY-MM-DD`; las marcas de tiempo usan ISO 8601.
+
+## Registrar alumno
+
+```http
+POST /api/students
+
+{
+  "studentDni": "50123456",
+  "studentCuil": "20501234567",
+  "firstName": "Lucas",
+  "lastName": "Pérez",
+  "studentEmail": "lucas@example.com",
+  "studentPhone": "3874112233",
+  "birthdate": "2010-08-20",
+  "gender": "Masculino",
+  "birthplace": "Salta Capital",
+  "address": "Av. San Martin 123"
+}
+```
+
+Campos obligatorios:
+
+- `studentDni`: texto con 7 u 8 dígitos.
+- `studentCuil`: texto con 11 dígitos.
+- `firstName` y `lastName`: texto de hasta 100 caracteres.
+- `birthdate`: fecha `YYYY-MM-DD`, no futura.
+- `gender`: `Masculino`, `Femenino` u `Otro`.
+
+Campos opcionales:
+
+- `studentEmail`: email válido de hasta 255 caracteres.
+- `studentPhone`: texto compuesto solo por dígitos.
+- `birthplace`: texto de hasta 150 caracteres.
+- `address`: texto.
+
+DNI, CUIL y email, si se proporciona, deben ser únicos entre los alumnos. El
+alumno queda asociado al tutor autenticado. Envíe DNI, CUIL y teléfono como
+cadenas de texto para conservar todos sus dígitos.
+
+Respuesta exitosa: `201`
+
+```json
+{
+  "data": {
+    "id": "uuid-del-alumno",
+    "studentDni": "50123456",
+    "studentCuil": "20501234567",
+    "firstName": "Lucas",
+    "lastName": "Pérez",
+    "studentEmail": "lucas@example.com",
+    "studentPhone": "3874112233",
+    "birthdate": "2010-08-20",
+    "gender": "Masculino",
+    "birthplace": "Salta Capital",
+    "address": "Av. San Martin 123",
+    "created_at": "2026-10-24T18:50:01+00:00",
+    "updated_at": "2026-10-24T18:50:01+00:00"
+  }
+}
+```
+
+## Listar mis alumnos
+
+```http
+GET /api/students/me
+```
+
+Devuelve solo alumnos del tutor autenticado, ordenados por apellido y nombre.
+No está paginado. Si el tutor no tiene alumnos, responde `200`:
+
+```json
+{
+  "data": []
+}
+```
+
+## Actualizar alumno propio
+
+```http
+PUT /api/students/{student}
+
+{
+  "firstName": "Lucas Andrés",
+  "studentPhone": "3874000000"
+}
+```
+
+Envíe solo los campos que desea actualizar: `firstName`, `lastName`,
+`studentEmail`, `studentPhone`, `birthdate`, `gender`, `birthplace` y
+`address`. Los campos omitidos conservan el valor actual. Se aplican las
+validaciones de formato, género y fecha indicadas para el alta.
+
+`studentDni` y `studentCuil` no se pueden modificar; si se envían, responde
+`422`. Un tutor no puede actualizar un alumno ajeno: la API responde `404`
+para no revelar si ese alumno existe.
+
+Respuesta exitosa: `200` con el recurso del alumno actualizado:
+
+```json
+{
+  "data": {
+    "id": "uuid-del-alumno",
+    "studentDni": "50123456",
+    "studentCuil": "20501234567",
+    "firstName": "Lucas Andrés",
+    "lastName": "Pérez",
+    "studentEmail": "lucas@example.com",
+    "studentPhone": "3874000000",
+    "birthdate": "2010-08-20",
+    "gender": "Masculino",
+    "birthplace": "Salta Capital",
+    "address": "Av. San Martin 123",
+    "created_at": "2026-10-24T18:50:01+00:00",
+    "updated_at": "2026-11-02T18:30:00+00:00"
+  }
+}
+```
+
+## Listar alumnos (roles altos)
+
+```http
+GET /api/students?per_page=15&page=1&studentDni=50123456&firstName=lucas
+```
+
+Filtros opcionales combinables:
+
+| Parámetro | Búsqueda |
+|---|---|
+| `studentDni` | Exacta. |
+| `studentCuil` | Exacta. |
+| `firstName` | Parcial, sin distinguir mayúsculas. |
+| `lastName` | Parcial, sin distinguir mayúsculas. |
+| `per_page` | Resultados por página (1–100; por defecto 15). |
+| `page` | Página solicitada. |
+
+Ordena por apellido y nombre. La respuesta incluye `data`, `links` y `meta`:
+
+```json
+{
+  "data": [
+    {
+      "id": "uuid-del-alumno",
+      "studentDni": "50123456",
+      "studentCuil": "20501234567",
+      "firstName": "Lucas",
+      "lastName": "Pérez",
+      "birthdate": "2010-08-20",
+      "gender": "Masculino",
+      "created_at": "2026-10-24T18:50:01+00:00",
+      "updated_at": "2026-10-24T18:50:01+00:00"
+    }
+  ],
+  "links": {},
+  "meta": {}
+}
+```
+
+## Consultar detalle
+
+```http
+GET /api/students/{student}
+```
+
+Solo `ADMINISTRATIVO` y `ADMINISTRADOR`. Responde `200` con el recurso completo
+del alumno o `404` si no existe.
+
+## Consultar tutor responsable
+
+```http
+GET /api/students/{student}/tutor
+```
+
+Solo `ADMINISTRATIVO` y `ADMINISTRADOR`. Devuelve nombre, apellido, email y
+teléfono del tutor que registró al alumno:
+
+```json
+{
+  "data": {
+    "name": "Andrés",
+    "lastname": "Pérez",
+    "email": "andres@example.com",
+    "user_phone": "3875123159"
+  }
+}
+```
+
+Responde `404` si no existe el alumno o no se encuentra el tutor asociado.
+
+## Errores habituales
+
+| Código | Significado |
+|---|---|
+| 401 | Falta el JWT o no es válido. |
+| 403 | Rol sin permiso para esa operación. |
+| 404 | Alumno inexistente o no pertenece al tutor autenticado. |
+| 422 | Formato inválido, campo obligatorio ausente o dato duplicado. |
