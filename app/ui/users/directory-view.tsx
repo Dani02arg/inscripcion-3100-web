@@ -1,6 +1,12 @@
 "use client";
 
-import { useCallback, useMemo, useState, useTransition } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 import { useRouter } from "next/navigation";
 
 import type { UserRole } from "../../lib/auth/types.ts";
@@ -10,7 +16,10 @@ import {
   hasActiveDirectoryFilters,
   paginateUserList,
 } from "../../lib/users/list.ts";
-import type { UserSummary } from "../../lib/users/types.ts";
+import type {
+  UserNotice as UserNoticeData,
+  UserSummary,
+} from "../../lib/users/types.ts";
 import UserNotice from "./user-notice.tsx";
 import UserRowActions from "./user-row-actions.tsx";
 import DirectoryFiltersPanel from "./directory-filters.tsx";
@@ -24,6 +33,7 @@ interface DirectoryViewProps {
   readonly users: readonly UserSummary[];
   readonly role: UserRole;
   readonly currentUserId: string | null;
+  readonly initialNotice?: UserNoticeData | null;
 }
 
 /** Aplica los filtros al conjunto completo recibido de la ruta del servidor. */
@@ -31,12 +41,31 @@ export default function DirectoryView({
   users,
   role,
   currentUserId,
+  initialNotice = null,
 }: DirectoryViewProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [filters, setFilters] = useState(getDefaultDirectoryFilters);
   const [page, setPage] = useState(1);
-  const [notice, setNotice] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(
+    initialNotice?.message ?? null,
+  );
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (!params.has("deleted")) {
+      return;
+    }
+
+    params.delete("deleted");
+    const query = params.toString();
+    const nextUrl =
+      query.length > 0
+        ? `${window.location.pathname}?${query}`
+        : window.location.pathname;
+    window.history.replaceState(null, "", nextUrl);
+  }, []);
   const [changeRoleTarget, setChangeRoleTarget] =
     useState<UserSummary | null>(null);
   const [deleteUserTarget, setDeleteUserTarget] =

@@ -1,0 +1,76 @@
+- generic [active] [ref=f5e1]:
+  - button "Open Next.js Dev Tools" [ref=f5e109] [cursor=pointer]
+  - alert [ref=f5e113]
+  - generic [ref=f5e114]:
+    - complementary "Menú lateral" [ref=f5e115]:
+      - generic [ref=f5e117]:
+        - link "Logo Institucional E.E.T. N° 3100 — República de la India E.E.T. N° 3100 — República de la India República de la India" [ref=f5e118] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Logo Institucional" [ref=f5e120]
+          - generic [ref=f5e121]: E.E.T. N° 3100 — República de la India
+          - generic [ref=f5e122]:
+            - generic [ref=f5e123]: E.E.T. N° 3100 — República de la India
+            - generic [ref=f5e124]: República de la India
+        - button "Contraer menú" [expanded] [ref=f5e126] [cursor=pointer]
+      - navigation "Menú principal" [ref=f5e130]:
+        - list [ref=f5e131]:
+          - listitem [ref=f5e132]:
+            - link "Inicio" [ref=f5e133] [cursor=pointer]:
+              - /url: /dashboard
+          - listitem [ref=f5e136]:
+            - link "Mis hijos" [ref=f5e137] [cursor=pointer]:
+              - /url: /dashboard/students
+          - listitem [ref=f5e141]:
+            - link "Inscripciones. No disponible, próximamente." [disabled] [ref=f5e142]:
+              - generic [ref=f5e143]:
+                - generic [ref=f5e144]: Inscripciones
+                - generic [aria-hidden] [ref=f5e145]: Próximamente
+          - listitem [ref=f5e146]:
+            - link "Mi perfil" [ref=f5e147] [cursor=pointer]:
+              - /url: /dashboard/profile
+      - button "Cuenta de Andres Perez" [ref=f5e152] [cursor=pointer]:
+        - generic [aria-hidden] [ref=f5e153]: AP
+        - generic [ref=f5e154]:
+          - generic [ref=f5e155]: Andres Perez
+          - generic [ref=f5e156]: andres@example.com
+          - generic [ref=f5e157]: Tutor
+    - main [ref=f5e159]:
+      - generic [ref=f5e161]:
+        - generic [ref=f5e162]:
+          - navigation "Ruta de navegación" [ref=f5e163]:
+            - list [ref=f5e164]:
+              - listitem [ref=f5e165]:
+                - link "Inicio" [ref=f5e166] [cursor=pointer]:
+                  - /url: /dashboard
+              - listitem [ref=f5e167]:
+                - generic [aria-hidden] [ref=f5e168]: ">"
+                - generic [ref=f5e169]: Mis hijos
+          - generic [ref=f5e170]:
+            - generic [ref=f5e171]:
+              - heading "Mis hijos" [level=1] [ref=f5e172]
+              - paragraph [ref=f5e173]: Consultá y administrá los alumnos a tu cargo.
+            - link "Registrar un alumno" [ref=f5e174] [cursor=pointer]:
+              - /url: /dashboard/students/new
+        - table "Listado de alumnos a tu cargo" [ref=f5e176]:
+          - caption [ref=f5e177]: Listado de alumnos a tu cargo
+          - rowgroup [ref=f5e178]:
+            - row [ref=f5e179]:
+              - columnheader "Apellido, Nombre" [ref=f5e180]
+              - columnheader "DNI" [ref=f5e181]
+              - columnheader "Fecha de nacimiento" [ref=f5e182]
+              - columnheader "Acciones" [ref=f5e183]
+          - rowgroup [ref=f5e184]:
+            - row [ref=f5e185]:
+              - rowheader "Pérez, Lucas Andrés" [ref=f5e186]
+              - cell "50123456" [ref=f5e187]
+              - cell "20/08/2010" [ref=f5e188]
+              - cell [ref=f5e189]:
+                - button "Acciones de Pérez, Lucas Andrés" [ref=f5e191] [cursor=pointer]:
+                  - generic [aria-hidden] [ref=f5e192]: ⋯
+            - row [ref=f5e193]:
+              - rowheader "Gómez, Ana" [ref=f5e194]
+              - cell "51234567" [ref=f5e195]
+              - cell "15/03/2012" [ref=f5e196]
+              - cell [ref=f5e197]:
+                - button "Acciones de Gómez, Ana" [ref=f5e199] [cursor=pointer]:
+                  - generic [aria-hidden] [ref=f5e200]: ⋯

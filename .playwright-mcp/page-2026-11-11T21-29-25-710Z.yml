@@ -1,0 +1,79 @@
+- generic [ref=f3e1]:
+  - generic [ref=f3e61]:
+    - complementary "Menú lateral" [ref=f3e62]:
+      - generic [ref=f3e64]:
+        - link "Logo Institucional E.E.T. N° 3100 — República de la India E.E.T. N° 3100 — República de la India República de la India" [ref=f3e65] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Logo Institucional" [ref=f3e67]
+          - generic [ref=f3e68]: E.E.T. N° 3100 — República de la India
+          - generic [ref=f3e69]:
+            - generic [ref=f3e70]: E.E.T. N° 3100 — República de la India
+            - generic [ref=f3e71]: República de la India
+        - button "Contraer menú" [expanded] [ref=f3e73] [cursor=pointer]
+      - navigation "Menú principal" [ref=f3e77]:
+        - list [ref=f3e78]:
+          - listitem [ref=f3e79]:
+            - link "Inicio" [ref=f3e80] [cursor=pointer]:
+              - /url: /dashboard
+          - listitem [ref=f3e83]:
+            - link "Mis alumnos. No disponible, próximamente." [disabled] [ref=f3e84]:
+              - generic [ref=f3e85]:
+                - generic [ref=f3e86]: Mis alumnos
+                - generic [aria-hidden] [ref=f3e87]: Próximamente
+          - listitem [ref=f3e88]:
+            - link "Inscripciones. No disponible, próximamente." [disabled] [ref=f3e89]:
+              - generic [ref=f3e90]:
+                - generic [ref=f3e91]: Inscripciones
+                - generic [aria-hidden] [ref=f3e92]: Próximamente
+          - listitem [ref=f3e93]:
+            - link "Mi perfil" [ref=f3e94] [cursor=pointer]:
+              - /url: /dashboard/profile
+      - generic [ref=f3e98]:
+        - button "Cuenta de María Gómez" [expanded] [ref=f3e99] [cursor=pointer]:
+          - generic [aria-hidden] [ref=f3e100]: MG
+          - generic [ref=f3e101]:
+            - generic [ref=f3e102]: María Gómez
+            - generic [ref=f3e103]: maria@example.com
+            - generic [ref=f3e104]: Tutor
+        - menu "Opciones de cuenta" [ref=f3e141]:
+          - menuitem "Configuración de cuenta" [active] [ref=f3e142] [cursor=pointer]
+          - menuitem "Cerrar sesión" [ref=f3e144] [cursor=pointer]
+    - main [ref=f3e106]:
+      - generic [ref=f3e108]:
+        - generic [ref=f3e109]:
+          - heading "Configuración de cuenta" [level=1] [ref=f3e110]
+          - paragraph [ref=f3e111]: Datos asociados a tu cuenta.
+        - region "Cuenta actual" [ref=f3e112]:
+          - heading "Cuenta actual" [level=2] [ref=f3e113]
+          - generic [ref=f3e114]:
+            - generic [ref=f3e115]:
+              - term [ref=f3e116]: Nombre
+              - definition [ref=f3e117]: María
+            - generic [ref=f3e118]:
+              - term [ref=f3e119]: Apellido
+              - definition [ref=f3e120]: Gómez
+            - generic [ref=f3e121]:
+              - term [ref=f3e122]: Correo electrónico
+              - definition [ref=f3e123]: maria@example.com
+        - region "Seguridad" [ref=f3e124]:
+          - heading "Seguridad" [level=2] [ref=f3e125]
+          - link "Restablecer contraseña" [ref=f3e127] [cursor=pointer]:
+            - /url: /password-recovery?source=account
+        - region "Solicitar cambio de rol" [ref=f3e128]:
+          - heading "Solicitar cambio de rol" [level=2] [ref=f3e129]
+          - paragraph [ref=f3e130]: Podés enviar un pedido al servicio para solicitar otro rol.
+          - generic [ref=f3e131]:
+            - generic [ref=f3e132]:
+              - generic [ref=f3e133]: Rol que querés solicitar
+              - combobox "Rol que querés solicitar" [ref=f3e134]:
+                - option "Seleccioná un rol" [disabled] [selected]
+                - option "Tutor"
+                - option "Administrativo"
+                - option "Administrador"
+            - generic [ref=f3e135]:
+              - generic [ref=f3e136]: Motivo
+              - textbox "Motivo" [ref=f3e137]
+              - paragraph [ref=f3e138]: Hasta 500 caracteres.
+            - button "Enviar solicitud" [ref=f3e139] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=f3e57] [cursor=pointer]
+  - alert [ref=f3e140]

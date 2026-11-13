@@ -1,0 +1,81 @@
+- generic [active] [ref=f1e1]:
+  - button "Open Next.js Dev Tools" [ref=f1e50] [cursor=pointer]
+  - alert [ref=f1e54]
+  - generic [ref=f1e449]:
+    - complementary "Menú lateral" [ref=f1e450]:
+      - generic [ref=f1e452]:
+        - link "Logo Institucional E.E.T. N° 3100 — República de la India E.E.T. N° 3100 — República de la India República de la India" [ref=f1e453] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Logo Institucional" [ref=f1e455]
+          - generic [ref=f1e456]: E.E.T. N° 3100 — República de la India
+          - generic [ref=f1e457]:
+            - generic [ref=f1e458]: E.E.T. N° 3100 — República de la India
+            - generic [ref=f1e459]: República de la India
+        - button "Contraer menú" [expanded] [ref=f1e461] [cursor=pointer]
+      - navigation "Menú principal" [ref=f1e465]:
+        - list [ref=f1e466]:
+          - listitem [ref=f1e467]:
+            - link "Inicio" [ref=f1e468] [cursor=pointer]:
+              - /url: /dashboard
+          - listitem [ref=f1e471]:
+            - link "Mis hijos" [ref=f1e472] [cursor=pointer]:
+              - /url: /dashboard/students
+          - listitem [ref=f1e476]:
+            - link "Inscripciones. No disponible, próximamente." [disabled] [ref=f1e477]:
+              - generic [ref=f1e478]:
+                - generic [ref=f1e479]: Inscripciones
+                - generic [aria-hidden] [ref=f1e480]: Próximamente
+          - listitem [ref=f1e481]:
+            - link "Mi perfil" [ref=f1e482] [cursor=pointer]:
+              - /url: /dashboard/profile
+      - button "Cuenta de Andres Perez" [ref=f1e487] [cursor=pointer]:
+        - generic [aria-hidden] [ref=f1e488]: AP
+        - generic [ref=f1e489]:
+          - generic [ref=f1e490]: Andres Perez
+          - generic [ref=f1e491]: andres@example.com
+          - generic [ref=f1e492]: Tutor
+    - main [ref=f1e494]:
+      - generic [ref=f1e496]:
+        - generic [ref=f1e497]:
+          - navigation "Ruta de navegación" [ref=f1e498]:
+            - list [ref=f1e499]:
+              - listitem [ref=f1e500]:
+                - link "Inicio" [ref=f1e501] [cursor=pointer]:
+                  - /url: /dashboard
+              - listitem [ref=f1e502]:
+                - generic [aria-hidden] [ref=f1e503]: ">"
+                - generic [ref=f1e504]: Mis hijos
+          - generic [ref=f1e505]:
+            - generic [ref=f1e506]:
+              - heading "Mis hijos" [level=1] [ref=f1e507]
+              - paragraph [ref=f1e508]: Consultá y administrá los alumnos a tu cargo.
+            - link "Registrar un alumno" [ref=f1e509] [cursor=pointer]:
+              - /url: /dashboard/students/new
+        - generic [ref=f1e510]:
+          - status [ref=f1e511]:
+            - paragraph [ref=f1e512]: Alumno registrado correctamente
+          - 'button "Cerrar aviso: Alumno registrado correctamente" [ref=f1e513] [cursor=pointer]':
+            - generic [aria-hidden] [ref=f1e514]: ×
+        - table "Listado de alumnos a tu cargo" [ref=f1e516]:
+          - caption [ref=f1e517]: Listado de alumnos a tu cargo
+          - rowgroup [ref=f1e518]:
+            - row [ref=f1e519]:
+              - columnheader "Apellido, Nombre" [ref=f1e520]
+              - columnheader "DNI" [ref=f1e521]
+              - columnheader "Fecha de nacimiento" [ref=f1e522]
+              - columnheader "Acciones" [ref=f1e523]
+          - rowgroup [ref=f1e524]:
+            - row [ref=f1e525]:
+              - rowheader "Pérez, Lucas" [ref=f1e526]
+              - cell "50123456" [ref=f1e527]
+              - cell "20/08/2010" [ref=f1e528]
+              - cell [ref=f1e529]:
+                - button "Acciones de Pérez, Lucas" [ref=f1e531] [cursor=pointer]:
+                  - generic [aria-hidden] [ref=f1e532]: ⋯
+            - row [ref=f1e533]:
+              - rowheader "Gómez, Ana" [ref=f1e534]
+              - cell "51234567" [ref=f1e535]
+              - cell "15/03/2012" [ref=f1e536]
+              - cell [ref=f1e537]:
+                - button "Acciones de Gómez, Ana" [ref=f1e539] [cursor=pointer]:
+                  - generic [aria-hidden] [ref=f1e540]: ⋯

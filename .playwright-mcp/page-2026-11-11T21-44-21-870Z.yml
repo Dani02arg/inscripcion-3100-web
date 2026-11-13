@@ -1,0 +1,70 @@
+- generic [active] [ref=e1]:
+  - button "Open Next.js Dev Tools" [ref=e54] [cursor=pointer]
+  - alert [ref=e58]
+  - generic [ref=e59]:
+    - complementary "Menú lateral" [ref=e60]:
+      - generic [ref=e62]:
+        - link "Logo Institucional E.E.T. N° 3100 — República de la India E.E.T. N° 3100 — República de la India República de la India" [ref=e63] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Logo Institucional" [ref=e65]
+          - generic [ref=e66]: E.E.T. N° 3100 — República de la India
+          - generic [ref=e67]:
+            - generic [ref=e68]: E.E.T. N° 3100 — República de la India
+            - generic [ref=e69]: República de la India
+        - button "Contraer menú" [expanded] [ref=e71] [cursor=pointer]
+      - navigation "Menú principal" [ref=e75]:
+        - list [ref=e76]:
+          - listitem [ref=e77]:
+            - link "Inicio" [ref=e78] [cursor=pointer]:
+              - /url: /dashboard
+          - listitem [ref=e82]:
+            - link "Alumnos. No disponible, próximamente." [disabled] [ref=e83]:
+              - generic [ref=e84]:
+                - generic [ref=e85]: Alumnos
+                - generic [aria-hidden] [ref=e86]: Próximamente
+          - listitem [ref=e87]:
+            - link "Cursos" [ref=e88] [cursor=pointer]:
+              - /url: /dashboard/courses
+          - listitem [ref=e91]:
+            - link "Inscripciones. No disponible, próximamente." [disabled] [ref=e92]:
+              - generic [ref=e93]:
+                - generic [ref=e94]: Inscripciones
+                - generic [aria-hidden] [ref=e95]: Próximamente
+          - listitem [ref=e96]:
+            - button "Gestión de usuarios" [expanded] [ref=e97] [cursor=pointer]:
+              - generic [aria-hidden] [ref=e99]: ▾
+            - list [ref=e100]:
+              - listitem [ref=e101]:
+                - link "Padrón de usuarios" [ref=e102] [cursor=pointer]:
+                  - /url: /dashboard/users
+              - listitem [ref=e105]:
+                - link "Directorio de staff" [ref=e106] [cursor=pointer]:
+                  - /url: /dashboard/users/staff
+          - listitem [ref=e109]:
+            - link "Reportes. No disponible, próximamente." [disabled] [ref=e110]:
+              - generic [ref=e111]:
+                - generic [ref=e112]: Reportes
+                - generic [aria-hidden] [ref=e113]: Próximamente
+          - listitem [ref=e114]:
+            - link "Mi perfil" [ref=e115] [cursor=pointer]:
+              - /url: /dashboard/profile
+      - button "Cuenta de Carlos Ruiz" [ref=e120] [cursor=pointer]:
+        - generic [aria-hidden] [ref=e121]: CR
+        - generic [ref=e122]:
+          - generic [ref=e123]: Carlos Ruiz
+          - generic [ref=e124]: carlos@example.com
+          - generic [ref=e125]: Administrador
+    - main [ref=e127]:
+      - generic [ref=e128]:
+        - heading "Panel principal" [level=1] [ref=e129]
+        - generic [ref=e131]:
+          - generic [ref=e132]:
+            - heading "Hola, Carlos" [level=2] [ref=e133]: Hola, Carlos 👋
+            - paragraph [ref=e134]: Administrá la institución, los usuarios y las inscripciones desde un solo lugar.
+          - generic [ref=e135]:
+            - generic [ref=e136]:
+              - term [ref=e137]: Correo electrónico
+              - definition [ref=e138]: carlos@example.com
+            - generic [ref=e139]:
+              - term [ref=e140]: Rol
+              - definition [ref=e141]: Administrador

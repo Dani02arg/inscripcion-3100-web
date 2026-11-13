@@ -3,7 +3,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 
-import { STAFF_LOAD_ERROR_MESSAGE } from "../../../lib/api/users.ts";
+import {
+  STAFF_LOAD_ERROR_MESSAGE,
+  USER_DELETE_SUCCESS_MESSAGE,
+} from "../../../lib/api/users.ts";
 import { getEffectiveRole } from "../../../lib/auth/effective-role.ts";
 import { toSidebarAccount } from "../../../lib/sidebar/account.ts";
 import { getCollapsedPreference } from "../../../lib/sidebar/collapse-cookie.ts";
@@ -13,6 +16,7 @@ import {
   USER_SESSION_EXPIRED_PATH,
 } from "../../../lib/users/guard-decision.ts";
 import { getUserPageAccess } from "../../../lib/users/guard.ts";
+import type { UserNotice } from "../../../lib/users/types.ts";
 import RetryButton from "../../../ui/dashboard/retry-button.tsx";
 import PrivateShell from "../../../ui/sidebar/private-shell.tsx";
 import DirectoryView from "../../../ui/users/directory-view.tsx";
@@ -68,9 +72,34 @@ function renderErrorCard(
   );
 }
 
-export default async function StaffDirectoryPage() {
+type StaffSearchParams = {
+  deleted?: string | string[];
+};
+
+function getInitialNotice(
+  deleted: string | string[] | undefined,
+): UserNotice | null {
+  const value = Array.isArray(deleted) ? deleted[0] : deleted;
+
+  if (value === "1") {
+    return {
+      kind: "success",
+      message: USER_DELETE_SUCCESS_MESSAGE,
+    };
+  }
+
+  return null;
+}
+
+export default async function StaffDirectoryPage({
+  searchParams,
+}: {
+  searchParams?: Promise<StaffSearchParams>;
+}) {
   const access = await getUserPageAccess();
   const collapsed = await getCollapsedPreference();
+  const query = searchParams ? await searchParams : {};
+  const initialNotice = getInitialNotice(query.deleted);
   const role =
     getEffectiveRole(access.account) ?? access.account.claims.role;
 
@@ -128,6 +157,7 @@ export default async function StaffDirectoryPage() {
     <DirectoryView
       users={result.users}
       role={role}
+      initialNotice={initialNotice}
       currentUserId={
         access.account.status === "ok"
           ? access.account.user.id

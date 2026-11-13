@@ -71,7 +71,7 @@ export default function UsersView({
     if (currentUrl !== nextUrl) {
       window.history.replaceState(null, "", nextUrl);
     }
-  }, [filters, page]);
+  }, [filters, initialNotice, page]);
 
   const updateUrl = (nextFilters: UserFilters, nextPage: number) => {
     const params = new URLSearchParams(window.location.search);

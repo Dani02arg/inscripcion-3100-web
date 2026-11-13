@@ -1,18 +1,12 @@
 # Guía detallada de alumnos
-
-
-
 Base URL local: `http://localhost:8000`
 Prefijo API: `/api`
-
 Todas las rutas requieren un JWT:
-
 ```http
 Authorization: Bearer <token>
 Accept: application/json
 Content-Type: application/json
 ```
-
 Los tutores pueden registrar, listar y actualizar únicamente sus propios
 alumnos. `ADMINISTRATIVO` y `ADMINISTRADOR` tienen acceso de solo lectura al
 listado, detalle y tutor responsable.

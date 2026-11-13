@@ -1,0 +1,7 @@
+- generic [active] [ref=f3e1]:
+  - generic [ref=f3e2]:
+    - complementary [aria-hidden] [ref=f3e3]
+    - main [ref=f3e34]:
+      - status "Cargando directorio de staff" [ref=f3e36]:
+        - generic [ref=f3e37]: Cargando el directorio de staff.
+  - button "Open Next.js Dev Tools" [ref=f3e61] [cursor=pointer]

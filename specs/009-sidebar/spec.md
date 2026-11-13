@@ -1,6 +1,6 @@
 # Spec 009 — Menú lateral reutilizable con navegación por rol
 
-Estado: implementada (2026-10-29)
+Estado: implementada (2026-10-29); cambio 2026-11-11 por la spec 012 (navegación de alumnos)
 
 ## Contexto y objetivo
 
@@ -8,25 +8,30 @@ El área privada ya cuenta con sesión autenticada, dashboard y una barra superi
 
 La aplicación necesita un menú lateral reutilizable que reafirme la identidad institucional, ofrezca a cada rol solo sus opciones, muestre a la persona autenticada y permita navegar y reconocer la sección actual.
 
-En esta versión solo «Inicio» tiene destino real. El resto de las opciones se muestra según el rol pero permanece no disponible con la etiqueta «Próximamente», porque sus módulos todavía no existen. La spec 010 podrá habilitar Cursos.
+El menú habilita las opciones cuyos módulos existen. Las specs 010 y 011 habilitaron Cursos, Gestión de usuarios y Mi perfil; la spec 012 habilita Alumnos. «Inscripciones» y «Reportes» permanecen no disponibles con la etiqueta «Próximamente», porque sus módulos todavía no existen.
 
 Esta spec reemplaza la barra superior y el cierre de sesión temporal de la spec 008. En escritorio el menú lateral concentra identidad, campana y cuenta; en tablet y móvil una barra compacta conserva hamburguesa, logotipo y campana. La actualización documental de la spec 008 forma parte de esta spec.
 
+Cambio 2026-11-11 (spec 012): se habilita el módulo de alumnos. El `TUTOR` ve «Mis hijos» en lugar de «Mis alumnos»; `ADMINISTRATIVO` y `ADMINISTRADOR` ven «Alumnos» habilitado con destino `/dashboard/students` y coincidencia por prefijo. El `TUTOR` no ve «Alumnos». Las opciones «Inscripciones» y «Reportes» continúan no disponibles. Este cambio no modifica la presentación, el colapso, el drawer ni el pie.
+
 Decisiones confirmadas:
 
-- Opciones distintas de «Inicio»: visibles, no disponibles y con etiqueta «Próximamente»; no se crean rutas nuevas.
-- Los tres roles ven la lista completa de su rol; solo «Inicio» está habilitado.
+- Las opciones sin módulo: visibles, no disponibles y con etiqueta «Próximamente»; no se crean rutas nuevas desde esta spec.
+- Los tres roles ven la lista completa de su rol; las opciones habilitadas dependen de los módulos existentes.
 - En escritorio el menú reemplaza la barra superior; en tablet y móvil se muestra una barra compacta con hamburguesa, logotipo y campana.
 - El pie del menú agrupa iniciales, nombre, correo y un menú de cuenta con «Configuración de cuenta» y «Cerrar sesión».
 - En escritorio el menú se colapsa a iconos, con nombre accesible y tooltip, y la preferencia se recuerda.
 - La opción activa se determina por módulo; si ninguna coincide, no se resalta ninguna.
 - Escritorio desde 1024 px; el nombre institucional se abrevia entre 1024 y 1279 px y se muestra completo desde 1280 px.
-- «Usuarios» y «Reportes» son definitivos en la lista del administrador. «Mi perfil» queda como opción no disponible en esta versión.
+- «Gestión de usuarios» y «Reportes» son definitivos en la lista del administrador. «Mi perfil» está habilitado desde la spec 011.
 - El logotipo es el mismo de la barra superior; no se incorpora un logotipo nuevo.
 - La preferencia de colapso sobrevive al cierre de sesión.
 - Las opciones no disponibles reciben foco y se anuncian como no disponibles.
-- La activación por módulo se verificará al habilitarse cada módulo en la spec 010.
+- La activación por módulo se verifica al habilitarse cada módulo en las specs 010, 011 y 012.
 - Una URL manual desconocida responde con el 404 de la aplicación.
+- El `TUTOR` ve «Mis hijos» en lugar de «Mis alumnos» desde el cambio de la spec 012.
+- «Alumnos» queda habilitado para `ADMINISTRATIVO` y `ADMINISTRADOR` con destino `/dashboard/students`; el `TUTOR` no lo ve.
+- Además de «Inicio», están habilitados «Alumnos», «Cursos», «Gestión de usuarios» y «Mi perfil» según el rol, por las specs 010, 011 y 012; «Inscripciones» y «Reportes» siguen no disponibles.
 
 ## Usuarios
 
@@ -53,7 +58,7 @@ Decisiones confirmadas:
 - **Identidad institucional**: logotipo acompañado del nombre oficial «E.E.T. N° 3100 — República de la India» o de su forma abreviada.
 - **Nombre abreviado**: «E.E.T. N° 3100».
 - **Opción de navegación**: entrada del menú con nombre visible en español, icono y destino.
-- **Opción habilitada**: opción cuyo módulo existe y puede activarse. En esta versión solo «Inicio».
+- **Opción habilitada**: opción cuyo módulo existe y puede activarse. Son «Inicio», «Alumnos», «Cursos», «Gestión de usuarios» y «Mi perfil» según el rol, por las specs 010, 011 y 012.
 - **Opción no disponible**: opción del rol cuyo módulo todavía no existe; se muestra con la etiqueta «Próximamente» y no se activa.
 - **Módulo**: sección funcional representada por una opción.
 - **Opción activa**: opción que corresponde al módulo de la pantalla privada visible.
@@ -66,7 +71,7 @@ Decisiones confirmadas:
 - **Iniciales**: dos letras mayúsculas que representan a la persona.
 - **Datos de cuenta**: nombre, apellido y correo de la persona autenticada.
 - **Rol de la sesión**: `ADMINISTRADOR`, `ADMINISTRATIVO` o `TUTOR` informado por el token de la sesión vigente.
-- **Área privada**: rutas que requieren una sesión vigente. En esta versión, el dashboard es la única ruta privada.
+- **Área privada**: rutas que requieren una sesión vigente. Incluye el dashboard y los módulos habilitados de cursos, usuarios, alumnos, perfil y cuenta.
 
 ### Reglas de presentación
 
@@ -86,14 +91,14 @@ Decisiones confirmadas:
 | Orden | TUTOR | ADMINISTRATIVO | ADMINISTRADOR |
 |---|---|---|---|
 | 1 | Inicio | Inicio | Inicio |
-| 2 | Mis alumnos | Alumnos | Alumnos |
+| 2 | Mis hijos | Alumnos | Alumnos |
 | 3 | Inscripciones | Cursos | Cursos |
 | 4 | Mi perfil | Inscripciones | Inscripciones |
-| 5 | — | Mi perfil | Usuarios |
+| 5 | — | Mi perfil | Gestión de usuarios |
 | 6 | — | — | Reportes |
 | 7 | — | — | Mi perfil |
 
-El orden de la tabla es el orden de presentación. «Inicio» es la primera opción de los tres roles y la única habilitada.
+El orden de la tabla es el orden de presentación. «Inicio» es la primera opción de los tres roles. Están habilitadas «Alumnos», «Cursos», «Gestión de usuarios» y «Mi perfil» según el rol, por las specs 010, 011 y 012. «Inscripciones» y «Reportes» siguen no disponibles con la etiqueta «Próximamente».
 
 ## Requisitos funcionales
 
@@ -108,12 +113,12 @@ El orden de la tabla es el orden de presentación. «Inicio» es la primera opci
 ### Rol y opciones
 
 - RF-6. EL SISTEMA obtiene el rol del token de la sesión vigente y lo utiliza como única fuente para determinar las opciones; el nombre y el correo provienen de los datos de cuenta.
-- RF-7. CUANDO el rol es `TUTOR`, EL SISTEMA muestra exclusivamente «Inicio», «Mis alumnos», «Inscripciones» y «Mi perfil», en ese orden.
+- RF-7. CUANDO el rol es `TUTOR`, EL SISTEMA muestra exclusivamente «Inicio», «Mis hijos», «Inscripciones» y «Mi perfil», en ese orden.
 - RF-8. CUANDO el rol es `ADMINISTRATIVO`, EL SISTEMA muestra exclusivamente «Inicio», «Alumnos», «Cursos», «Inscripciones» y «Mi perfil», en ese orden.
-- RF-9. CUANDO el rol es `ADMINISTRADOR`, EL SISTEMA muestra exclusivamente «Inicio», «Alumnos», «Cursos», «Inscripciones», «Usuarios», «Reportes» y «Mi perfil», en ese orden.
+- RF-9. CUANDO el rol es `ADMINISTRADOR`, EL SISTEMA muestra exclusivamente «Inicio», «Alumnos», «Cursos», «Inscripciones», «Gestión de usuarios», «Reportes» y «Mi perfil», en ese orden.
 - RF-10. EL SISTEMA no renderiza ni anuncia opciones que no correspondan al rol de la sesión.
 - RF-11. SI la sesión no presenta un rol reconocido, ENTONCES EL SISTEMA no muestra el menú ni opciones y no permite acceder a rutas privadas.
-- RF-12. EL SISTEMA habilita únicamente «Inicio» y muestra todas las demás opciones del rol como no disponibles, con la etiqueta visible «Próximamente».
+- RF-12. EL SISTEMA habilita «Inicio» y las opciones cuyos módulos existen, y muestra como no disponibles, con la etiqueta visible «Próximamente», únicamente «Inscripciones» y «Reportes» cuando correspondan al rol.
 - RF-13. EL SISTEMA permite enfocar las opciones no disponibles y las anuncia como «no disponible, próximamente», sin activarlas.
 - RF-14. SI la persona activa una opción no disponible con puntero, Enter o Espacio, ENTONCES EL SISTEMA no navega, no modifica la opción activa y conserva el foco donde estaba.
 
@@ -130,7 +135,7 @@ El orden de la tabla es el orden de presentación. «Inicio» es la primera opci
 - RF-20. CUANDO la persona activa «Inicio», EL SISTEMA la lleva al dashboard.
 - RF-21. EL SISTEMA muestra el menú lateral en el dashboard y no lo muestra en las rutas públicas.
 - RF-22. SI una persona autenticada escribe una URL que no corresponde a una ruta existente, ENTONCES EL SISTEMA muestra el 404 de la aplicación sin el menú lateral.
-- RF-23. CUANDO se habilite un módulo en una spec posterior, EL SISTEMA mostrará activa su opción en esa pantalla y en sus subpantallas; esta verificación queda diferida a la spec 010.
+- RF-23. CUANDO la persona está en una pantalla de un módulo habilitado por las specs 010, 011 o 012, EL SISTEMA muestra activa su opción en esa pantalla y en sus subpantallas.
 - RF-24. CUANDO la persona navega, usa atrás o adelante, EL SISTEMA cierra el drawer si estaba abierto.
 
 ### Escritorio, tablet y móvil
@@ -162,7 +167,7 @@ El orden de la tabla es el orden de presentación. «Inicio» es la primera opci
 - RF-46. EL SISTEMA muestra nombre y correo en una sola línea con elipsis cuando no entran y expone el texto completo como nombre accesible.
 - RF-47. MIENTRAS el menú está colapsado, EL SISTEMA muestra solo el avatar en el pie y presenta nombre y correo completos dentro del menú de cuenta.
 - RF-48. CUANDO la persona activa el avatar, o el nombre cuando está visible, EL SISTEMA abre el menú de cuenta; lo cierra con Escape, con clic o toque fuera o al elegir una acción, y devuelve el foco al avatar.
-- RF-49. EL SISTEMA muestra en el menú de cuenta «Configuración de cuenta» como no disponible con «Próximamente» y «Cerrar sesión» como acción habilitada.
+- RF-49. EL SISTEMA muestra en el menú de cuenta «Configuración de cuenta» y «Cerrar sesión» como acciones habilitadas, conforme a la spec 011.
 - RF-50. CUANDO la persona activa «Cerrar sesión», EL SISTEMA elimina la sesión local, notifica al servicio como mejor esfuerzo y redirige al login aunque la notificación falle o no responda.
 - RF-51. SI la persona activa «Cerrar sesión» mientras la acción está en curso, ENTONCES EL SISTEMA ignora la segunda activación.
 
@@ -171,6 +176,8 @@ El orden de la tabla es el orden de presentación. «Inicio» es la primera opci
 - RF-52. CUANDO la sesión deja de ser válida, EL SISTEMA aplica el comportamiento de sesión vencida de la spec 008, cierra el drawer y el menú de cuenta si están abiertos y no conserva el menú visible.
 - RF-53. EL SISTEMA no expone el token de la sesión en el menú, en el menú de cuenta ni en sus nombres accesibles.
 - RF-54. EL SISTEMA trata los valores de rol en español como datos del backend y no como identificadores de código, según la excepción ya aceptada por la spec 008.
+- RF-55. CUANDO el rol vigente es `TUTOR`, EL SISTEMA muestra la opción de alumnos con la etiqueta «Mis hijos»; CUANDO el rol es `ADMINISTRATIVO` o `ADMINISTRADOR`, la muestra con la etiqueta «Alumnos».
+- RF-56. EL SISTEMA navega a `/dashboard/students` al activar la opción de alumnos y la marca activa en esa dirección y en sus subpantallas.
 
 ## Requisitos no funcionales
 
@@ -235,9 +242,9 @@ El orden de la tabla es el orden de presentación. «Inicio» es la primera opci
 
 ## Fuera de alcance
 
-- Construcción de los módulos de alumnos, cursos, inscripciones, usuarios, reportes o perfil.
-- Creación de rutas nuevas o pantallas «Próximamente».
-- Activación de las opciones por módulo; se verifica en la spec 010.
+- La construcción de los módulos de alumnos, cursos, inscripciones, usuarios, reportes o perfil; los módulos viven en las specs 010, 011 y 012 y esta spec solo define su navegación.
+- Creación de rutas nuevas desde esta spec o pantallas «Próximamente».
+- La activación de las opciones por módulo se verifica en las specs 010, 011 y 012.
 - Edición de datos de perfil o de configuración de cuenta.
 - Permisos granulares o acciones dentro de cada módulo.
 - Contador o consulta real de notificaciones.
@@ -255,6 +262,8 @@ El orden de la tabla es el orden de presentación. «Inicio» es la primera opci
 | Nombre oficial | «E.E.T. N° 3100 — República de la India» |
 | Nombre abreviado | «E.E.T. N° 3100» |
 | Opción de inicio | «Inicio» |
+| Opción de alumnos del tutor | «Mis hijos» |
+| Opción de alumnos administrativa | «Alumnos» |
 | Estado no disponible | «Próximamente» |
 | Descripción de opción no disponible | «No disponible, próximamente» |
 | Botón de apertura | «Abrir menú» |
@@ -273,8 +282,10 @@ El orden de la tabla es el orden de presentación. «Inicio» es la primera opci
 - El colapsado prevalece sobre el nombre por ancho y conserva el nombre completo accesible.
 - Cada rol ve exclusivamente su lista, en el orden definido.
 - Un rol no reconocido no obtiene menú ni acceso privado.
-- «Inicio» está activo al entrar al dashboard y es la única opción habilitada.
-- Las demás opciones se muestran con «Próximamente», reciben foco y no navegan.
+- «Inicio» está activo al entrar al dashboard.
+- «Alumnos», «Cursos», «Gestión de usuarios» y «Mi perfil» están habilitados según el rol por las specs 010, 011 y 012.
+- «Inscripciones» y «Reportes» se muestran con «Próximamente», reciben foco y no navegan.
+- El `TUTOR` ve «Mis hijos» y los roles administrativos ven «Alumnos» con destino `/dashboard/students`.
 - La opción activa se distingue por fondo, indicador y peso, y se anuncia como página actual.
 - El pie muestra iniciales, nombre y correo, con degradación por carga o error y el menú de cuenta.
 - En escritorio no hay barra superior y el menú se colapsa a iconos con tooltip y preferencia recordada, incluso tras cerrar sesión.

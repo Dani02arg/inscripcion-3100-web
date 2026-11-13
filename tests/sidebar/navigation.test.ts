@@ -20,7 +20,7 @@ test("el tutor recibe sus opciones en el orden de la spec", () => {
 
   assert.deepEqual(labels, [
     "Inicio",
-    "Mis alumnos",
+    "Mis hijos",
     "Inscripciones",
     "Mi perfil",
   ]);
@@ -55,15 +55,17 @@ test("el administrador recibe sus opciones en el orden de la spec", () => {
 
 test("Inicio, Cursos, la sección de usuarios y Mi perfil están habilitados", () => {
   const expected: Record<string, readonly string[]> = {
-    TUTOR: ["Inicio", "Mi perfil"],
+    TUTOR: ["Inicio", "Mis hijos", "Mi perfil"],
     ADMINISTRATIVO: [
       "Inicio",
+      "Alumnos",
       "Cursos",
       "Gestión de usuarios",
       "Mi perfil",
     ],
     ADMINISTRADOR: [
       "Inicio",
+      "Alumnos",
       "Cursos",
       "Gestión de usuarios",
       "Mi perfil",
@@ -100,11 +102,14 @@ test("cada rol ve exclusivamente sus opciones", () => {
   assert.equal(tutor.has("Gestión de usuarios"), false);
   assert.equal(tutor.has("Reportes"), false);
 
-  assert.equal(administrativo.has("Mis alumnos"), false);
+  assert.equal(tutor.has("Mis hijos"), true);
+  assert.equal(administrativo.has("Mis hijos"), false);
+  assert.equal(administrativo.has("Alumnos"), true);
   assert.equal(administrativo.has("Gestión de usuarios"), true);
   assert.equal(administrativo.has("Reportes"), false);
 
-  assert.equal(administrador.has("Mis alumnos"), false);
+  assert.equal(administrador.has("Mis hijos"), false);
+  assert.equal(administrador.has("Alumnos"), true);
 });
 
 test("ningún rol repite opciones y todos empiezan por Inicio", () => {
@@ -193,6 +198,43 @@ test("Cursos está activo en la ruta y sus subpantallas", () => {
   );
   assert.equal(
     getNavigationItemState(courses, "/dashboard/courses-otros"),
+    "inactive",
+  );
+});
+
+test("La opción de alumnos está habilitada y activa en sus rutas", () => {
+  const tutorStudents = getRoleNavigation("TUTOR").find(
+    (item) => item.label === "Mis hijos",
+  );
+  const adminStudents = getRoleNavigation("ADMINISTRATIVO").find(
+    (item) => item.label === "Alumnos",
+  );
+
+  assert.ok(tutorStudents);
+  assert.ok(adminStudents);
+  assert.equal(tutorStudents.enabled, true);
+  assert.equal(tutorStudents.href, "/dashboard/students");
+  assert.equal(tutorStudents.match, "prefix");
+  assert.equal(adminStudents.enabled, true);
+  assert.equal(adminStudents.href, "/dashboard/students");
+  assert.equal(adminStudents.match, "prefix");
+
+  for (const path of [
+    "/dashboard/students",
+    "/dashboard/students/new",
+    "/dashboard/students/student-1",
+    "/dashboard/students/student-1/edit",
+  ]) {
+    assert.equal(getNavigationItemState(tutorStudents, path), "active");
+    assert.equal(getNavigationItemState(adminStudents, path), "active");
+  }
+
+  assert.equal(
+    getNavigationItemState(tutorStudents, "/dashboard/students-otros"),
+    "inactive",
+  );
+  assert.equal(
+    getNavigationItemState(adminStudents, "/dashboard"),
     "inactive",
   );
 });

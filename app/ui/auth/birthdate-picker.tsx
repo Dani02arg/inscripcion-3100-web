@@ -13,13 +13,12 @@ import {
   formatDisplayDate,
   fromIsoDate,
   getBirthdateError,
+  MIN_REGISTER_AGE,
   parseDisplayDate,
   toIsoDate,
 } from "../../lib/validation/register.ts";
 import BirthdateCalendarModal from "./birthdate-calendar-modal";
 import TextField from "./text-field";
-
-const UNDERAGE_MESSAGE = "Debés tener al menos 18 años.";
 
 function CalendarIcon() {
   return (
@@ -48,6 +47,10 @@ export interface BirthdatePickerProps {
   helpText?: string;
   required?: boolean;
   className?: string;
+  /** Edad mínima exigida; 0 desactiva la regla y permite el día de hoy. */
+  minimumAge?: number;
+  /** Título del calendario; útil cuando la fecha no es de la persona que opera. */
+  calendarTitle?: string;
 }
 
 export default function BirthdatePicker({
@@ -60,6 +63,8 @@ export default function BirthdatePicker({
   helpText,
   required = false,
   className = "",
+  minimumAge = MIN_REGISTER_AGE,
+  calendarTitle,
 }: BirthdatePickerProps) {
   const now = useMemo(() => new Date(), []);
   const [text, setText] = useState(() => formatDisplayDate(value));
@@ -76,8 +81,11 @@ export default function BirthdatePicker({
   }, [value]);
 
   const selectedDate = fromIsoDate(value) ?? undefined;
-  const birthdateError = getBirthdateError(value, now);
-  const ageError = birthdateError === "underage" ? UNDERAGE_MESSAGE : "";
+  const birthdateError = getBirthdateError(value, now, minimumAge);
+  const ageError =
+    birthdateError === "underage" && minimumAge > 0
+      ? `Debés tener al menos ${minimumAge} años.`
+      : "";
   const visibleError = error || ageError;
 
   function handleTextChange(event: ChangeEvent<HTMLInputElement>) {
@@ -139,6 +147,8 @@ export default function BirthdatePicker({
         id={modalId}
         selected={selectedDate}
         now={now}
+        minimumAge={minimumAge}
+        title={calendarTitle}
         onSelect={handleSelect}
         onClose={handleClose}
       />

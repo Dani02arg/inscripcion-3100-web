@@ -1,0 +1,190 @@
+- generic [ref=f6e1]:
+  - generic [ref=f6e135]:
+    - complementary "Menú lateral" [ref=f6e136]:
+      - generic [ref=f6e138]:
+        - link "Logo Institucional E.E.T. N° 3100 — República de la India E.E.T. N° 3100 — República de la India República de la India" [ref=f6e139] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Logo Institucional" [ref=f6e141]
+          - generic [ref=f6e142]: E.E.T. N° 3100 — República de la India
+          - generic [ref=f6e143]:
+            - generic [ref=f6e144]: E.E.T. N° 3100 — República de la India
+            - generic [ref=f6e145]: República de la India
+        - button "Contraer menú" [expanded] [ref=f6e147] [cursor=pointer]
+      - navigation "Menú principal" [ref=f6e151]:
+        - list [ref=f6e152]:
+          - listitem [ref=f6e153]:
+            - link "Inicio" [ref=f6e154] [cursor=pointer]:
+              - /url: /dashboard
+          - listitem [ref=f6e157]:
+            - link "Alumnos. No disponible, próximamente." [disabled] [ref=f6e158]:
+              - generic [ref=f6e159]:
+                - generic [ref=f6e160]: Alumnos
+                - generic [aria-hidden] [ref=f6e161]: Próximamente
+          - listitem [ref=f6e162]:
+            - link "Cursos" [ref=f6e163] [cursor=pointer]:
+              - /url: /dashboard/courses
+          - listitem [ref=f6e166]:
+            - link "Inscripciones. No disponible, próximamente." [disabled] [ref=f6e167]:
+              - generic [ref=f6e168]:
+                - generic [ref=f6e169]: Inscripciones
+                - generic [aria-hidden] [ref=f6e170]: Próximamente
+          - listitem [ref=f6e171]:
+            - button "Gestión de usuarios" [expanded] [ref=f6e172] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f6e174]: ▾
+            - list [ref=f6e175]:
+              - listitem [ref=f6e176]:
+                - link "Padrón de usuarios" [ref=f6e177] [cursor=pointer]:
+                  - /url: /dashboard/users
+              - listitem [ref=f6e181]:
+                - link "Directorio de staff" [ref=f6e182] [cursor=pointer]:
+                  - /url: /dashboard/users/staff
+          - listitem [ref=f6e185]:
+            - link "Mi perfil" [ref=f6e186] [cursor=pointer]:
+              - /url: /dashboard/profile
+      - button "Cuenta de Laura Pérez" [ref=f6e191] [cursor=pointer]:
+        - generic [aria-hidden] [ref=f6e192]: LP
+        - generic [ref=f6e193]:
+          - generic [ref=f6e194]: Laura Pérez
+          - generic [ref=f6e195]: laura@example.com
+          - generic [ref=f6e196]: Administrativo
+    - main [ref=f6e198]:
+      - generic [ref=f6e200]:
+        - status [ref=f6e201]
+        - generic [ref=f6e202]:
+          - navigation "Ruta de navegación" [ref=f6e203]:
+            - list [ref=f6e204]:
+              - listitem [ref=f6e205]:
+                - link "Inicio" [ref=f6e206] [cursor=pointer]:
+                  - /url: /dashboard
+              - listitem [ref=f6e207]:
+                - generic [aria-hidden] [ref=f6e208]: ">"
+                - generic [ref=f6e209]: Usuarios
+              - listitem [ref=f6e210]:
+                - generic [aria-hidden] [ref=f6e211]: ">"
+                - generic [ref=f6e212]: Padrón
+          - generic [ref=f6e213]:
+            - heading "Padrón de usuarios" [level=1] [ref=f6e214]
+            - paragraph [ref=f6e215]: Consultá y administrá las cuentas registradas en la institución.
+        - region "Filtros de usuarios" [ref=f6e216]:
+          - generic [ref=f6e217]:
+            - generic [ref=f6e218]:
+              - generic [ref=f6e219]:
+                - generic [ref=f6e220]: DNI
+                - textbox "DNI" [ref=f6e222]:
+                  - /placeholder: Solo dígitos (ej. 30111222)
+              - generic [ref=f6e223]:
+                - generic [ref=f6e224]: CUIL
+                - textbox "CUIL" [ref=f6e226]:
+                  - /placeholder: Solo dígitos (ej. 20301112223)
+              - generic [ref=f6e227]:
+                - generic [ref=f6e228]: Nombre
+                - textbox "Nombre" [ref=f6e230]:
+                  - /placeholder: Buscar por nombre
+              - generic [ref=f6e231]:
+                - generic [ref=f6e232]: Apellido
+                - textbox "Apellido" [ref=f6e234]:
+                  - /placeholder: Buscar por apellido
+              - generic [ref=f6e235]:
+                - generic [ref=f6e236]: Correo electrónico
+                - textbox "Correo electrónico" [ref=f6e238]:
+                  - /placeholder: Buscar por correo
+            - generic [ref=f6e239]:
+              - button "Limpiar filtros" [ref=f6e240] [cursor=pointer]
+              - button "Aplicar filtros" [ref=f6e241] [cursor=pointer]
+        - table "Listado de usuarios del padrón" [ref=f6e243]:
+          - caption [ref=f6e244]: Listado de usuarios del padrón
+          - rowgroup [ref=f6e245]:
+            - row [ref=f6e246]:
+              - columnheader "Usuario" [ref=f6e247]
+              - columnheader "DNI" [ref=f6e248]
+              - columnheader "Correo" [ref=f6e249]
+              - columnheader "Rol" [ref=f6e250]
+              - columnheader "Acciones" [ref=f6e251]
+          - rowgroup [ref=f6e252]:
+            - row "Usuario Ana Pérez, DNI 30111222, correo ana@example.com, rol Tutor" [ref=f6e253]:
+              - rowheader "Ana Pérez" [ref=f6e254]
+              - cell "30111222" [ref=f6e255]
+              - cell "ana@example.com" [ref=f6e256]
+              - cell "Tutor" [ref=f6e257]
+              - cell [ref=f6e259]:
+                - button "Acciones de Ana Pérez" [active] [ref=f6e261] [cursor=pointer]:
+                  - generic [aria-hidden] [ref=f6e262]: ⋯
+            - row "Usuario Carla Gómez, DNI 30111223, correo carla@example.com, rol Administrativo" [ref=f6e263]:
+              - rowheader "Carla Gómez" [ref=f6e264]
+              - cell "30111223" [ref=f6e265]
+              - cell "carla@example.com" [ref=f6e266]
+              - cell "Administrativo" [ref=f6e267]
+              - cell [ref=f6e269]:
+                - button "Acciones de Carla Gómez" [ref=f6e271] [cursor=pointer]:
+                  - generic [aria-hidden] [ref=f6e272]: ⋯
+            - row "Usuario Bruno Díaz, DNI 30111224, correo bruno@example.com, rol Tutor" [ref=f6e273]:
+              - rowheader "Bruno Díaz" [ref=f6e274]
+              - cell "30111224" [ref=f6e275]
+              - cell "bruno@example.com" [ref=f6e276]
+              - cell "Tutor" [ref=f6e277]
+              - cell [ref=f6e279]:
+                - button "Acciones de Bruno Díaz" [ref=f6e281] [cursor=pointer]:
+                  - generic [aria-hidden] [ref=f6e282]: ⋯
+            - row "Usuario Diego Sosa, DNI 30111225, correo diego@example.com, rol Administrativo" [ref=f6e283]:
+              - rowheader "Diego Sosa" [ref=f6e284]
+              - cell "30111225" [ref=f6e285]
+              - cell "diego@example.com" [ref=f6e286]
+              - cell "Administrativo" [ref=f6e287]
+              - cell [ref=f6e289]:
+                - button "Acciones de Diego Sosa" [ref=f6e291] [cursor=pointer]:
+                  - generic [aria-hidden] [ref=f6e292]: ⋯
+            - row "Usuario Elena Ruiz, DNI 30111226, correo elena@example.com, rol Tutor" [ref=f6e293]:
+              - rowheader "Elena Ruiz" [ref=f6e294]
+              - cell "30111226" [ref=f6e295]
+              - cell "elena@example.com" [ref=f6e296]
+              - cell "Tutor" [ref=f6e297]
+              - cell [ref=f6e299]:
+                - button "Acciones de Elena Ruiz" [ref=f6e301] [cursor=pointer]:
+                  - generic [aria-hidden] [ref=f6e302]: ⋯
+            - row "Usuario Farid Khan, DNI 30111227, correo farid@example.com, rol Tutor" [ref=f6e303]:
+              - rowheader "Farid Khan" [ref=f6e304]
+              - cell "30111227" [ref=f6e305]
+              - cell "farid@example.com" [ref=f6e306]
+              - cell "Tutor" [ref=f6e307]
+              - cell [ref=f6e309]:
+                - button "Acciones de Farid Khan" [ref=f6e311] [cursor=pointer]:
+                  - generic [aria-hidden] [ref=f6e312]: ⋯
+            - row "Usuario Gabriela López, DNI 30111228, correo gabriela@example.com, rol Administrativo" [ref=f6e313]:
+              - rowheader "Gabriela López" [ref=f6e314]
+              - cell "30111228" [ref=f6e315]
+              - cell "gabriela@example.com" [ref=f6e316]
+              - cell "Administrativo" [ref=f6e317]
+              - cell [ref=f6e319]:
+                - button "Acciones de Gabriela López" [ref=f6e321] [cursor=pointer]:
+                  - generic [aria-hidden] [ref=f6e322]: ⋯
+            - row "Usuario Hugo Méndez, DNI 30111229, correo hugo@example.com, rol Tutor" [ref=f6e323]:
+              - rowheader "Hugo Méndez" [ref=f6e324]
+              - cell "30111229" [ref=f6e325]
+              - cell "hugo@example.com" [ref=f6e326]
+              - cell "Tutor" [ref=f6e327]
+              - cell [ref=f6e329]:
+                - button "Acciones de Hugo Méndez" [ref=f6e331] [cursor=pointer]:
+                  - generic [aria-hidden] [ref=f6e332]: ⋯
+            - row "Usuario Inés Torres, DNI 30111230, correo ines@example.com, rol Tutor" [ref=f6e333]:
+              - rowheader "Inés Torres" [ref=f6e334]
+              - cell "30111230" [ref=f6e335]
+              - cell "ines@example.com" [ref=f6e336]
+              - cell "Tutor" [ref=f6e337]
+              - cell [ref=f6e339]:
+                - button "Acciones de Inés Torres" [ref=f6e341] [cursor=pointer]:
+                  - generic [aria-hidden] [ref=f6e342]: ⋯
+            - row "Usuario Julián Vargas, DNI 30111231, correo julian@example.com, rol Administrativo" [ref=f6e343]:
+              - rowheader "Julián Vargas" [ref=f6e344]
+              - cell "30111231" [ref=f6e345]
+              - cell "julian@example.com" [ref=f6e346]
+              - cell "Administrativo" [ref=f6e347]
+              - cell [ref=f6e349]:
+                - button "Acciones de Julián Vargas" [ref=f6e351] [cursor=pointer]:
+                  - generic [aria-hidden] [ref=f6e352]: ⋯
+        - navigation "Paginación del padrón de usuarios" [ref=f6e353]:
+          - paragraph [ref=f6e354]: Página 1 de 2 · 12 resultados
+          - generic [ref=f6e355]:
+            - button "Anterior" [disabled] [ref=f6e356]
+            - button "Siguiente" [ref=f6e357] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=f6e131] [cursor=pointer]
+  - alert [ref=f6e358]

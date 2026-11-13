@@ -1,0 +1,74 @@
+- generic [active] [ref=f1e1]:
+  - button "Open Next.js Dev Tools" [ref=f1e50] [cursor=pointer]
+  - alert [ref=f1e54]
+  - generic [ref=f1e246]:
+    - complementary "Menú lateral" [ref=f1e247]:
+      - generic [ref=f1e249]:
+        - link "Logo Institucional E.E.T. N° 3100 — República de la India E.E.T. N° 3100 — República de la India República de la India" [ref=f1e250] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Logo Institucional" [ref=f1e252]
+          - generic [ref=f1e253]: E.E.T. N° 3100 — República de la India
+          - generic [ref=f1e254]:
+            - generic [ref=f1e255]: E.E.T. N° 3100 — República de la India
+            - generic [ref=f1e256]: República de la India
+        - button "Contraer menú" [expanded] [ref=f1e258] [cursor=pointer]
+      - navigation "Menú principal" [ref=f1e262]:
+        - list [ref=f1e263]:
+          - listitem [ref=f1e264]:
+            - link "Inicio" [ref=f1e265] [cursor=pointer]:
+              - /url: /dashboard
+          - listitem [ref=f1e268]:
+            - link "Mis hijos" [ref=f1e269] [cursor=pointer]:
+              - /url: /dashboard/students
+          - listitem [ref=f1e273]:
+            - link "Inscripciones. No disponible, próximamente." [disabled] [ref=f1e274]:
+              - generic [ref=f1e275]:
+                - generic [ref=f1e276]: Inscripciones
+                - generic [aria-hidden] [ref=f1e277]: Próximamente
+          - listitem [ref=f1e278]:
+            - link "Mi perfil" [ref=f1e279] [cursor=pointer]:
+              - /url: /dashboard/profile
+      - button "Cuenta de Andres Perez" [ref=f1e284] [cursor=pointer]:
+        - generic [aria-hidden] [ref=f1e285]: AP
+        - generic [ref=f1e286]:
+          - generic [ref=f1e287]: Andres Perez
+          - generic [ref=f1e288]: andres@example.com
+          - generic [ref=f1e289]: Tutor
+    - main [ref=f1e291]:
+      - generic [ref=f1e293]:
+        - generic [ref=f1e294]:
+          - navigation "Ruta de navegación" [ref=f1e295]:
+            - list [ref=f1e296]:
+              - listitem [ref=f1e297]:
+                - link "Inicio" [ref=f1e298] [cursor=pointer]:
+                  - /url: /dashboard
+              - listitem [ref=f1e299]:
+                - generic [aria-hidden] [ref=f1e300]: ">"
+                - generic [ref=f1e301]: Mis hijos
+          - generic [ref=f1e302]:
+            - generic [ref=f1e303]:
+              - heading "Mis hijos" [level=1] [ref=f1e304]
+              - paragraph [ref=f1e305]: Consultá y administrá los alumnos a tu cargo.
+            - link "Registrar un alumno" [ref=f1e306] [cursor=pointer]:
+              - /url: /dashboard/students/new
+        - generic [ref=f1e307]:
+          - status [ref=f1e308]:
+            - paragraph [ref=f1e309]: Alumno registrado correctamente
+          - 'button "Cerrar aviso: Alumno registrado correctamente" [ref=f1e310] [cursor=pointer]':
+            - generic [aria-hidden] [ref=f1e311]: ×
+        - table "Listado de alumnos a tu cargo" [ref=f1e313]:
+          - caption [ref=f1e314]: Listado de alumnos a tu cargo
+          - rowgroup [ref=f1e315]:
+            - row [ref=f1e316]:
+              - columnheader "Apellido, Nombre" [ref=f1e317]
+              - columnheader "DNI" [ref=f1e318]
+              - columnheader "Fecha de nacimiento" [ref=f1e319]
+              - columnheader "Acciones" [ref=f1e320]
+          - rowgroup [ref=f1e321]:
+            - row [ref=f1e322]:
+              - rowheader "Pérez, Lucas" [ref=f1e323]
+              - cell "50123456" [ref=f1e324]
+              - cell "20/08/2010" [ref=f1e325]
+              - cell [ref=f1e326]:
+                - button "Acciones de Pérez, Lucas" [ref=f1e328] [cursor=pointer]:
+                  - generic [aria-hidden] [ref=f1e329]: ⋯

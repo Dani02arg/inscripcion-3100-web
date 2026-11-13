@@ -1,0 +1,94 @@
+- generic [ref=f1e1]:
+  - generic [ref=f1e87]:
+    - complementary "Menú lateral" [ref=f1e88]:
+      - generic [ref=f1e90]:
+        - link "Logo Institucional E.E.T. N° 3100 — República de la India E.E.T. N° 3100 — República de la India República de la India" [ref=f1e91] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Logo Institucional" [ref=f1e93]
+          - generic [ref=f1e94]: E.E.T. N° 3100 — República de la India
+          - generic [ref=f1e95]:
+            - generic [ref=f1e96]: E.E.T. N° 3100 — República de la India
+            - generic [ref=f1e97]: República de la India
+        - button "Contraer menú" [expanded] [ref=f1e99] [cursor=pointer]
+      - navigation "Menú principal" [ref=f1e103]:
+        - list [ref=f1e104]:
+          - listitem [ref=f1e105]:
+            - link "Inicio" [ref=f1e106] [cursor=pointer]:
+              - /url: /dashboard
+          - listitem [ref=f1e109]:
+            - link "Mis alumnos. No disponible, próximamente." [disabled] [ref=f1e110]:
+              - generic [ref=f1e111]:
+                - generic [ref=f1e112]: Mis alumnos
+                - generic [aria-hidden] [ref=f1e113]: Próximamente
+          - listitem [ref=f1e114]:
+            - link "Inscripciones. No disponible, próximamente." [disabled] [ref=f1e115]:
+              - generic [ref=f1e116]:
+                - generic [ref=f1e117]: Inscripciones
+                - generic [aria-hidden] [ref=f1e118]: Próximamente
+          - listitem [ref=f1e119]:
+            - link "Mi perfil" [ref=f1e120] [cursor=pointer]:
+              - /url: /dashboard/profile
+      - button "Cuenta de María Gómez" [ref=f1e126] [cursor=pointer]:
+        - generic [aria-hidden] [ref=f1e127]: MG
+        - generic [ref=f1e128]:
+          - generic [ref=f1e129]: María Gómez
+          - generic [ref=f1e130]: maria@example.com
+          - generic [ref=f1e131]: Tutor
+    - main [ref=f1e133]:
+      - generic [ref=f1e135]:
+        - generic [ref=f1e136]:
+          - generic [ref=f1e137]:
+            - heading "Mi perfil" [level=1] [ref=f1e138]
+            - paragraph [ref=f1e139]: María Gómez
+          - generic [ref=f1e140]: Tutor
+        - generic [ref=f1e141]:
+          - region "Datos personales" [ref=f1e142]:
+            - heading "Datos personales" [level=2] [ref=f1e143]
+            - generic [ref=f1e144]:
+              - generic [ref=f1e145]:
+                - term [ref=f1e146]: Nombre
+                - definition [ref=f1e147]: María
+              - generic [ref=f1e148]:
+                - term [ref=f1e149]: Apellido
+                - definition [ref=f1e150]: Gómez
+              - generic [ref=f1e151]:
+                - term [ref=f1e152]: Fecha de nacimiento
+                - definition [ref=f1e153]: 15/05/1990
+              - generic [ref=f1e154]:
+                - term [ref=f1e155]: Teléfono
+                - definition [ref=f1e156]: +54 9 11 5555 1234
+            - generic [ref=f1e157]:
+              - generic [ref=f1e158]:
+                - generic [ref=f1e159]: Ocupación
+                - textbox "Ocupación" [invalid] [ref=f1e160]
+                - paragraph [ref=f1e161]: Máximo 100 caracteres.
+                - paragraph [ref=f1e185]: Ingresá tu ocupación.
+              - generic [ref=f1e162]:
+                - generic [ref=f1e163]: Nivel educativo
+                - combobox "Nivel educativo" [ref=f1e164]:
+                  - option "Seleccioná tu nivel educativo" [disabled]
+                  - option "Primario"
+                  - option "Secundario"
+                  - option "Terciario"
+                  - option "Universitario" [selected]
+                  - option "Postgrado"
+              - button "Guardar cambios" [active] [ref=f1e165] [cursor=pointer]
+          - region "Datos de contacto" [ref=f1e166]:
+            - heading "Datos de contacto" [level=2] [ref=f1e167]
+            - generic [ref=f1e169]:
+              - term [ref=f1e170]: Correo electrónico
+              - definition [ref=f1e171]: maria@example.com
+          - region "Datos de la cuenta" [ref=f1e172]:
+            - heading "Datos de la cuenta" [level=2] [ref=f1e173]
+            - generic [ref=f1e174]:
+              - generic [ref=f1e175]:
+                - term [ref=f1e176]: Correo electrónico
+                - definition [ref=f1e177]: maria@example.com
+              - generic [ref=f1e178]:
+                - term [ref=f1e179]: Rol
+                - definition [ref=f1e180]: Tutor
+              - generic [ref=f1e181]:
+                - term [ref=f1e182]: Verificación del correo
+                - definition [ref=f1e183]: Verificado
+  - button "Open Next.js Dev Tools" [ref=f1e83] [cursor=pointer]
+  - alert [ref=f1e184]

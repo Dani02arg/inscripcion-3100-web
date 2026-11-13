@@ -1,0 +1,72 @@
+- generic [active] [ref=f5e1]:
+  - generic [ref=f5e61]:
+    - complementary "Menú lateral" [ref=f5e62]:
+      - generic [ref=f5e64]:
+        - link "Logo Institucional E.E.T. N° 3100 — República de la India E.E.T. N° 3100 — República de la India República de la India" [ref=f5e65] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Logo Institucional" [ref=f5e67]
+          - generic [ref=f5e68]: E.E.T. N° 3100 — República de la India
+          - generic [ref=f5e69]:
+            - generic [ref=f5e70]: E.E.T. N° 3100 — República de la India
+            - generic [ref=f5e71]: República de la India
+        - button "Contraer menú" [expanded] [ref=f5e73] [cursor=pointer]
+      - navigation "Menú principal" [ref=f5e77]:
+        - list [ref=f5e78]:
+          - listitem [ref=f5e79]:
+            - link "Inicio" [ref=f5e80] [cursor=pointer]:
+              - /url: /dashboard
+          - listitem [ref=f5e83]:
+            - link "Alumnos. No disponible, próximamente." [disabled] [ref=f5e84]:
+              - generic [ref=f5e85]:
+                - generic [ref=f5e86]: Alumnos
+                - generic [aria-hidden] [ref=f5e87]: Próximamente
+          - listitem [ref=f5e88]:
+            - link "Cursos" [ref=f5e89] [cursor=pointer]:
+              - /url: /dashboard/courses
+          - listitem [ref=f5e92]:
+            - link "Inscripciones. No disponible, próximamente." [disabled] [ref=f5e93]:
+              - generic [ref=f5e94]:
+                - generic [ref=f5e95]: Inscripciones
+                - generic [aria-hidden] [ref=f5e96]: Próximamente
+          - listitem [ref=f5e97]:
+            - button "Gestión de usuarios" [expanded] [ref=f5e98] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f5e100]: ▾
+            - list [ref=f5e101]:
+              - listitem [ref=f5e102]:
+                - link "Padrón de usuarios" [ref=f5e103] [cursor=pointer]:
+                  - /url: /dashboard/users
+              - listitem [ref=f5e106]:
+                - link "Directorio de staff" [ref=f5e107] [cursor=pointer]:
+                  - /url: /dashboard/users/staff
+          - listitem [ref=f5e110]:
+            - link "Mi perfil" [ref=f5e111] [cursor=pointer]:
+              - /url: /dashboard/profile
+      - button "Cuenta de Laura Pérez" [ref=f5e116] [cursor=pointer]:
+        - generic [aria-hidden] [ref=f5e117]: LP
+        - generic [ref=f5e118]:
+          - generic [ref=f5e119]: Laura Pérez
+          - generic [ref=f5e120]: laura@example.com
+          - generic [ref=f5e121]: Administrativo
+    - main [ref=f5e123]:
+      - generic [ref=f5e125]:
+        - generic [ref=f5e126]:
+          - heading "Configuración de cuenta" [level=1] [ref=f5e127]
+          - paragraph [ref=f5e128]: Datos asociados a tu cuenta.
+        - region "Cuenta actual" [ref=f5e129]:
+          - heading "Cuenta actual" [level=2] [ref=f5e130]
+          - generic [ref=f5e131]:
+            - generic [ref=f5e132]:
+              - term [ref=f5e133]: Nombre
+              - definition [ref=f5e134]: Laura
+            - generic [ref=f5e135]:
+              - term [ref=f5e136]: Apellido
+              - definition [ref=f5e137]: Pérez
+            - generic [ref=f5e138]:
+              - term [ref=f5e139]: Correo electrónico
+              - definition [ref=f5e140]: laura@example.com
+        - region "Seguridad" [ref=f5e141]:
+          - heading "Seguridad" [level=2] [ref=f5e142]
+          - link "Restablecer contraseña" [ref=f5e144] [cursor=pointer]:
+            - /url: /password-recovery?source=account
+  - button "Open Next.js Dev Tools" [ref=f5e57] [cursor=pointer]
+  - alert [ref=f5e145]

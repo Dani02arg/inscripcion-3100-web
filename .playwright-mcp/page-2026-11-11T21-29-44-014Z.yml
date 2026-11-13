@@ -1,0 +1,50 @@
+- generic [active] [ref=f3e1]:
+  - button "Open Next.js Dev Tools" [ref=f3e57] [cursor=pointer]
+  - alert [ref=f3e140]: Iniciar sesión | EET N° 3100
+  - main [ref=f3e149]:
+    - navigation [ref=f3e150]:
+      - generic [ref=f3e152]:
+        - link [ref=f3e153] [cursor=pointer]:
+          - /url: /home
+          - img "Logo EET 3100" [ref=f3e154]
+        - generic [ref=f3e155]:
+          - link [ref=f3e156] [cursor=pointer]:
+            - /url: /login
+            - img "Icono Iniciar Sesión" [ref=f3e157]
+            - text: Iniciar Sesión
+          - link [ref=f3e158] [cursor=pointer]:
+            - /url: /register
+            - img "Icono Registrarse" [ref=f3e159]
+            - text: Registrarse
+    - generic [ref=f3e161]:
+      - heading "Iniciar sesión" [level=1] [ref=f3e162]
+      - paragraph [ref=f3e163]: Ingresá con tu email y contraseña para acceder a la EET N° 3100.
+      - generic [ref=f3e165]:
+        - generic [ref=f3e166]:
+          - generic [ref=f3e167]: Correo electrónico*
+          - textbox "Correo electrónico" [ref=f3e169]:
+            - /placeholder: "Ej.: nombre@correo.com"
+            - text: maria@example.com
+        - generic [ref=f3e170]:
+          - generic [ref=f3e171]: Contraseña*
+          - generic [ref=f3e172]:
+            - textbox "Contraseña" [ref=f3e173]: password123
+            - button "Mostrar contraseña" [ref=f3e175] [cursor=pointer]: Mostrar
+        - generic [ref=f3e176]:
+          - button "Iniciar sesión" [ref=f3e177] [cursor=pointer]
+          - link "Registrarse" [ref=f3e178] [cursor=pointer]:
+            - /url: /register
+        - link "Recuperar contraseña" [ref=f3e180] [cursor=pointer]:
+          - /url: /password-recovery
+  - contentinfo [ref=f3e181]:
+    - generic [ref=f3e183]:
+      - generic [ref=f3e184]:
+        - paragraph [ref=f3e185]: EET 3100 REPUBLICA DE LA INDIA
+        - paragraph [ref=f3e186]: © 2026
+      - generic [ref=f3e187]:
+        - heading "DESARROLLADORES:" [level=2] [ref=f3e188]
+        - generic [ref=f3e189]:
+          - link "Daniela Acosta" [ref=f3e190] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/daniela-acosta-b06780206/
+          - link "Andres Arancibia" [ref=f3e193] [cursor=pointer]:
+            - /url: https://andres25ar.github.io/Portfolio/

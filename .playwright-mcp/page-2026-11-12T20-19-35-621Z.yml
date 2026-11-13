@@ -1,0 +1,106 @@
+- generic [active] [ref=f1e1]:
+  - button "Open Next.js Dev Tools" [ref=f1e50] [cursor=pointer]
+  - alert [ref=f1e54]
+  - generic [ref=f1e330]:
+    - complementary "Menú lateral" [ref=f1e331]:
+      - generic [ref=f1e333]:
+        - link "Logo Institucional E.E.T. N° 3100 — República de la India E.E.T. N° 3100 — República de la India República de la India" [ref=f1e334] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Logo Institucional" [ref=f1e336]
+          - generic [ref=f1e337]: E.E.T. N° 3100 — República de la India
+          - generic [ref=f1e338]:
+            - generic [ref=f1e339]: E.E.T. N° 3100 — República de la India
+            - generic [ref=f1e340]: República de la India
+        - button "Contraer menú" [expanded] [ref=f1e342] [cursor=pointer]
+      - navigation "Menú principal" [ref=f1e346]:
+        - list [ref=f1e347]:
+          - listitem [ref=f1e348]:
+            - link "Inicio" [ref=f1e349] [cursor=pointer]:
+              - /url: /dashboard
+          - listitem [ref=f1e352]:
+            - link "Mis hijos" [ref=f1e353] [cursor=pointer]:
+              - /url: /dashboard/students
+          - listitem [ref=f1e357]:
+            - link "Inscripciones. No disponible, próximamente." [disabled] [ref=f1e358]:
+              - generic [ref=f1e359]:
+                - generic [ref=f1e360]: Inscripciones
+                - generic [aria-hidden] [ref=f1e361]: Próximamente
+          - listitem [ref=f1e362]:
+            - link "Mi perfil" [ref=f1e363] [cursor=pointer]:
+              - /url: /dashboard/profile
+      - button "Cuenta de Andres Perez" [ref=f1e368] [cursor=pointer]:
+        - generic [aria-hidden] [ref=f1e369]: AP
+        - generic [ref=f1e370]:
+          - generic [ref=f1e371]: Andres Perez
+          - generic [ref=f1e372]: andres@example.com
+          - generic [ref=f1e373]: Tutor
+    - main [ref=f1e375]:
+      - generic [ref=f1e377]:
+        - navigation "Ruta de navegación" [ref=f1e378]:
+          - list [ref=f1e379]:
+            - listitem [ref=f1e380]:
+              - link "Inicio" [ref=f1e381] [cursor=pointer]:
+                - /url: /dashboard
+            - listitem [ref=f1e382]:
+              - generic [aria-hidden] [ref=f1e383]: ">"
+              - link "Mis hijos" [ref=f1e384] [cursor=pointer]:
+                - /url: /dashboard/students
+            - listitem [ref=f1e385]:
+              - generic [aria-hidden] [ref=f1e386]: ">"
+              - generic [ref=f1e387]: Registrar alumno
+        - generic [ref=f1e388]:
+          - heading "Registrar alumno" [level=1] [ref=f1e389]
+          - paragraph [ref=f1e390]: Completá los datos para registrar a tu hijo en el sistema.
+        - generic [ref=f1e392]:
+          - generic [ref=f1e393]:
+            - generic [ref=f1e394]:
+              - generic [ref=f1e395]: DNI*
+              - textbox "DNI" [ref=f1e397]:
+                - /placeholder: "Ej.: 12345678"
+              - paragraph [ref=f1e398]: 7 u 8 dígitos.
+            - generic [ref=f1e399]:
+              - generic [ref=f1e400]: CUIL*
+              - textbox "CUIL" [ref=f1e402]:
+                - /placeholder: "Ej.: 20123456789"
+              - paragraph [ref=f1e403]: 11 dígitos, sin guiones.
+            - generic [ref=f1e404]:
+              - generic [ref=f1e405]: Nombre*
+              - textbox "Nombre" [ref=f1e407]
+            - generic [ref=f1e408]:
+              - generic [ref=f1e409]: Apellido*
+              - textbox "Apellido" [ref=f1e411]
+            - generic [ref=f1e414]:
+              - generic [ref=f1e415]: Fecha de nacimiento*
+              - generic [ref=f1e416]:
+                - textbox "Fecha de nacimiento" [ref=f1e417]:
+                  - /placeholder: DD/MM/YYYY
+                - button "Abrir calendario" [ref=f1e419] [cursor=pointer]
+              - paragraph [ref=f1e422]: Escribí la fecha como DD/MM/YYYY o elegila en el calendario.
+            - generic [ref=f1e423]:
+              - generic [ref=f1e424]: Género*
+              - combobox "Género" [ref=f1e425]:
+                - option "Seleccioná un género" [disabled] [selected]
+                - option "Masculino"
+                - option "Femenino"
+                - option "Otro"
+            - generic [ref=f1e426]:
+              - generic [ref=f1e427]: Correo electrónico (opcional)
+              - textbox "Correo electrónico (opcional)" [ref=f1e429]:
+                - /placeholder: "Ej.: nombre@correo.com"
+              - paragraph [ref=f1e430]: Hasta 255 caracteres.
+            - generic [ref=f1e431]:
+              - generic [ref=f1e432]: Teléfono (opcional)
+              - textbox "Teléfono (opcional)" [ref=f1e434]:
+                - /placeholder: "Ej.: 3874112233"
+              - paragraph [ref=f1e435]: Solo dígitos.
+            - generic [ref=f1e436]:
+              - generic [ref=f1e437]: Lugar de nacimiento (opcional)
+              - textbox "Lugar de nacimiento (opcional)" [ref=f1e439]
+              - paragraph [ref=f1e440]: Hasta 150 caracteres.
+            - generic [ref=f1e442]:
+              - generic [ref=f1e443]: Domicilio (opcional)
+              - textbox "Domicilio (opcional)" [ref=f1e445]
+          - generic [ref=f1e446]:
+            - link "Cancelar" [ref=f1e447] [cursor=pointer]:
+              - /url: /dashboard/students
+            - button "Registrar alumno" [ref=f1e448] [cursor=pointer]

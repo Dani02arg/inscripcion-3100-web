@@ -1,0 +1,7 @@
+- generic [active] [ref=f3e1]:
+  - generic [ref=f3e2]:
+    - complementary [aria-hidden] [ref=f3e3]
+    - main [ref=f3e34]:
+      - status "Cargando configuración de cuenta" [ref=f3e35]:
+        - generic [ref=f3e36]: Cargando configuración de cuenta.
+  - button "Open Next.js Dev Tools" [ref=f3e57] [cursor=pointer]

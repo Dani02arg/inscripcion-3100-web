@@ -295,9 +295,16 @@ export function calculateAge(
   return age;
 }
 
-/** Obtiene la fecha de nacimiento más reciente que cumple la edad mínima a la fecha indicada. */
-export function getMaxBirthdate(now: Date = new Date()): Date {
-  const targetYear = now.getFullYear() - MIN_REGISTER_AGE;
+/**
+ * Obtiene la fecha de nacimiento más reciente que cumple la edad mínima a la
+ * fecha indicada. Con edad mínima 0 se permite el día de hoy.
+ */
+export function getMaxBirthdate(
+  now: Date = new Date(),
+  minimumAge: number = MIN_REGISTER_AGE,
+): Date {
+  const minimum = minimumAge > 0 ? minimumAge : 0;
+  const targetYear = now.getFullYear() - minimum;
   const base = createClampedDate(
     targetYear,
     now.getMonth(),
@@ -309,17 +316,22 @@ export function getMaxBirthdate(now: Date = new Date()): Date {
     base.getDate() + 1,
   );
 
-  if (calculateAge(nextDay, now) >= MIN_REGISTER_AGE) {
+  if (calculateAge(nextDay, now) >= minimum) {
     return nextDay;
   }
 
   return base;
 }
 
-/** Valida una fecha de nacimiento y distingue si falta, es inválida, futura o corresponde a una persona menor. */
+/**
+ * Valida una fecha de nacimiento y distingue si falta, es inválida, futura o
+ * corresponde a una persona menor que la edad mínima indicada. Con edad
+ * mínima 0 no se evalúa la edad y se permite el día de hoy.
+ */
 export function getBirthdateError(
   value: string,
   now: Date = new Date(),
+  minimumAge: number = MIN_REGISTER_AGE,
 ): BirthdateError | null {
   const trimmed = trimText(value);
 
@@ -332,31 +344,39 @@ export function getBirthdateError(
     return "invalid";
   }
 
+  const minimum = minimumAge > 0 ? minimumAge : 0;
   const today = startOfLocalDay(now);
-  if (birthdate >= today) {
+
+  if (minimum > 0 ? birthdate >= today : birthdate > today) {
     return "future";
   }
 
-  if (calculateAge(birthdate, today) < MIN_REGISTER_AGE) {
+  if (minimum > 0 && calculateAge(birthdate, today) < minimum) {
     return "underage";
   }
 
   return null;
 }
 
-/** Crea el predicado que deshabilita hoy y las fechas futuras en el calendario. */
+/**
+ * Crea el predicado del calendario: con edad mínima positiva deshabilita hoy
+ * y las fechas futuras; con edad mínima 0 solo deshabilita las futuras.
+ */
 export function getCalendarDisabledMatcher(
   now: Date = new Date(),
+  minimumAge: number = MIN_REGISTER_AGE,
 ): (date: Date) => boolean {
   const today = startOfLocalDay(now);
+  const minimum = minimumAge > 0 ? minimumAge : 0;
 
-  /** Indica si una fecha no es válida o no puede seleccionarse por ser hoy o futura. */
+  /** Indica si una fecha no es válida o no puede seleccionarse. */
   return (date: Date): boolean => {
     if (!isValidDate(date)) {
       return true;
     }
 
-    return startOfLocalDay(date) >= today;
+    const day = startOfLocalDay(date);
+    return minimum > 0 ? day >= today : day > today;
   };
 }
 

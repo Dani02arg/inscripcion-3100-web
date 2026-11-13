@@ -12,7 +12,7 @@
 - Linter / Verificación: `pnpm lint`
 
 ## Constitución de Gobernanza (leer siempre antes de iniciar)
-- Los principios innegociables de desarrollo viven en `docs/constitution.md` (15 principios).
+- Los principios innegociables de desarrollo viven en `docs/constitution.md` (16 principios).
 - Consultar obligatoriamente `docs/constitution.md` y la especificación activa en `specs/` antes de realizar cualquier modificación.
 
 ## Model Context Protocol (MCP)

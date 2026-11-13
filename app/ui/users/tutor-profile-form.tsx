@@ -199,7 +199,7 @@ export default function TutorProfileForm({
           className={`${FIELD_CLASSES} ${
             occupationError
               ? "border-estado-error-borde focus:border-estado-error-borde focus:ring-estado-error-borde"
-              : "border-borde-input"
+                : "border-borde-control"
           }`}
         />
         <p
@@ -241,7 +241,7 @@ export default function TutorProfileForm({
           className={`${FIELD_CLASSES} ${
             educationError
               ? "border-estado-error-borde focus:border-estado-error-borde focus:ring-estado-error-borde"
-              : "border-borde-input"
+                : "border-borde-control"
           }`}
         >
           <option value="" disabled>

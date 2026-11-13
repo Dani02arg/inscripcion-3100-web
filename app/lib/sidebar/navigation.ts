@@ -29,6 +29,24 @@ const COURSES_ITEM: SidebarNavItem = Object.freeze({
   match: "prefix",
 });
 
+/** Mis hijos está habilitado para el tutor. */
+const TUTOR_STUDENTS_ITEM: SidebarNavItem = Object.freeze({
+  label: "Mis hijos",
+  icon: "students",
+  href: "/dashboard/students",
+  enabled: true,
+  match: "prefix",
+});
+
+/** Alumnos está habilitado para administrativos y administradores. */
+const ADMIN_STUDENTS_ITEM: SidebarNavItem = Object.freeze({
+  label: "Alumnos",
+  icon: "students",
+  href: "/dashboard/students",
+  enabled: true,
+  match: "prefix",
+});
+
 /** Opciones del directorio de personal. */
 const USERS_CHILDREN: readonly SidebarNavChild[] = Object.freeze([
   Object.freeze({
@@ -81,21 +99,21 @@ function unavailable(
 }
 
 /**
- * Inventario de opciones por rol, en el orden de presentación de la spec 009
- * y de la spec 011. Los valores de rol son datos del backend.
+ * Inventario de opciones por rol, en el orden de presentación de las specs
+ * 009, 011 y 012. Los valores de rol son datos del backend.
  */
 export const SIDEBAR_NAVIGATION: Readonly<
   Record<UserRole, readonly SidebarNavItem[]>
 > = Object.freeze({
   TUTOR: Object.freeze([
     HOME_ITEM,
-    unavailable("Mis alumnos", "students"),
+    TUTOR_STUDENTS_ITEM,
     unavailable("Inscripciones", "inscriptions"),
     PROFILE_ITEM,
   ]),
   ADMINISTRATIVO: Object.freeze([
     HOME_ITEM,
-    unavailable("Alumnos", "students"),
+    ADMIN_STUDENTS_ITEM,
     COURSES_ITEM,
     unavailable("Inscripciones", "inscriptions"),
     USERS_SECTION,
@@ -103,7 +121,7 @@ export const SIDEBAR_NAVIGATION: Readonly<
   ]),
   ADMINISTRADOR: Object.freeze([
     HOME_ITEM,
-    unavailable("Alumnos", "students"),
+    ADMIN_STUDENTS_ITEM,
     COURSES_ITEM,
     unavailable("Inscripciones", "inscriptions"),
     USERS_SECTION,

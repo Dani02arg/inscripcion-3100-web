@@ -1,0 +1,7 @@
+- generic [active] [ref=f1e1]:
+  - generic [ref=f1e2]:
+    - complementary [aria-hidden] [ref=f1e3]
+    - main [ref=f1e34]:
+      - status "Cargando tu perfil" [ref=f1e36]:
+        - generic [ref=f1e37]: Cargando tu perfil.
+  - button "Open Next.js Dev Tools" [ref=f1e83] [cursor=pointer]

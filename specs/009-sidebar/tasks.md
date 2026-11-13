@@ -1,9 +1,9 @@
 # Tareas 009 — Menú lateral reutilizable con navegación por rol
 
-Estado: aprobado (2026-10-28)
+Estado: aprobado (2026-10-28); cambio 2026-11-11 por la spec 012 (navegación de alumnos)
 
-Spec: `specs/009-sidebar/spec.md` (aprobada el 2026-10-28).
-Plan: `specs/009-sidebar/plan.md` (aprobado el 2026-10-28).
+Spec: `specs/009-sidebar/spec.md` (aprobada el 2026-10-28; cambio 2026-11-11).
+Plan: `specs/009-sidebar/plan.md` (aprobado el 2026-10-28; cambio 2026-11-11).
 
 ## Reglas de ejecución
 
@@ -186,6 +186,32 @@ Plan: `specs/009-sidebar/plan.md` (aprobado el 2026-10-28).
   - Hecho cuando: `pnpm exec tsc --noEmit`, `pnpm lint` y `pnpm build` pasan; la suite completa y los E2E están en verde; la spec 008 sigue coherente; `package.json` no suma dependencias y `MEMORY.md` queda actualizado.
   - Verificado el 2026-10-29: `tsc --noEmit` limpio; `pnpm lint` 0 errores (4 avisos preexistentes de `<img>`); suite completa **267/267**; `pnpm build` en verde con `/session-expired` y `/dashboard` dinámicos; E2E T25–T30 completos; `package.json` sin dependencias nuevas; spec 008 actualizada al cambio implementado. Spec 009 cerrada como **implementada**.
 
+## Cambio 2026-11-11 (spec 012) — Navegación de alumnos
+
+- [x] **T32. Actualizar la spec 009 con el cambio de la spec 012.** RF-1, RF-2, RF-4, RF-55, RF-56
+  - Hecho cuando: la spec refleja «Mis hijos» para el `TUTOR`, «Alumnos» habilitado para los roles administrativos con `/dashboard/students`, el inventario y los RF-55 y RF-56.
+  - Realizada el 2026-11-11 como T1 de la spec 012.
+
+- [x] **T33. Actualizar el plan 009 con el cambio.** RF-1 a RF-5, RF-55, RF-56
+  - Hecho cuando: alcance, supuestos, inventario, funciones puras, tests, E2E y cobertura quedan alineados y se agrega la sección del cambio.
+  - Realizada el 2026-11-11 como T2 de la spec 012.
+
+- [x] **T34. Actualizar las tareas 009 con el cambio.** RF-1, RF-2, RF-4, RF-55, RF-56
+  - Hecho cuando: esta sección documenta las tareas del cambio y su orden.
+  - Realizada el 2026-11-11 como T3 de la spec 012.
+
+- [x] **T35. Habilitar las opciones de alumnos en `app/lib/sidebar/navigation.ts`.** RF-1, RF-2, RF-4, RF-5, RF-55, RF-56
+  - Hecho cuando: el `TUTOR` recibe «Mis hijos» y los roles administrativos reciben «Alumnos», con `/dashboard/students` y coincidencia por prefijo; las demás opciones conservan su posición.
+  - Corresponde a T4 de la spec 012.
+
+- [x] **T36. Actualizar `tests/sidebar/navigation.test.ts`.** RF-1, RF-2, RF-4, RF-5, RF-55, RF-56
+  - Hecho cuando: etiquetas, habilitación y estado activo de `/dashboard/students` y sus subpantallas están cubiertos y la suite de sidebar pasa.
+  - Corresponde a T5 de la spec 012.
+
+- [ ] **T37. Verificar la regresión del menú.** RF-15 a RF-40, RF-52
+  - Hecho cuando: colapso, drawer, pie de cuenta, Cursos, Gestión de usuarios, Mi perfil y Configuración de cuenta no cambian; `pnpm exec tsc --noEmit`, `pnpm lint` y `pnpm build` quedan en verde.
+  - Se cierra con la verificación final de la spec 012.
+
 ## Orden de dependencia
 
 1. T1 a T5.
@@ -198,6 +224,7 @@ Plan: `specs/009-sidebar/plan.md` (aprobado el 2026-10-28).
 8. T21 a T23.
 9. T24 a T30.
 10. T31.
+11. Cambio 2026-11-11: T32 a T34 antes de T35 y T36; T37 al cierre.
 
 ## Trazabilidad
 
@@ -209,4 +236,5 @@ Plan: `specs/009-sidebar/plan.md` (aprobado el 2026-10-28).
 - RF-41 a RF-47: T3, T9, T14, T24, T26, T29, T31.
 - RF-48 a RF-51: T15, T22, T26, T29, T31.
 - RF-52 a RF-54: T6, T9, T21, T28, T30, T31.
+- RF-55 y RF-56: T32 a T36 (cambio 2026-11-11).
 - RNF-1 a RNF-20: T10 a T20, T23, T24 a T31.

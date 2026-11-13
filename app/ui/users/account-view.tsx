@@ -67,7 +67,7 @@ export default function AccountView({ user }: { readonly user: CurrentUser }) {
         <div className="mt-4">
           <Link
             href="/password-recovery?source=account"
-            className="inline-flex min-h-11 items-center justify-center rounded-lg border border-azul-institucional px-4 py-2 text-base font-semibold text-azul-institucional transition-colors hover:bg-fondo-app focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-borde-focus"
+            className="inline-flex max-w-full min-h-11 break-words text-center items-center justify-center rounded-lg border border-azul-institucional px-4 py-2 text-base font-semibold text-azul-institucional transition-colors hover:bg-fondo-app focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-borde-focus"
           >
             Restablecer contraseña
           </Link>

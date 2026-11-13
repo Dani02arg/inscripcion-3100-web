@@ -1,6 +1,6 @@
 # Spec 011 — Gestión de usuarios
 
-Estado: aprobada (2026-11-03)
+Estado: implementada (2026-11-03; cerrada el 2026-11-11)
 
 ## Contexto y objetivo
 

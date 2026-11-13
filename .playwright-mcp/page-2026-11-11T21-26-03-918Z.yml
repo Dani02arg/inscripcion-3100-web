@@ -1,0 +1,47 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e5]:
+        - link [ref=e6] [cursor=pointer]:
+          - /url: /home
+          - img "Logo EET 3100" [ref=e7]
+        - generic [ref=e8]:
+          - link [ref=e9] [cursor=pointer]:
+            - /url: /login
+            - img "Icono Iniciar Sesión" [ref=e10]
+            - text: Iniciar Sesión
+          - link [ref=e11] [cursor=pointer]:
+            - /url: /register
+            - img "Icono Registrarse" [ref=e12]
+            - text: Registrarse
+    - generic [ref=e14]:
+      - heading "Iniciar sesión" [level=1] [ref=e15]
+      - paragraph [ref=e16]: Ingresá con tu email y contraseña para acceder a la EET N° 3100.
+      - generic [ref=e18]:
+        - generic [ref=e19]:
+          - generic [ref=e20]: Correo electrónico*
+          - textbox "Correo electrónico" [ref=e22]:
+            - /placeholder: "Ej.: nombre@correo.com"
+        - generic [ref=e23]:
+          - generic [ref=e24]: Contraseña*
+          - generic [ref=e25]:
+            - textbox "Contraseña" [ref=e26]
+            - button "Mostrar contraseña" [ref=e28] [cursor=pointer]: Mostrar
+        - generic [ref=e29]:
+          - button "Iniciar sesión" [ref=e30] [cursor=pointer]
+          - link "Registrarse" [ref=e31] [cursor=pointer]:
+            - /url: /register
+        - link "Recuperar contraseña" [ref=e33] [cursor=pointer]:
+          - /url: /password-recovery
+  - contentinfo [ref=e34]:
+    - generic [ref=e36]:
+      - generic [ref=e37]:
+        - paragraph [ref=e38]: EET 3100 REPUBLICA DE LA INDIA
+        - paragraph [ref=e39]: © 2026
+      - generic [ref=e40]:
+        - heading "DESARROLLADORES:" [level=2] [ref=e41]
+        - generic [ref=e42]:
+          - link "Daniela Acosta" [ref=e43] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/daniela-acosta-b06780206/
+          - link "Andres Arancibia" [ref=e46] [cursor=pointer]:
+            - /url: https://andres25ar.github.io/Portfolio/

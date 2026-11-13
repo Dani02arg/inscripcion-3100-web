@@ -1,0 +1,6 @@
+- generic [active] [ref=f139e1]:
+  - generic [ref=f139e2]:
+    - banner [aria-hidden] [ref=f139e3]
+    - main [ref=f139e9]:
+      - paragraph [ref=f139e11]: Cargando el panel principal.
+  - button "Open Next.js Dev Tools" [ref=f139e23] [cursor=pointer]

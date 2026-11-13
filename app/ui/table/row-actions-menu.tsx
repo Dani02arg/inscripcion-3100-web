@@ -259,7 +259,8 @@ export default function RowActionsMenu({
                 position: "fixed",
                 top: position?.top ?? 0,
                 left: position?.left ?? 0,
-                visibility: position ? "visible" : "hidden",
+                opacity: position ? 1 : 0,
+                pointerEvents: position ? "auto" : "none",
               }}
               className={menuClassName ?? MENU_CLASSES}
             >

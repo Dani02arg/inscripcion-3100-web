@@ -362,11 +362,12 @@ const FIELD_TRANSLATIONS: Record<UserField, readonly FieldTranslation[]> = {
   ],
   newRole: [
     {
-      pattern: /different|same|current/i,
+      pattern: /different|same|current|distint|igual|actual/i,
       message: "Seleccioná un rol distinto del actual.",
     },
     {
-      pattern: /required|empty|selected|invalid|valid/i,
+      pattern:
+        /required|empty|selected|invalid|valid|obligatori|requerid|vaci|vací|inválid|válid/i,
       message: "Seleccioná un rol válido.",
     },
   ],

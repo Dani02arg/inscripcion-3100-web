@@ -8,6 +8,7 @@ import "react-day-picker/style.css";
 import {
   getCalendarDisabledMatcher,
   getMaxBirthdate,
+  MIN_REGISTER_AGE,
 } from "../../lib/validation/register.ts";
 
 type CalendarStyle = CSSProperties & {
@@ -55,6 +56,8 @@ export interface BirthdateCalendarModalProps {
   id: string;
   selected?: Date;
   now: Date;
+  minimumAge?: number;
+  title?: string;
   onSelect: (date: Date) => void;
   onClose: () => void;
 }
@@ -64,12 +67,14 @@ export default function BirthdateCalendarModal({
   id,
   selected,
   now,
+  minimumAge = MIN_REGISTER_AGE,
+  title = "Seleccioná tu fecha de nacimiento",
   onSelect,
   onClose,
 }: BirthdateCalendarModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
-  const maxBirthdate = getMaxBirthdate(now);
-  const disabledMatcher = getCalendarDisabledMatcher(now);
+  const maxBirthdate = getMaxBirthdate(now, minimumAge);
+  const disabledMatcher = getCalendarDisabledMatcher(now, minimumAge);
   const startMonth = new Date(1900, 0, 1);
   const endMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
@@ -163,7 +168,7 @@ export default function BirthdateCalendarModal({
             id={`${id}-title`}
             className="text-base font-semibold text-texto-principal"
           >
-            Seleccioná tu fecha de nacimiento
+            {title}
           </h2>
           <button
             type="button"

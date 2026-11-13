@@ -1,21 +1,21 @@
 # Plan 009 — Menú lateral reutilizable con navegación por rol
 
-Estado: aprobado (2026-10-28)
+Estado: aprobado (2026-10-28); cambio 2026-11-11 por la spec 012 (navegación de alumnos)
 
 Spec: `specs/009-sidebar/spec.md` (aprobada el 2026-10-28).
 
 ## 1. Alcance, principios y supuestos
 
-Este plan implementa la spec 009: un menú lateral reutilizable con identidad institucional, navegación según el rol, estado activo, pie de cuenta, colapso en escritorio, drawer en tablet y móvil, y preferencia recordada. Solo «Inicio» está habilitado; el resto de las opciones se muestra como no disponible.
+Este plan implementa la spec 009: un menú lateral reutilizable con identidad institucional, navegación según el rol, estado activo, pie de cuenta, colapso en escritorio, drawer en tablet y móvil, y preferencia recordada. Habilita las opciones cuyos módulos existen; «Inscripciones» y «Reportes» se muestran como no disponibles.
 
 Alcance:
 
 - Reemplazar la barra privada del dashboard por el menú lateral en escritorio y por una barra compacta con drawer por debajo de 1024 px.
 - Mostrar el logotipo institucional existente y el nombre oficial, con abreviatura entre 1024 y 1279 px y en el drawer.
 - Derivar las opciones del rol del token y no mostrar opciones de otros roles.
-- Marcar «Inicio» como activo al entrar al dashboard y anunciarlo como página actual.
+- Marcar la opción activa al entrar al dashboard y en las pantallas de los módulos habilitados, y anunciarla como página actual.
 - Mostrar iniciales, nombre y correo en el pie, con carga y degradación ante error.
-- Ofrecer «Configuración de cuenta» como no disponible y «Cerrar sesión» como acción.
+- Ofrecer «Configuración de cuenta» y «Cerrar sesión» como acciones habilitadas, conforme a la spec 011.
 - Recordar el colapso en el navegador y conservarlo tras cerrar sesión.
 - Actualizar la documentación de la spec 008 ya registrada como cambio pendiente.
 
@@ -36,7 +36,7 @@ Principios aplicados de `docs/constitution.md`:
 
 Supuestos:
 
-- El dashboard es la única ruta privada de esta versión.
+- Las rutas privadas incluyen el dashboard y los módulos habilitados de cursos, usuarios, alumnos, perfil y cuenta; este plan no define su contenido, solo la navegación.
 - `GET /api/auth/me` mantiene el contrato de la spec 008.
 - El token conserva `role` y sigue siendo la fuente del menú.
 - El colapso es una preferencia no sensible y puede vivir en una cookie legible por el servidor.
@@ -59,9 +59,9 @@ Supuestos:
   - Inventario inmutable por rol, en el orden exacto de la spec.
   - `getRoleNavigation(role)`: devuelve la lista del rol.
   - `getNavigationItemState(item, pathname)`: `active`, `inactive` o `unavailable`.
-  - `isNavigationItemEnabled(item)`: verdadero solo para «Inicio».
+  - `isNavigationItemEnabled(item)`: verdadero para las opciones cuyos módulos existen: «Inicio», «Alumnos», «Cursos», «Gestión de usuarios» y «Mi perfil», según el rol.
   - `normalizePathname(pathname)`: elimina barra final, query y fragmento.
-  - `isHrefActive(href, pathname)`: coincidencia exacta para «Inicio» y por prefijo para módulos futuros.
+  - `isHrefActive(href, pathname)`: coincidencia exacta para «Inicio» y por prefijo para los módulos habilitados y sus subpantallas.
   - Constantes de breakpoints (1024 px y 1280 px) y de anchos (280, 72 y 320 px).
   - Cubre RF-6 a RF-21.
 
@@ -163,6 +163,7 @@ Supuestos:
 - `app/ui/sidebar/sidebar-nav.tsx`
   - Presentacional. Recibe la lista, la ruta activa, el colapso y el cierre del drawer.
   - «Inicio» se renderiza como enlace con `aria-current="page"` cuando está activo.
+  - Las opciones habilitadas por las specs 010, 011 y 012 navegan a sus rutas y conservan el estado activo.
   - Las opciones no disponibles se renderizan como enlaces deshabilitados no navegables, enfocables y descritos con «No disponible, próximamente».
   - En colapso muestra solo iconos; el nombre sigue accesible y el tooltip aparece con hover y foco.
   - Aplica fondo, indicador lateral y negrita al activo.
@@ -179,7 +180,7 @@ Supuestos:
   - Menú anclado al avatar con «Configuración de cuenta» y «Cerrar sesión».
   - Abre con clic, Enter o Espacio; cierra con Escape, clic fuera o al elegir una acción.
   - Devuelve el foco al avatar al cerrar.
-  - La configuración se muestra no disponible; el cierre usa el formulario existente.
+  - La configuración y el cierre son acciones habilitadas, conforme a la spec 011.
   - Cubre RF-48 a RF-51 y RNF-1.
 
 - `app/ui/sidebar/sidebar-drawer.tsx`
@@ -249,7 +250,9 @@ Supuestos:
 ### 2.6 Pruebas nuevas
 
 - `tests/sidebar/navigation.test.ts`
-  - Listas por rol, orden, opciones habilitadas y estados de ruta.
+  - Listas por rol, orden y etiquetas («Mis hijos» para el `TUTOR` y «Alumnos» para los roles administrativos).
+  - Opciones habilitadas por rol: «Inicio», «Alumnos», «Cursos», «Gestión de usuarios» y «Mi perfil»; «Inscripciones» y «Reportes» no disponibles.
+  - Estados de ruta: «Inicio» exacto y módulos por prefijo, incluido `/dashboard/students` y sus subpantallas.
 - `tests/sidebar/account.test.ts`
   - Iniciales, nombre completo, nombre accesible y degradación.
 - `tests/sidebar/collapse-preference.test.ts`
@@ -263,7 +266,7 @@ Supuestos:
 
 - Logotipo: se reutiliza `public/logo.png`, el mismo de la barra superior. No se agrega ni reemplaza.
 - Iconos existentes reutilizados:
-  - `public/icons/ico-read-book.svg` para «Alumnos» y «Mis alumnos».
+  - `public/icons/ico-read-book.svg` para «Alumnos» y «Mis hijos».
   - `public/icons/ico-course.svg` para «Cursos».
   - `public/icons/ico-register.svg` para «Inscripciones».
   - `public/icons/ico-bell.svg` para notificaciones, si no se conserva el SVG inline actual.
@@ -271,7 +274,7 @@ Supuestos:
   - `public/icons/ico-logout.svg` para el cierre de sesión.
 - Iconos nuevos a agregar en `public/icons`, con trazo de 24 por 24 y estilo institucional:
   - `ico-home.svg`: casa simple, para «Inicio».
-  - `ico-users.svg`: dos personas, para «Usuarios».
+  - `ico-users.svg`: dos personas, para «Gestión de usuarios».
   - `ico-report.svg`: barras de reporte, para «Reportes».
   - `ico-profile.svg`: persona con contorno, para «Mi perfil».
   - `ico-settings.svg`: engranaje, para «Configuración de cuenta».
@@ -293,17 +296,17 @@ Supuestos:
   - Cubre RF-6 a RF-11.
 
 - `isNavigationItemEnabled(item: SidebarNavItem): boolean`
-  - Verdadero solo para «Inicio» en esta versión.
-  - Cubre RF-12 y RF-13.
+  - Verdadero para las opciones habilitadas por las specs 010, 011 y 012; falso para «Inscripciones» y «Reportes».
+  - Cubre RF-12, RF-55 y RF-56.
 
 - `normalizePathname(pathname: string): string`
   - Descarta query, fragmento y barra final; conserva la raíz.
   - Cubre RF-19.
 
 - `isHrefActive(href: string | null, pathname: string): boolean`
-  - Coincidencia exacta para el dashboard y por prefijo para módulos futuros.
+  - Coincidencia exacta para el dashboard y por prefijo para los módulos habilitados y sus subpantallas.
   - Sin `href`, nunca activo.
-  - Cubre RF-15 a RF-19 y RF-23.
+  - Cubre RF-15 a RF-19, RF-23, RF-55 y RF-56.
 
 - `getNavigationItemState(item, pathname)`
   - Prioriza `unavailable` si no está habilitado; luego `active` o `inactive`.
@@ -427,12 +430,12 @@ Consecuencia: el menú desaparece solo cuando la sesión deja de ser válida; en
 Comando: `node --experimental-strip-types --test`.
 
 - `tests/sidebar/navigation.test.ts`
-  - Las tres listas coinciden en contenido y orden.
-  - Solo «Inicio» está habilitado.
+  - Las tres listas coinciden en contenido y orden, con «Mis hijos» para el `TUTOR` y «Alumnos» para los roles administrativos.
+  - Opciones habilitadas por rol: «Inicio», «Alumnos», «Cursos», «Gestión de usuarios» y «Mi perfil»; «Inscripciones» y «Reportes» no disponibles.
   - No hay opciones repetidas ni de otros roles.
   - `normalizePathname` cubre barra final, query y fragmento.
-  - `isHrefActive` cubre dashboard, raíz, subpantallas futuras y rutas ajenas.
-  - `getNavigationItemState` devuelve `unavailable` antes que `active`.
+  - `isHrefActive` cubre dashboard, raíz, `/dashboard/students` y subpantallas, y rutas ajenas.
+  - `getNavigationItemState` devuelve `unavailable` antes que `active` y activo por prefijo en los módulos habilitados.
 - `tests/sidebar/account.test.ts`
   - Iniciales con dos palabras, nombre compuesto, un apellido, una sola palabra, una letra, acentos, espacios y valores vacíos.
   - Nombre completo con y sin apellido.
@@ -454,13 +457,13 @@ Herramientas: `next dev` con `LARAVEL_API_URL` apuntando a un mock en `:8000` y 
 Escenarios:
 
 - Identidad: 1024, 1279, 1280 y 1440 px; nombre abreviado, completo, logo de 24 y 32 px; drawer con nombre abreviado; colapso con solo logo.
-- Roles: sesión de tutor, administrativo y administrador; cada uno ve su lista exacta y ninguna opción ajena.
-- Opciones: «Inicio» habilitado; el resto con «Próximamente»; foco, anuncio y ausencia de navegación con clic, Enter y Espacio.
-- Estado activo: «Inicio» al entrar; barra final, query y fragmento; pantalla sin módulo sin resaltado.
-- Navegación: clic en Inicio; URL desconocida con 404 sin menú; atrás y adelante cierran el drawer.
+- Roles: sesión de tutor, administrativo y administrador; cada uno ve su lista exacta y ninguna opción ajena; el tutor ve «Mis hijos» y los roles administrativos ven «Alumnos».
+- Opciones: habilitadas «Inicio», «Alumnos», «Cursos», «Gestión de usuarios» y «Mi perfil» según el rol; «Inscripciones» y «Reportes» con «Próximamente»; foco, anuncio y ausencia de navegación en las no disponibles.
+- Estado activo: «Inicio» al entrar; la opción de alumnos activa en `/dashboard/students` y sus subpantallas; barra final, query y fragmento; pantalla sin módulo sin resaltado.
+- Navegación: clic en Inicio; clic en «Alumnos» o «Mis hijos»; URL desconocida con 404 sin menú; atrás y adelante cierran el drawer.
 - Pie: iniciales, nombre y correo; recorte con elipsis y nombre accesible; colapso con solo avatar y datos en el menú de cuenta.
 - Carga y error: mock lento para observar el esqueleto; `/me` con red, timeout, `500`, cuerpo inválido y `403`; sesión `401` redirigida y cookie eliminada.
-- Cuenta: apertura y cierre con teclado; configuración no disponible; cierre de sesión; doble activación; servicio de logout caído.
+- Cuenta: apertura y cierre con teclado; configuración de cuenta y cierre de sesión habilitados; doble activación; servicio de logout caído.
 - Colapso: control, anchos de 280 y 72 px, iconos, tooltip con hover y foco, persistencia tras recarga y tras cerrar sesión, cookie inválida y cookie ausente.
 - Drawer: apertura desde 320, 375, 768 y 1023 px; cierre con botón, Escape y fondo; el fondo no recibe el clic; foco atrapado y devuelto; scroll interno en 320 por 480; bloqueo de scroll sin salto; Inicio navega y cierra.
 - Resize: drawer a escritorio, escritorio a móvil, colapso conservado, menú de cuenta cerrado.
@@ -481,12 +484,12 @@ Escenarios:
 | Requisitos | Cobertura principal |
 |---|---|
 | RF-1 a RF-5 | `navigation` y `account` unitarios; E2E de identidad en 1024, 1279, 1280, 1440, drawer y colapso |
-| RF-6 a RF-14 | `navigation.test`; E2E de roles, orden, opciones ajenas, no disponibles, foco y activación |
+| RF-6 a RF-14, RF-55 y RF-56 | `navigation.test`; E2E de roles, orden, etiquetas, opciones ajenas, no disponibles, foco y activación |
 | RF-15 a RF-19 | `navigation.test` de ruta activa; E2E de Inicio, URL con query, barra final, fragmento y sin coincidencia |
 | RF-20 a RF-24 | E2E de Inicio, 404, atrás y adelante, cierre del drawer al navegar |
 | RF-25 a RF-40 | E2E de escritorio, barra compacta, drawer, colapso, persistencia, resize, tooltip, campana y scroll |
 | RF-41 a RF-47 | `account.test`; E2E de iniciales, nombre, correo, carga, error, recorte y colapso |
-| RF-48 a RF-51 | E2E del menú de cuenta, configuración, cierre de sesión y doble activación |
+| RF-48 a RF-51 | E2E del menú de cuenta, configuración de cuenta habilitada, cierre de sesión y doble activación |
 | RF-52 a RF-54 | E2E de sesión vencida, privacidad del token y revisión de los valores de rol |
 | RNF-1 a RNF-3 | Playwright con árbol AX, teclado, contraste y colores forzados |
 | RNF-4 a RNF-6 | Playwright en 320 a 1920 px, texto al 200 % y medición de posición |
@@ -499,7 +502,7 @@ Escenarios:
 | RNF-15 a RNF-17 | Revisión de nitidez, colores forzados y movimiento reducido |
 | RNF-18 a RNF-19 | E2E de foco atrapado y tooltip dentro del viewport |
 | RNF-20 | `icons.test` y revisión de assets |
-| RF-1 a RF-54 (sin excepción) | La matriz es exhaustiva y sus rangos son inclusivos: la validación final recorre la lista completa de la spec y confirma que cada RF tiene al menos una prueba o una verificación asociada. |
+| RF-1 a RF-56 (sin excepción) | La matriz es exhaustiva y sus rangos son inclusivos: la validación final recorre la lista completa de la spec y confirma que cada RF tiene al menos una prueba o una verificación asociada. |
 
 ## 7. Riesgos y dependencias
 
@@ -525,6 +528,7 @@ Escenarios:
 - Sin desbordamiento entre 320 y 1920 px.
 - Token no expuesto y preferencia sin datos de cuenta.
 - Spec 008 sin contradicciones documentales.
+- Spec 009 actualizada con el cambio 2026-11-11: «Mis hijos» para el `TUTOR`, «Alumnos» habilitado para los roles administrativos, inventario, RF-55 y RF-56, y pruebas de navegación cubiertos.
 - `MEMORY.md` actualizado con las tareas y la verificación.
 
 ## 9. Dudas abiertas que afectan al plan
@@ -544,3 +548,13 @@ Escenarios:
 9. Iconos y assets.
 10. E2E de roles, responsive, accesibilidad y privacidad.
 11. Verificación final, documentación y `MEMORY.md`.
+
+## 11. Cambio 2026-11-11 (spec 012)
+
+- **Origen:** la spec 012 habilita el módulo de alumnos; la 009 solo habilita su opción y su etiqueta.
+- **Orden obligatorio:** actualizar `spec.md`, `plan.md` y `tasks.md` de la 009 antes de modificar `navigation.ts`.
+- **Cambios de navegación:** el `TUTOR` pasa de «Mis alumnos» a «Mis hijos»; `ADMINISTRATIVO` y `ADMINISTRADOR` ven «Alumnos» habilitado con destino `/dashboard/students` y coincidencia por prefijo; el `TUTOR` no ve «Alumnos».
+- **Cambios documentales:** inventario, definiciones, RF-7, RF-9, RF-12, RF-23, RF-49, RF-55, RF-56, criterios y fuera de alcance; «Inscripciones» y «Reportes» siguen no disponibles.
+- **Pruebas:** actualizar `tests/sidebar/navigation.test.ts` con las etiquetas, las opciones habilitadas y el estado activo de `/dashboard/students` y sus subpantallas.
+- **Regresión:** colapso, drawer, pie de cuenta, Cursos, Gestión de usuarios, Mi perfil y Configuración de cuenta no cambian.
+- **Verificación:** suite de sidebar, E2E de navegación, `pnpm lint`, `pnpm build` y revisión de que no se agregaron dependencias.

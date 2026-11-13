@@ -155,7 +155,7 @@ export default function ChangeRoleDialog({
             className={`min-h-11 w-full rounded-lg border bg-superficie px-3 py-2 text-base text-texto-principal focus:border-borde-focus focus:outline-none focus:ring-2 focus:ring-borde-focus disabled:cursor-not-allowed disabled:bg-fondo-app disabled:text-texto-secundario ${
               fieldError
                 ? "border-estado-error-borde focus:border-estado-error-borde focus:ring-estado-error-borde"
-                : "border-borde-input"
+                : "border-borde-control"
             }`}
           >
             <option value="" disabled>

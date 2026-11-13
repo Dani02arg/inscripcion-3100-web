@@ -1,0 +1,43 @@
+- generic [active] [ref=f136e1]:
+  - main [ref=f136e2]:
+    - navigation [ref=f136e3]:
+      - generic [ref=f136e5]:
+        - link [ref=f136e6] [cursor=pointer]:
+          - /url: /home
+          - img "Logo EET 3100" [ref=f136e7]
+        - button "Abrir menú de navegación" [ref=f136e10] [cursor=pointer]:
+          - img "Icono de menú hamburguesa" [ref=f136e11]
+    - generic [ref=f136e13]:
+      - heading "Iniciar sesión" [level=1] [ref=f136e14]
+      - paragraph [ref=f136e15]: Ingresá con tu email y contraseña para acceder a la EET N° 3100.
+      - generic [ref=f136e17]:
+        - generic [ref=f136e18]:
+          - generic [ref=f136e19]: Correo electrónico*
+          - textbox "Correo electrónico" [ref=f136e21]:
+            - /placeholder: "Ej.: nombre@correo.com"
+            - text: maria@example.com
+        - generic [ref=f136e22]:
+          - generic [ref=f136e23]: Contraseña*
+          - generic [ref=f136e24]:
+            - textbox "Contraseña" [ref=f136e25]: password123
+            - button "Mostrar contraseña" [ref=f136e27] [cursor=pointer]: Mostrar
+        - generic [ref=f136e28]:
+          - button "Iniciar sesión" [ref=f136e29] [cursor=pointer]
+          - link "Registrarse" [ref=f136e30] [cursor=pointer]:
+            - /url: /register
+        - link "Recuperar contraseña" [ref=f136e32] [cursor=pointer]:
+          - /url: /password-recovery
+  - contentinfo [ref=f136e33]:
+    - generic [ref=f136e35]:
+      - generic [ref=f136e36]:
+        - paragraph [ref=f136e37]: EET 3100 REPUBLICA DE LA INDIA
+        - paragraph [ref=f136e38]: © 2026
+      - generic [ref=f136e39]:
+        - heading "DESARROLLADORES:" [level=2] [ref=f136e40]
+        - generic [ref=f136e41]:
+          - link "Daniela Acosta" [ref=f136e42] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/daniela-acosta-b06780206/
+          - link "Andres Arancibia" [ref=f136e45] [cursor=pointer]:
+            - /url: https://andres25ar.github.io/Portfolio/
+  - button "Open Next.js Dev Tools" [ref=f136e53] [cursor=pointer]
+  - alert [ref=f136e57]

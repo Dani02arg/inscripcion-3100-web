@@ -94,7 +94,7 @@ test("el estado ok alimenta el rol del menú y el pie de cuenta", () => {
 
   assert.deepEqual(
     getRoleNavigation(state.claims.role).map((item) => item.label),
-    ["Inicio", "Mis alumnos", "Inscripciones", "Mi perfil"],
+    ["Inicio", "Mis hijos", "Inscripciones", "Mi perfil"],
   );
   assert.equal(toSidebarAccount(state).status, "ready");
 });

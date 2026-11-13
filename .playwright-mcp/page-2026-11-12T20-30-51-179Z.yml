@@ -1,0 +1,5 @@
+- generic [active] [ref=f7e1]:
+  - main [ref=f7e2]:
+    - status [ref=f7e4]:
+      - generic [ref=f7e5]: Cargando el formulario de alumno.
+  - button "Open Next.js Dev Tools" [ref=f7e50] [cursor=pointer]

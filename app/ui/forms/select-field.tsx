@@ -27,7 +27,7 @@ const BASE_SELECT_CLASSES =
   "min-h-11 w-full rounded-lg border bg-superficie px-3 py-2 text-base text-texto-principal transition-colors focus:outline-none focus:ring-2 disabled:cursor-not-allowed disabled:bg-fondo-app disabled:text-texto-secundario";
 
 const NORMAL_SELECT_CLASSES =
-  "border-borde-input focus:border-borde-focus focus:ring-borde-focus";
+  "border-borde-control focus:border-borde-focus focus:ring-borde-focus";
 
 const ERROR_SELECT_CLASSES =
   "border-estado-error-borde focus:border-estado-error-borde focus:ring-estado-error-borde";

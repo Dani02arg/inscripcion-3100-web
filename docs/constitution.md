@@ -15,4 +15,4 @@
 13. **Caché y Revalidación**: Configurar adecuadamente el caché de Next.js (ISR, revalidación) para datos dinámicos.
 14. **Imágenes y Assets**: Siempre informar al desarrollador qué imágenes agregar, en qué carpeta (`public/` o `app/[ruta]/`), breve descripción visual y nombre ideal del archivo.
 15. **Tailwind v4 en Markdown**: Tailwind escanea TODOS los archivos, incluyendo `.md`. Queda estrictamente prohibido escribir clases utilitarias con sintaxis insegura y placeholders en archivos de memoria, planes, specs o logs. Si necesitas documentar una clase incompleta, usa paréntesis normales `bg-(var(--color-XXX))` o descríbela en lenguaje natural.
-15. **Consistencia Lingüística**: Todo el código, interfaces, tipos, variables y rutas deben escribirse estrictamente en **inglés**. Los comentarios de código y textos legibles de la interfaz de usuario en **español**.
+16. **Consistencia Lingüística**: Todo el código, interfaces, tipos, variables y rutas deben escribirse estrictamente en **inglés**. Los comentarios de código y textos legibles de la interfaz de usuario en **español**.

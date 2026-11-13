@@ -1,0 +1,76 @@
+- generic [ref=f5e1]:
+  - generic [ref=f5e61]:
+    - complementary "Menú lateral" [ref=f5e62]:
+      - generic [ref=f5e64]:
+        - link "Logo Institucional E.E.T. N° 3100 — República de la India E.E.T. N° 3100 — República de la India República de la India" [ref=f5e65] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Logo Institucional" [ref=f5e67]
+          - generic [ref=f5e68]: E.E.T. N° 3100 — República de la India
+          - generic [ref=f5e69]:
+            - generic [ref=f5e70]: E.E.T. N° 3100 — República de la India
+            - generic [ref=f5e71]: República de la India
+        - button "Contraer menú" [expanded] [ref=f5e73] [cursor=pointer]
+      - navigation "Menú principal" [ref=f5e77]:
+        - list [ref=f5e78]:
+          - listitem [ref=f5e79]:
+            - link "Inicio" [ref=f5e80] [cursor=pointer]:
+              - /url: /dashboard
+          - listitem [ref=f5e83]:
+            - link "Mis alumnos. No disponible, próximamente." [disabled] [ref=f5e84]:
+              - generic [ref=f5e85]:
+                - generic [ref=f5e86]: Mis alumnos
+                - generic [aria-hidden] [ref=f5e87]: Próximamente
+          - listitem [ref=f5e88]:
+            - link "Inscripciones. No disponible, próximamente." [disabled] [ref=f5e89]:
+              - generic [ref=f5e90]:
+                - generic [ref=f5e91]: Inscripciones
+                - generic [aria-hidden] [ref=f5e92]: Próximamente
+          - listitem [ref=f5e93]:
+            - link "Mi perfil" [ref=f5e94] [cursor=pointer]:
+              - /url: /dashboard/profile
+      - button "Cuenta de María Gómez" [ref=f5e99] [cursor=pointer]:
+        - generic [aria-hidden] [ref=f5e100]: MG
+        - generic [ref=f5e101]:
+          - generic [ref=f5e102]: María Gómez
+          - generic [ref=f5e103]: maria@example.com
+          - generic [ref=f5e104]: Tutor
+    - main [ref=f5e106]:
+      - generic [ref=f5e108]:
+        - generic [ref=f5e109]:
+          - heading "Configuración de cuenta" [level=1] [ref=f5e110]
+          - paragraph [ref=f5e111]: Datos asociados a tu cuenta.
+        - region "Cuenta actual" [ref=f5e112]:
+          - heading "Cuenta actual" [level=2] [ref=f5e113]
+          - generic [ref=f5e114]:
+            - generic [ref=f5e115]:
+              - term [ref=f5e116]: Nombre
+              - definition [ref=f5e117]: María
+            - generic [ref=f5e118]:
+              - term [ref=f5e119]: Apellido
+              - definition [ref=f5e120]: Gómez
+            - generic [ref=f5e121]:
+              - term [ref=f5e122]: Correo electrónico
+              - definition [ref=f5e123]: maria@example.com
+        - region "Seguridad" [ref=f5e124]:
+          - heading "Seguridad" [level=2] [ref=f5e125]
+          - link "Restablecer contraseña" [ref=f5e127] [cursor=pointer]:
+            - /url: /password-recovery?source=account
+        - region "Solicitar cambio de rol" [ref=f5e128]:
+          - heading "Solicitar cambio de rol" [level=2] [ref=f5e129]
+          - paragraph [ref=f5e130]: Podés enviar un pedido al servicio para solicitar otro rol.
+          - generic [ref=f5e131]:
+            - generic [ref=f5e132]:
+              - generic [ref=f5e133]: Rol que querés solicitar
+              - combobox "Rol que querés solicitar" [ref=f5e134]:
+                - option "Seleccioná un rol" [disabled]
+                - option "Tutor"
+                - option "Administrativo" [selected]
+                - option "Administrador"
+            - generic [ref=f5e135]:
+              - generic [ref=f5e136]: Motivo
+              - textbox "Motivo" [invalid] [ref=f5e137]
+              - paragraph [ref=f5e138]: Hasta 500 caracteres.
+              - paragraph [ref=f5e142]: Ingresá el motivo de la solicitud.
+            - button "Enviar solicitud" [active] [ref=f5e139] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=f5e57] [cursor=pointer]
+  - alert [ref=f5e140]

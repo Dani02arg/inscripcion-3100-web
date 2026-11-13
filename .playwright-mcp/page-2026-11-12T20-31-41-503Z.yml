@@ -1,0 +1,113 @@
+- generic [active] [ref=f7e1]:
+  - generic [ref=f7e54]:
+    - complementary "Menú lateral" [ref=f7e55]:
+      - generic [ref=f7e57]:
+        - link "Logo Institucional E.E.T. N° 3100 — República de la India E.E.T. N° 3100 — República de la India República de la India" [ref=f7e58] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Logo Institucional" [ref=f7e60]
+          - generic [ref=f7e61]: E.E.T. N° 3100 — República de la India
+          - generic [ref=f7e62]:
+            - generic [ref=f7e63]: E.E.T. N° 3100 — República de la India
+            - generic [ref=f7e64]: República de la India
+        - button "Contraer menú" [expanded] [ref=f7e66] [cursor=pointer]
+      - navigation "Menú principal" [ref=f7e70]:
+        - list [ref=f7e71]:
+          - listitem [ref=f7e72]:
+            - link "Inicio" [ref=f7e73] [cursor=pointer]:
+              - /url: /dashboard
+          - listitem [ref=f7e76]:
+            - link "Alumnos" [ref=f7e77] [cursor=pointer]:
+              - /url: /dashboard/students
+          - listitem [ref=f7e81]:
+            - link "Cursos" [ref=f7e82] [cursor=pointer]:
+              - /url: /dashboard/courses
+          - listitem [ref=f7e85]:
+            - link "Inscripciones. No disponible, próximamente." [disabled] [ref=f7e86]:
+              - generic [ref=f7e87]:
+                - generic [ref=f7e88]: Inscripciones
+                - generic [aria-hidden] [ref=f7e89]: Próximamente
+          - listitem [ref=f7e90]:
+            - button "Gestión de usuarios" [expanded] [ref=f7e91] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f7e93]: ▾
+            - list [ref=f7e94]:
+              - listitem [ref=f7e95]:
+                - link "Padrón de usuarios" [ref=f7e96] [cursor=pointer]:
+                  - /url: /dashboard/users
+              - listitem [ref=f7e99]:
+                - link "Directorio de staff" [ref=f7e100] [cursor=pointer]:
+                  - /url: /dashboard/users/staff
+          - listitem [ref=f7e103]:
+            - link "Mi perfil" [ref=f7e104] [cursor=pointer]:
+              - /url: /dashboard/profile
+      - button "Cuenta de Marta Administrativa" [ref=f7e109] [cursor=pointer]:
+        - generic [aria-hidden] [ref=f7e110]: MA
+        - generic [ref=f7e111]:
+          - generic [ref=f7e112]: Marta Administrativa
+          - generic [ref=f7e113]: marta@example.com
+          - generic [ref=f7e114]: Administrativo
+    - main [ref=f7e116]:
+      - generic [ref=f7e118]:
+        - generic [ref=f7e119]:
+          - navigation "Ruta de navegación" [ref=f7e120]:
+            - list [ref=f7e121]:
+              - listitem [ref=f7e122]:
+                - link "Inicio" [ref=f7e123] [cursor=pointer]:
+                  - /url: /dashboard
+              - listitem [ref=f7e124]:
+                - generic [aria-hidden] [ref=f7e125]: ">"
+                - generic [ref=f7e126]: Alumnos
+          - generic [ref=f7e128]:
+            - heading "Alumnos" [level=1] [ref=f7e129]
+            - paragraph [ref=f7e130]: Consultá el padrón de alumnos de la institución.
+        - region "Filtros de alumnos" [ref=f7e331]:
+          - generic [ref=f7e332]:
+            - generic [ref=f7e333]:
+              - generic [ref=f7e334]:
+                - generic [ref=f7e335]: DNI
+                - textbox "DNI" [ref=f7e337]:
+                  - /placeholder: Solo dígitos (ej. 30111222)
+                  - text: "51234567"
+              - generic [ref=f7e338]:
+                - generic [ref=f7e339]: CUIL
+                - textbox "CUIL" [ref=f7e341]:
+                  - /placeholder: Solo dígitos (ej. 20301112223)
+              - generic [ref=f7e342]:
+                - generic [ref=f7e343]: Nombre
+                - textbox "Nombre" [ref=f7e345]:
+                  - /placeholder: Buscar por nombre
+                  - text: Ana
+              - generic [ref=f7e346]:
+                - generic [ref=f7e347]: Apellido
+                - textbox "Apellido" [ref=f7e349]:
+                  - /placeholder: Buscar por apellido
+                  - text: Gomez
+            - generic [ref=f7e350]:
+              - button "Limpiar filtros" [ref=f7e351] [cursor=pointer]
+              - button "Aplicar filtros" [ref=f7e352] [cursor=pointer]
+        - table "Padrón de alumnos" [ref=f7e154]:
+          - caption [ref=f7e155]: Padrón de alumnos
+          - rowgroup [ref=f7e156]:
+            - row [ref=f7e157]:
+              - columnheader "Apellido, Nombre" [ref=f7e158]
+              - columnheader "DNI" [ref=f7e159]
+              - columnheader "CUIL" [ref=f7e160]
+              - columnheader "Fecha de nacimiento" [ref=f7e161]
+              - columnheader "Género" [ref=f7e162]
+              - columnheader "Acciones" [ref=f7e163]
+          - rowgroup [ref=f7e164]:
+            - row [ref=f7e321]:
+              - rowheader "Gomez, Ana" [ref=f7e322]
+              - cell "51234567" [ref=f7e323]
+              - cell "20512345678" [ref=f7e324]
+              - cell "15/01/2010" [ref=f7e325]
+              - cell "Femenino" [ref=f7e326]
+              - cell [ref=f7e327]:
+                - button "Acciones de Gomez, Ana" [ref=f7e329] [cursor=pointer]:
+                  - generic [aria-hidden] [ref=f7e330]: ⋯
+        - navigation "Paginación del padrón de alumnos" [ref=f7e315]:
+          - paragraph [ref=f7e316]: Página 1 de 1 · 1 resultado
+          - generic [ref=f7e317]:
+            - button "Anterior" [disabled] [ref=f7e318]
+            - button "Siguiente" [disabled] [ref=f7e319]
+  - button "Open Next.js Dev Tools" [ref=f7e50] [cursor=pointer]
+  - alert [ref=f7e320]

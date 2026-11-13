@@ -1,0 +1,96 @@
+- generic [active] [ref=f1e1]:
+  - button "Open Next.js Dev Tools" [ref=f1e50] [cursor=pointer]
+  - alert [ref=f1e54]
+  - generic [ref=f1e548]:
+    - complementary "Menú lateral" [ref=f1e549]:
+      - generic [ref=f1e551]:
+        - link "Logo Institucional E.E.T. N° 3100 — República de la India E.E.T. N° 3100 — República de la India República de la India" [ref=f1e552] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Logo Institucional" [ref=f1e554]
+          - generic [ref=f1e555]: E.E.T. N° 3100 — República de la India
+          - generic [ref=f1e556]:
+            - generic [ref=f1e557]: E.E.T. N° 3100 — República de la India
+            - generic [ref=f1e558]: República de la India
+        - button "Contraer menú" [expanded] [ref=f1e560] [cursor=pointer]
+      - navigation "Menú principal" [ref=f1e564]:
+        - list [ref=f1e565]:
+          - listitem [ref=f1e566]:
+            - link "Inicio" [ref=f1e567] [cursor=pointer]:
+              - /url: /dashboard
+          - listitem [ref=f1e570]:
+            - link "Mis hijos" [ref=f1e571] [cursor=pointer]:
+              - /url: /dashboard/students
+          - listitem [ref=f1e575]:
+            - link "Inscripciones. No disponible, próximamente." [disabled] [ref=f1e576]:
+              - generic [ref=f1e577]:
+                - generic [ref=f1e578]: Inscripciones
+                - generic [aria-hidden] [ref=f1e579]: Próximamente
+          - listitem [ref=f1e580]:
+            - link "Mi perfil" [ref=f1e581] [cursor=pointer]:
+              - /url: /dashboard/profile
+      - button "Cuenta de Andres Perez" [ref=f1e586] [cursor=pointer]:
+        - generic [aria-hidden] [ref=f1e587]: AP
+        - generic [ref=f1e588]:
+          - generic [ref=f1e589]: Andres Perez
+          - generic [ref=f1e590]: andres@example.com
+          - generic [ref=f1e591]: Tutor
+    - main [ref=f1e593]:
+      - generic [ref=f1e595]:
+        - navigation "Ruta de navegación" [ref=f1e596]:
+          - list [ref=f1e597]:
+            - listitem [ref=f1e598]:
+              - link "Inicio" [ref=f1e599] [cursor=pointer]:
+                - /url: /dashboard
+            - listitem [ref=f1e600]:
+              - generic [aria-hidden] [ref=f1e601]: ">"
+              - link "Mis hijos" [ref=f1e602] [cursor=pointer]:
+                - /url: /dashboard/students
+            - listitem [ref=f1e603]:
+              - generic [aria-hidden] [ref=f1e604]: ">"
+              - generic [ref=f1e605]: Detalles
+        - generic [ref=f1e606]:
+          - generic [ref=f1e607]:
+            - heading "Detalle del alumno" [level=1] [ref=f1e608]
+            - paragraph [ref=f1e609]: Lucas Pérez
+          - generic [ref=f1e610]:
+            - link "Volver a mis hijos" [ref=f1e611] [cursor=pointer]:
+              - /url: /dashboard/students
+            - link "Editar" [ref=f1e612] [cursor=pointer]:
+              - /url: /dashboard/students/student-1/edit
+        - generic [ref=f1e613]:
+          - region "Datos personales" [ref=f1e614]:
+            - heading "Datos personales" [level=2] [ref=f1e615]
+            - generic [ref=f1e616]:
+              - generic [ref=f1e617]:
+                - term [ref=f1e618]: Nombre y apellido
+                - definition [ref=f1e619]: Lucas Pérez
+              - generic [ref=f1e620]:
+                - term [ref=f1e621]: DNI
+                - definition [ref=f1e622]: "50123456"
+              - generic [ref=f1e623]:
+                - term [ref=f1e624]: CUIL
+                - definition [ref=f1e625]: "20501234567"
+              - generic [ref=f1e626]:
+                - term [ref=f1e627]: Fecha de nacimiento
+                - definition [ref=f1e628]: 20/08/2010
+              - generic [ref=f1e629]:
+                - term [ref=f1e630]: Género
+                - definition [ref=f1e631]: Masculino
+          - region "Datos de contacto" [ref=f1e632]:
+            - heading "Datos de contacto" [level=2] [ref=f1e633]
+            - generic [ref=f1e634]:
+              - generic [ref=f1e635]:
+                - term [ref=f1e636]: Correo electrónico
+                - definition [ref=f1e637]: lucas@example.com
+              - generic [ref=f1e638]:
+                - term [ref=f1e639]: Teléfono
+                - definition [ref=f1e640]: "3874112233"
+          - region "Datos adicionales" [ref=f1e641]:
+            - heading "Datos adicionales" [level=2] [ref=f1e642]
+            - generic [ref=f1e643]:
+              - generic [ref=f1e644]:
+                - term [ref=f1e645]: Lugar de nacimiento
+                - definition [ref=f1e646]: Salta Capital
+              - generic [ref=f1e647]:
+                - term [ref=f1e648]: Domicilio
+                - definition [ref=f1e649]: Av. San Martin 123

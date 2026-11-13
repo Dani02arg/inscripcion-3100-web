@@ -7,6 +7,8 @@ const eslintConfig = defineConfig([
   ...nextTs,
   {
     rules: {
+      // El módulo de alumnos no admite `any` explícito.
+      "@typescript-eslint/no-explicit-any": "error",
       // Los parámetros que el contrato de las Server Actions exige pero la
       // implementación no necesita se marcan con guion bajo.
       "@typescript-eslint/no-unused-vars": [

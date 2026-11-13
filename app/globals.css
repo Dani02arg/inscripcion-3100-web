@@ -29,16 +29,18 @@
 
   /* Textos */
   --color-texto-principal: #102a5c;
-  --color-texto-secundario: #647797;
+  --color-texto-secundario: #5f718f;
   --color-placeholder: #91a0b8;
 
   /* Bordes */
   --color-borde: #e1eaf7;
   --color-borde-input: #cbd8eb;
+  /* Borde de controles: >=3:1 sobre blanco y fondo (WCAG 1.4.11 / RNF-3). */
+  --color-borde-control: #74829a;
   --color-borde-focus: #0866f5;
 
   /* Estados */
-  --color-estado-error-borde: #fecaca;
+  --color-estado-error-borde: #dc2626;
   --color-estado-error-texto: #dc2626;
 
   --color-estado-pendiente: #c66b03;
@@ -83,12 +85,25 @@
 
   --color-fondo-app: var(--color-fondo-app);
   --color-superficie: var(--color-superficie);
+  --color-superficie-hover: var(--color-superficie-hover);
 
   --color-texto-principal: var(--color-texto-principal);
   --color-texto-secundario: var(--color-texto-secundario);
 
   --color-borde-input: var(--color-borde-input);
+  --color-borde-control: var(--color-borde-control);
   --color-borde-focus: var(--color-borde-focus);
+
+  --color-estado-error-borde: var(--color-estado-error-borde);
+  --color-estado-error-texto: var(--color-estado-error-texto);
+  --color-estado-pendiente: var(--color-estado-pendiente);
+  --color-estado-pendiente-fondo: var(--color-estado-pendiente-fondo);
+  --color-estado-aprobado: var(--color-estado-aprobado);
+  --color-estado-aprobado-fondo: var(--color-estado-aprobado-fondo);
+  --color-estado-rechazado: var(--color-estado-rechazado);
+  --color-estado-rechazado-fondo: var(--color-estado-rechazado-fondo);
+  --color-estado-observacion: var(--color-estado-observacion);
+  --color-estado-observacion-fondo: var(--color-estado-observacion-fondo);
 
   --font-sans: Arial, Helvetica, sans-serif;
   --font-mono: var(--font-geist-mono);
@@ -282,7 +297,7 @@ textarea::placeholder {
 input:not([type="checkbox"]):not([type="radio"]),
 select,
 textarea {
-  border-color: var(--color-borde-input);
+  border-color: var(--color-borde-control);
   border-radius: var(--radio-pequeno);
 }
 
@@ -448,3 +463,4 @@ tbody tr:hover {
     animation-iteration-count: 1 !important;
   }
 }
+

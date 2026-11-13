@@ -36,6 +36,7 @@ interface NavLinkRowProps {
   enabled: boolean;
   match: SidebarMatchMode;
   pathname: string;
+  activeOverride?: boolean;
   collapsed: boolean;
   indent: boolean;
   tooltipKey: string;
@@ -52,6 +53,7 @@ function NavLinkRow({
   enabled,
   match,
   pathname,
+  activeOverride,
   collapsed,
   indent,
   tooltipKey,
@@ -59,7 +61,11 @@ function NavLinkRow({
   setOpenTooltip,
   onNavigate,
 }: NavLinkRowProps) {
-  const active = enabled && isHrefActive(href, pathname, match);
+  const active =
+    enabled &&
+    (activeOverride !== undefined
+      ? activeOverride
+      : isHrefActive(href, pathname, match));
   const unavailable = !enabled || href === null;
   const tooltipOpen = collapsed && openTooltip === tooltipKey;
   const labelClasses = collapsed
@@ -217,6 +223,7 @@ function SectionRow({
       enabled={child.enabled}
       match={child.match}
       pathname={pathname}
+      activeOverride={activeChild?.href === child.href}
       collapsed={options.collapsed}
       indent={options.indent}
       tooltipKey={`${section.label}-${child.label}-${child.icon}`}

@@ -1,0 +1,111 @@
+- generic [active] [ref=f1e1]:
+  - button "Open Next.js Dev Tools" [ref=f1e50] [cursor=pointer]
+  - alert [ref=f1e54]
+  - generic [ref=f1e650]:
+    - complementary "Menú lateral" [ref=f1e651]:
+      - generic [ref=f1e653]:
+        - link "Logo Institucional E.E.T. N° 3100 — República de la India E.E.T. N° 3100 — República de la India República de la India" [ref=f1e654] [cursor=pointer]:
+          - /url: /dashboard
+          - img "Logo Institucional" [ref=f1e656]
+          - generic [ref=f1e657]: E.E.T. N° 3100 — República de la India
+          - generic [ref=f1e658]:
+            - generic [ref=f1e659]: E.E.T. N° 3100 — República de la India
+            - generic [ref=f1e660]: República de la India
+        - button "Contraer menú" [expanded] [ref=f1e662] [cursor=pointer]
+      - navigation "Menú principal" [ref=f1e666]:
+        - list [ref=f1e667]:
+          - listitem [ref=f1e668]:
+            - link "Inicio" [ref=f1e669] [cursor=pointer]:
+              - /url: /dashboard
+          - listitem [ref=f1e672]:
+            - link "Mis hijos" [ref=f1e673] [cursor=pointer]:
+              - /url: /dashboard/students
+          - listitem [ref=f1e677]:
+            - link "Inscripciones. No disponible, próximamente." [disabled] [ref=f1e678]:
+              - generic [ref=f1e679]:
+                - generic [ref=f1e680]: Inscripciones
+                - generic [aria-hidden] [ref=f1e681]: Próximamente
+          - listitem [ref=f1e682]:
+            - link "Mi perfil" [ref=f1e683] [cursor=pointer]:
+              - /url: /dashboard/profile
+      - button "Cuenta de Andres Perez" [ref=f1e688] [cursor=pointer]:
+        - generic [aria-hidden] [ref=f1e689]: AP
+        - generic [ref=f1e690]:
+          - generic [ref=f1e691]: Andres Perez
+          - generic [ref=f1e692]: andres@example.com
+          - generic [ref=f1e693]: Tutor
+    - main [ref=f1e695]:
+      - generic [ref=f1e697]:
+        - navigation "Ruta de navegación" [ref=f1e698]:
+          - list [ref=f1e699]:
+            - listitem [ref=f1e700]:
+              - link "Inicio" [ref=f1e701] [cursor=pointer]:
+                - /url: /dashboard
+            - listitem [ref=f1e702]:
+              - generic [aria-hidden] [ref=f1e703]: ">"
+              - link "Mis hijos" [ref=f1e704] [cursor=pointer]:
+                - /url: /dashboard/students
+            - listitem [ref=f1e705]:
+              - generic [aria-hidden] [ref=f1e706]: ">"
+              - generic [ref=f1e707]: Editar alumno
+        - generic [ref=f1e708]:
+          - heading "Editar alumno" [level=1] [ref=f1e709]
+          - paragraph [ref=f1e710]: Actualizá los datos del alumno. El DNI y el CUIL no se pueden modificar.
+        - generic [ref=f1e712]:
+          - generic [ref=f1e713]:
+            - generic [ref=f1e714]:
+              - generic [ref=f1e715]: DNI
+              - textbox "DNI" [ref=f1e717]:
+                - /placeholder: "Ej.: 12345678"
+                - text: "50123456"
+              - paragraph [ref=f1e718]: No se puede modificar.
+            - generic [ref=f1e719]:
+              - generic [ref=f1e720]: CUIL
+              - textbox "CUIL" [ref=f1e722]:
+                - /placeholder: "Ej.: 20123456789"
+                - text: "20501234567"
+              - paragraph [ref=f1e723]: No se puede modificar.
+            - generic [ref=f1e724]:
+              - generic [ref=f1e725]: Nombre*
+              - textbox "Nombre" [ref=f1e727]: Lucas
+            - generic [ref=f1e728]:
+              - generic [ref=f1e729]: Apellido*
+              - textbox "Apellido" [ref=f1e731]: Pérez
+            - generic [ref=f1e734]:
+              - generic [ref=f1e735]: Fecha de nacimiento*
+              - generic [ref=f1e736]:
+                - textbox "Fecha de nacimiento" [ref=f1e737]:
+                  - /placeholder: DD/MM/YYYY
+                  - text: 20/08/2010
+                - button "Abrir calendario" [ref=f1e739] [cursor=pointer]
+              - paragraph [ref=f1e742]: Escribí la fecha como DD/MM/YYYY o elegila en el calendario.
+            - generic [ref=f1e743]:
+              - generic [ref=f1e744]: Género*
+              - combobox "Género" [ref=f1e745]:
+                - option "Seleccioná un género" [disabled]
+                - option "Masculino" [selected]
+                - option "Femenino"
+                - option "Otro"
+            - generic [ref=f1e746]:
+              - generic [ref=f1e747]: Correo electrónico (opcional)
+              - textbox "Correo electrónico (opcional)" [ref=f1e749]:
+                - /placeholder: "Ej.: nombre@correo.com"
+                - text: lucas@example.com
+              - paragraph [ref=f1e750]: Hasta 255 caracteres.
+            - generic [ref=f1e751]:
+              - generic [ref=f1e752]: Teléfono (opcional)
+              - textbox "Teléfono (opcional)" [ref=f1e754]:
+                - /placeholder: "Ej.: 3874112233"
+                - text: "3874112233"
+              - paragraph [ref=f1e755]: Solo dígitos.
+            - generic [ref=f1e756]:
+              - generic [ref=f1e757]: Lugar de nacimiento (opcional)
+              - textbox "Lugar de nacimiento (opcional)" [ref=f1e759]: Salta Capital
+              - paragraph [ref=f1e760]: Hasta 150 caracteres.
+            - generic [ref=f1e762]:
+              - generic [ref=f1e763]: Domicilio (opcional)
+              - textbox "Domicilio (opcional)" [ref=f1e765]: Av. San Martin 123
+          - generic [ref=f1e766]:
+            - link "Cancelar" [ref=f1e767] [cursor=pointer]:
+              - /url: /dashboard/students/student-1
+            - button "Guardar cambios" [ref=f1e768] [cursor=pointer]

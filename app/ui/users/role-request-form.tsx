@@ -169,7 +169,7 @@ export default function RoleRequestForm({
           className={`${FIELD_CLASSES} ${
             requestedRoleError
               ? "border-estado-error-borde focus:border-estado-error-borde focus:ring-estado-error-borde"
-              : "border-borde-input"
+              : "border-borde-control"
           }`}
         >
           <option value="" disabled>
@@ -215,7 +215,7 @@ export default function RoleRequestForm({
           className={`${FIELD_CLASSES} resize-y ${
             reasonError
               ? "border-estado-error-borde focus:border-estado-error-borde focus:ring-estado-error-borde"
-              : "border-borde-input"
+              : "border-borde-control"
           }`}
         />
         <p
