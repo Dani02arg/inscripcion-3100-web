@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 
 import { getEffectiveRole } from "../lib/auth/effective-role.ts";
+import { getSessionToken } from "../lib/auth/session-cookie.ts";
+import { DASHBOARD_TITLE } from "../lib/auth/types.ts";
+import { getPrivateAccount } from "../lib/dashboard/private-account.ts";
+import { showsPendingRegistrationsCard } from "../lib/dashboard/role-dashboard.ts";
+import { getPendingRegistrationsTotalData } from "../lib/registrations/data.ts";
 import { toSidebarAccount } from "../lib/sidebar/account.ts";
 import { getCollapsedPreference } from "../lib/sidebar/collapse-cookie.ts";
-import { getPrivateAccount } from "../lib/dashboard/private-account.ts";
-import { DASHBOARD_TITLE } from "../lib/auth/types.ts";
 import DashboardView from "../ui/dashboard/dashboard-view";
 import PrivateShell from "../ui/sidebar/private-shell";
 
@@ -20,6 +23,16 @@ export default async function DashboardPage() {
   const sidebarAccount = toSidebarAccount(account);
   const role = getEffectiveRole(account) ?? account.claims.role;
 
+  let pendingTotal: number | null = null;
+
+  if (account.status === "ok" && showsPendingRegistrationsCard(role)) {
+    const token = await getSessionToken();
+
+    if (token) {
+      pendingTotal = await getPendingRegistrationsTotalData(token);
+    }
+  }
+
   return (
     <PrivateShell
       role={role}
@@ -33,7 +46,7 @@ export default async function DashboardPage() {
           </h1>
 
           <div className="mt-6">
-            <DashboardView account={account} />
+            <DashboardView account={account} pendingTotal={pendingTotal} />
           </div>
         </section>
       </main>

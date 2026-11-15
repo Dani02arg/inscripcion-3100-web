@@ -6,18 +6,24 @@ import {
 } from "../../lib/auth/types.ts";
 import type { PrivateAccountState } from "../../lib/dashboard/private-account-state.ts";
 import {
+  showsPendingRegistrationsCard,
   showsTutorEmptyState,
   tutorGreeting,
 } from "../../lib/dashboard/role-dashboard.ts";
 import EmptyStudentsState from "./empty-students";
+import PendingRegistrationsCard from "./pending-registrations-card";
 import RetryButton from "./retry-button";
 
 interface DashboardViewProps {
   account: PrivateAccountState;
+  pendingTotal: number | null;
 }
 
 /** Contenido del dashboard según el estado de la cuenta. */
-export default function DashboardView({ account }: DashboardViewProps) {
+export default function DashboardView({
+  account,
+  pendingTotal,
+}: DashboardViewProps) {
   if (account.status === "forbidden") {
     return (
       <p role="alert" className="text-base text-texto-principal">
@@ -55,16 +61,23 @@ export default function DashboardView({ account }: DashboardViewProps) {
       {isTutor ? (
         <EmptyStudentsState />
       ) : (
-        <dl className="space-y-2 text-base text-texto-principal">
-          <div>
-            <dt className="font-semibold">Correo electrónico</dt>
-            <dd className="break-all">{user.email}</dd>
-          </div>
-          <div>
-            <dt className="font-semibold">Rol</dt>
-            <dd>{ROLE_LABELS[user.role]}</dd>
-          </div>
-        </dl>
+        <div className="space-y-4">
+          {showsPendingRegistrationsCard(user.role) &&
+          pendingTotal !== null ? (
+            <PendingRegistrationsCard total={pendingTotal} />
+          ) : null}
+
+          <dl className="space-y-2 text-base text-texto-principal">
+            <div>
+              <dt className="font-semibold">Correo electrónico</dt>
+              <dd className="break-all">{user.email}</dd>
+            </div>
+            <div>
+              <dt className="font-semibold">Rol</dt>
+              <dd>{ROLE_LABELS[user.role]}</dd>
+            </div>
+          </dl>
+        </div>
       )}
     </div>
   );

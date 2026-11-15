@@ -1,0 +1,554 @@
+# Guía del circuito de reportes
+
+Base URL: `http://localhost:8000/api`
+Todas las rutas requieren `Authorization: Bearer <token>`.
+
+Esta guía describe los tres informes descargables de la spec 007: el formulario de una inscripción, el listado de alumnos aceptados y el padrón de personal de rol alto. El objetivo es que un desarrollador pueda seguir el recorrido completo de una petición y sepa dónde cambiar cada cosa.
+
+Los tres archivos se generan **en memoria** en el momento de la descarga. El archivo generado no se guarda en la base de datos, no se escribe en disco y no queda disponible después de responder.
+
+> No forman parte de este circuito otros reportes JSON, como `GET /api/courses/{course}/report`. La spec 007 solo cubre las tres descargas descritas acá.
+
+---
+
+## 1. Endpoints
+
+| Método | Endpoint | Acceso | Archivo generado |
+|--------|----------|--------|------------------|
+| GET | `/api/registrations/{id}/form` | TUTOR dueño, ADMINISTRATIVO, ADMINISTRADOR | PDF `inscripcion-{uuid}.pdf` |
+| GET | `/api/reports/enrolled-students` | ADMINISTRATIVO, ADMINISTRADOR | XLSX `listado-alumnos.xlsx` o `listado-alumnos-{filtros}.xlsx` |
+| GET | `/api/reports/staff` | ADMINISTRADOR | PDF `listado-staff.pdf` |
+
+`{id}` es el UUID de la inscripción.
+
+Respuestas exitosas:
+
+| Endpoint | `Content-Type` | `Content-Disposition` |
+|----------|----------------|------------------------|
+| Formulario | `application/pdf` | `attachment; filename="inscripcion-{uuid}.pdf"` |
+| Listado | `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` | `attachment; filename="{nombre}.xlsx"` |
+| Padrón | `application/pdf` | `attachment; filename="listado-staff.pdf"` |
+
+Todos los éxitos responden `200 OK` con el archivo como cuerpo. Los rechazos responden JSON, sin archivo adjunto.
+
+---
+
+## 2. Mapa del circuito
+
+```
+Petición HTTP
+  → routes/api.php
+  → AuthenticateJWT          (auth.jwt: token, usuario existente y no eliminado)
+  → CheckRole                (role:...: rol permitido, cuando corresponde)
+  → ReportController
+  → EnrolledStudentsReportRequest   (solo listado: normaliza y valida filtros)
+  → ReportService
+      ├─ carga y autoriza datos de la inscripción / listado / personal
+      ├─ ReportFormatter          (funciones puras: fechas, edad, rótulos, orden)
+      ├─ ReportPdfRenderer        (Dompdf + Blade + FPDI + GD)
+      └─ ReportSpreadsheetRenderer (PhpSpreadsheet)
+  → Response 200 con bytes y headers de descarga
+```
+
+### Archivos involucrados
+
+| Archivo | Responsabilidad |
+|---------|-----------------|
+| `routes/api.php` | Define las tres rutas y los middlewares de acceso. |
+| `app/Http/Middleware/AuthenticateJWT.php` | Valida el JWT y carga un usuario activo; rechaza con `401` token ausente, inválido, vencido o usuario eliminado. |
+| `app/Http/Middleware/CheckRole.php` | Rechaza con `403` un rol no permitido. |
+| `app/Http/Controllers/ReportController.php` | Calcula la fecha local y delega en el servicio; arma la respuesta con bytes y `Content-Disposition`. |
+| `app/Http/Requests/EnrolledStudentsReportRequest.php` | Normaliza y valida los filtros del listado. |
+| `app/Services/ReportService.php` | Orquesta autorización fina, consultas, armado de datos, certificados y renderizado. |
+| `app/Services/ReportFormatter.php` | Funciones puras: fechas, edad, rótulos, casillas, secretaría, orden, nombre de archivo y colocación de imágenes. |
+| `app/Services/ReportPdfRenderer.php` | Genera el formulario y el padrón en PDF; reduce la fuente del formulario y anexa certificados. |
+| `app/Services/ReportSpreadsheetRenderer.php` | Genera el XLSX del listado en memoria. |
+| `resources/views/reports/enrollment-form.blade.php` | Plantilla HTML del formulario oficial. |
+| `resources/views/reports/staff-list.blade.php` | Plantilla HTML del padrón de personal. |
+| `config/reports.php` | Zona horaria de los documentos y rutas de los escudos. |
+| `tests/Unit/ReportFormatterTest.php` | Pruebas de las funciones puras. |
+| `tests/Feature/EnrollmentFormReportTest.php` | Pruebas de descarga, contenido, certificados y efectos del formulario. |
+| `tests/Feature/EnrolledStudentsReportTest.php` | Pruebas de filtros, columnas, orden y nombre del listado. |
+| `tests/Feature/StaffReportTest.php` | Pruebas de acceso, columnas, orden y paginación del padrón. |
+
+Documentos de referencia: `specs/007-reports/spec.md` (requisitos), `specs/007-reports/plan.md` (decisiones) y `specs/007-reports/tasks.md` (implementación).
+
+---
+
+## 3. Circuito del formulario de inscripción
+
+### 3.1 Ruta y autenticación
+
+```http
+GET /api/registrations/{id}/form
+```
+
+La ruta solo exige `auth.jwt`; la autorización fina por rol y propiedad se resuelve en `ReportService::enrollmentForm()`.
+
+### 3.2 Carga y rechazos
+
+1. Se busca la inscripción por UUID. El modelo `Registration` usa `SoftDeletes`, así que una inscripción eliminada lógicamente no se encuentra.
+2. Se cargan las relaciones:
+   - `course` y `proposedCourse`;
+   - `student` con `withTrashed()`;
+   - `tutor` con `withTrashed()`.
+3. Si la inscripción no existe, responde `404` con `Inscripción no encontrada.`.
+4. Si el actor es `TUTOR`:
+   - si `tutor_id` no es suyo, responde el **mismo** `404` y el mismo cuerpo;
+   - si el estado no es `APPROVED`, responde `403` con `La inscripción no está aceptada.`.
+5. Si el registro físico del alumno no existe, responde `422` con `El registro del alumno no existe.`.
+6. Se calcula el **curso mostrado**:
+   - si el estado es `PROPOSED_REASSIGNMENT` y el curso propuesto existe y no tiene baja lógica, se usa el propuesto;
+   - en cualquier otro caso, se usa el curso vinculado;
+   - si no queda ningún curso disponible, responde `422` con `El curso de la inscripción no está disponible.`.
+
+`ADMINISTRATIVO` y `ADMINISTRADOR` pueden descargar cualquier inscripción no eliminada, en cualquier estado. El tutor solo una propia y aceptada.
+
+### 3.3 Armado del modelo
+
+`ReportService::enrollmentFormModel()` prepara los datos de la vista sin modificar la base ni el disco:
+
+| Bloque | Contenido |
+|--------|-----------|
+| Encabezado | Escudos, textos institucionales, Legajo/Libro/Folio en blanco y año del curso mostrado. |
+| Curso | Año de estudio, división, ciclo, turno y especialidad con rótulos visibles. |
+| Alumno | Apellido, nombres, DNI, CUIL, edad, teléfono, correo, lugar y fecha de nacimiento, domicilio y establecimiento de procedencia. |
+| Condiciones | Problema de salud, inclusión, judicializado, impedimento de contacto y autorización de fotos. |
+| Tutor | Nombre y apellido, ocupación, parentesco, DNI, CUIL, teléfono, correo y estudios terminados. |
+| Firmas | “Firma del Padre o Tutor” y “Firma del Alumno/a”, con línea y sin nombres impresos. |
+| Secretaría | Ciclo, curso, división, turno, especialidad, documentación faltante, asignaturas adeudadas y marcas Completa/Incompleta. |
+
+Reglas del modelo:
+
+- **Fecha y edad:** se usa la fecha local de la institución (`America/Argentina/Salta`). La edad es la cumplida al generar el documento; si falta la fecha de nacimiento o es futura, queda vacía. Nacido el mismo día: `0`. Nacido un 29/02: cumple el 28/02 en años no bisiestos.
+- **Fechas visibles:** `DD/MM/AAAA`, con ceros a la izquierda.
+- **Curso mostrado:** el bloque superior y el año del encabezado usan el curso mostrado. La sección de secretaría usa siempre el curso **vinculado**, nunca el propuesto.
+- **Secretaría:** si la inscripción no está `APPROVED`, todos los valores de esa sección quedan en blanco, aunque existan datos guardados. Si está aprobada, se completa; “Completa” se marca solo cuando la documentación faltante está ausente, vacía o solo con espacios.
+- **Asignaturas adeudadas:** se imprimen en el orden guardado, separadas por coma y espacio, omitiendo textos vacíos. Sin asignaturas, el campo queda vacío.
+- **Tutor ausente:** si el registro del tutor no existe, los datos de identidad quedan en blanco; el parentesco se conserva desde la inscripción.
+- **Campo ilegible:** si un valor cifrado no se puede descifrar, se imprime `No disponible` solo en ese campo.
+- **Campos excluidos:** no se imprimen barrio, padre y madre por separado, “¿Es Tutor?”, “¿Con Quién?”, teléfono de familiar o vecino, observaciones de la resolución ni motivo de reasignación.
+
+### 3.4 Renderizado del PDF
+
+`ReportPdfRenderer::enrollmentForm()`:
+
+1. Renderiza la plantilla Blade con Dompdf en A4 vertical, márgenes de 8 mm arriba/abajo y 10 mm a los lados, fuente DejaVu Sans.
+2. Empieza con 9 pt. Si el formulario ocupa más de una página, prueba tamaños menores de 0,3 en 0,3 pt hasta el piso de **6 pt**.
+3. Si aun a 6 pt no entra en una sola página, devuelve `null` y el servicio responde `422` con `No se pudo generar el formulario.`.
+4. Si no hay certificados, devuelve el PDF del formulario.
+5. Si hay certificados, los anexa después de la primera página.
+
+El formulario siempre ocupa exactamente la primera página A4 vertical. Las firmas y la sección de secretaría no se mueven a otra hoja.
+
+### 3.5 Certificados anexados
+
+`ReportService::certificateContents()` lee los certificados del disco privado `local` (`storage/app/private`) y los pasa en este orden:
+
+1. Problema de salud (`health_problem` / `health_problem_cert_path`).
+2. Alumno de inclusión (`inclusion_student` / `inclusion_student_cert_path`).
+3. Alumno judicializado (`legal_proceedings` / `legal_proceedings_cert_path`).
+4. Impedimento de contacto (`contact_impediment` / `contact_impediment_cert_path`).
+
+La autorización de fotos no tiene certificado.
+
+Reglas:
+
+- Condición en `false`: no se anexa nada, aunque exista una ruta guardada (archivo huérfano).
+- Condición en `true` sin ruta: no se anexa nada.
+- Ruta vacía o archivo ausente en el disco: el certificado se omite y la descarga continúa.
+- Ruta cifrada que no se puede descifrar: el certificado se omite.
+- Archivo presente pero ilegible o vacío: se rechaza toda la descarga con `422` y `El certificado no se puede leer.`.
+- PDF: se importan **todas** sus páginas tal como fueron cargadas, conservando tamaño y orientación originales. Puede quedar un PDF con páginas de distinto tamaño.
+- Imagen: se decodifica con GD, se aplica la orientación EXIF y ocupa exactamente una página A4 vertical.
+  - Si es apaisada y girarla 90° permite una escala mayor, se gira.
+  - Si ya entra al 100% sin girar, no se gira.
+  - Si no entra, se reduce manteniendo la proporción.
+  - Nunca se agranda, nunca se recorta y nunca se reparte en varias hojas.
+- Imagen que no se puede decodificar, con dimensiones cero o formato no soportado: se rechaza la descarga con `422`, sin PDF parcial.
+
+### 3.6 Salida
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/pdf
+Content-Disposition: attachment; filename="inscripcion-{uuid}.pdf"
+```
+
+El PDF se devuelve como bytes en la respuesta. No se guarda en `Storage`, no se escribe en la base y no se crea un temporal.
+
+---
+
+## 4. Circuito del listado de alumnos
+
+### 4.1 Ruta y autorización
+
+```http
+GET /api/reports/enrolled-students
+```
+
+La ruta usa `auth.jwt` + `role:ADMINISTRATIVO,ADMINISTRADOR`. Un tutor recibe `403`; sin token, `401`.
+
+### 4.2 Validación de filtros
+
+`EnrolledStudentsReportRequest` procesa primero la cadena de consulta:
+
+1. Detecta filtros repetidos leyendo `QUERY_STRING`. Si `year`, `studyYear`, `shift` o `speciality` aparece más de una vez, responde `422`, incluso si una de las repeticiones está vacía.
+2. Elimina los filtros ausentes, vacíos o compuestos solo por espacios. Se tratan como no enviados.
+3. Valida los que quedan:
+
+| Filtro | Valores aceptados |
+|--------|-------------------|
+| `year` | Entero de cuatro dígitos que exista en `courses` sin baja lógica. |
+| `studyYear` | Entero de `1` a `6`. |
+| `shift` | `morning`, `afternoon`, `night`. |
+| `speciality` | `basic`, `informatics`, `electronics`. |
+
+- Un valor inválido, un año sin cursos existentes, un filtro repetido o un filtro en formato arreglo (`year[]=2026`) responde `422`.
+- Los parámetros desconocidos se ignoran: el controlador usa `$request->validated()`, que solo devuelve las claves conocidas.
+- Los filtros son todos opcionales y se pueden combinar.
+
+### 4.3 Consulta y filas
+
+`ReportService::enrolledStudents()`:
+
+1. Consulta inscripciones no eliminadas con estado `APPROVED`.
+2. Carga `course`, `student` con `withTrashed()` y `tutor` con `withTrashed()`.
+3. Aplica cada filtro con `whereHas('course', ...)`. Como `Course` usa `SoftDeletes`, un curso con baja lógica no coincide.
+4. Descarta filas cuyo alumno no exista o tenga baja lógica, y filas cuyo curso sea `null` (ausente o con baja lógica).
+5. Arma una fila por inscripción aceptada que cumpla los filtros.
+6. Ordena con `ReportFormatter::compareStudents()`: apellido, nombre, año lectivo ascendente, año de estudio ascendente y, si todo coincide, identificador de la inscripción. La comparación ignora mayúsculas y tildes.
+7. Genera el XLSX en memoria.
+
+La fila de encabezados es siempre la primera y tiene exactamente estas 17 columnas, en este orden:
+
+```
+Nombre, Apellido, DNI, CUIL, Fecha de nacimiento, Domicilio,
+Año lectivo, Año de estudio, División, Turno, Carrera,
+Nombre del tutor, Apellido del tutor, DNI del tutor, CUIL del tutor,
+Email del tutor, Teléfono del tutor
+```
+
+Reglas de celdas:
+
+- Fecha de nacimiento en `DD/MM/AAAA` como texto.
+- Turno y carrera con rótulos visibles (`Mañana`, `Informática`, etc.), nunca con los valores internos en inglés.
+- Celda sin dato: vacía, sin texto sustituto.
+- Tutor ausente: sus seis celdas quedan vacías y la fila se mantiene.
+- Campo cifrado ilegible: `No disponible` solo en esa celda.
+- Un mismo alumno puede aparecer en más de una fila si tiene varias inscripciones aceptadas que cumplen el filtro.
+
+### 4.4 Nombre del archivo
+
+Sin filtros: `listado-alumnos.xlsx`.
+
+Con filtros: `listado-alumnos-{filtro}.xlsx`. `{filtro}` une con guiones, en este orden, solo los filtros enviados:
+
+1. Año lectivo en cuatro dígitos.
+2. Turno: `manana`, `tarde` o `noche`.
+3. Carrera: `basico`, `informatica` o `electronica`.
+4. Año de estudio: `1` a `6`.
+
+Ejemplo con los cuatro: `listado-alumnos-2026-manana-informatica-3.xlsx`.
+
+### 4.5 Salida
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+Content-Disposition: attachment; filename="listado-alumnos-....xlsx"
+```
+
+Si ningún alumno cumple los filtros, se entrega igual la hoja con la fila de encabezados y sin filas de datos. No hay paginación: el listado se entrega completo en memoria.
+
+---
+
+## 5. Circuito del padrón de personal
+
+### 5.1 Ruta y autorización
+
+```http
+GET /api/reports/staff
+```
+
+La ruta usa `auth.jwt` + `role:ADMINISTRADOR`. Un `ADMINISTRATIVO` o un `TUTOR` recibe `403`; sin token, `401`.
+
+### 5.2 Datos incluidos
+
+`ReportService::staff()` consulta los usuarios activos (sin baja lógica) cuyo rol sea `ADMINISTRATIVO` o `ADMINISTRADOR`:
+
+- incluye al usuario que solicita el padrón;
+- incluye usuarios verificados y no verificados;
+- excluye tutores y usuarios eliminados.
+
+Columnas, en orden:
+
+```
+Apellido, Nombre, Email, DNI, Rol, Fecha de alta, Última modificación
+```
+
+Reglas:
+
+- El rol se muestra como `Administrativo` o `Administrador`.
+- La fecha de alta es `created_at` y la de última modificación es `updated_at`.
+- Ambas se convierten a la fecha local de la institución y se muestran como `DD/MM/AAAA`, sin hora.
+- La última modificación no se rotula ni se interpreta como cambio de rol.
+- Un campo ilegible se imprime como `No disponible` solo en ese campo.
+- El orden es apellido, nombre, email e identificador, ignorando mayúsculas y tildes.
+
+### 5.3 Renderizado y salida
+
+`ReportPdfRenderer::staffList()` genera un PDF A4 vertical con:
+
+- el bloque izquierdo del encabezado institucional;
+- el escudo de la escuela;
+- el título `LISTADO DE PERSONAL`;
+- la tabla de personal.
+
+No imprime Legajo, Libro, Folio ni Año, que son propios del formulario de inscripción.
+
+Si hay más de una hoja:
+
+- cada hoja es A4 vertical;
+- se repiten el membrete y los encabezados de columna;
+- una fila que no entra pasa completa a la siguiente hoja, nunca se parte.
+
+Si no hay personal de rol alto, se entrega igual el PDF con el encabezado y la tabla sin personas.
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/pdf
+Content-Disposition: attachment; filename="listado-staff.pdf"
+```
+
+---
+
+## 6. Reglas transversales
+
+### 6.1 Fechas y zona horaria
+
+La API trabaja en UTC para no mover las fechas ISO. Los documentos usan la zona configurada en `config/reports.php`:
+
+```php
+'timezone' => 'America/Argentina/Salta',
+```
+
+- `ReportFormatter::institutionToday()` obtiene el inicio del día local.
+- `formatDocumentDate()` muestra una fecha como `DD/MM/AAAA`.
+- `formatInstant()` convierte un instante UTC a la fecha local, sin hora.
+
+### 6.2 Valores ilegibles
+
+Los campos cifrados (DNI, CUIL, teléfono, domicilio, rutas de certificados) pueden fallar al descifrarse. En los documentos:
+
+- el campo se imprime como `No disponible`;
+- el resto del documento se genera normalmente;
+- no se imprime el texto cifrado ni se rechaza la descarga por un solo campo.
+
+### 6.3 Curso mostrado
+
+`ReportFormatter::courseToShow()` decide qué curso se imprime en el formulario:
+
+- `PROPOSED_REASSIGNMENT` con curso propuesto existente y sin baja lógica → curso propuesto;
+- cualquier otro caso → curso vinculado.
+
+Ese curso se usa en el bloque superior y en el año del encabezado. La sección de secretaría siempre usa el curso vinculado.
+
+### 6.4 Condiciones especiales
+
+Se imprimen siempre las cinco condiciones, cada una con las dos opciones y exactamente una marca:
+
+```
+Sí [x]  No [ ]
+Sí [ ]  No [x]
+```
+
+Notas fijas:
+
+- Debajo de inclusión: `Observación: En caso de ser afirmativo, presentar Certificado de Discapacidad o Certificados que corresponda.`
+- Debajo de judicializado y de impedimento de contacto: `Observación: En caso de ser afirmativo, presentar la documentación Judicial correspondiente.`
+
+No se imprime “¿Con Quién?”.
+
+### 6.5 Escudos institucionales
+
+`config/reports.php` apunta a:
+
+```php
+'logos' => [
+    'ministry' => public_path('logo-ministerio.png'),
+    'school' => public_path('logo-escuela.png'),
+],
+```
+
+- Si el archivo existe y se puede leer, se incrusta como data URI.
+- Si falta o no se puede leer, se imprime el texto alternativo: `MINISTERIO DE EDUCACIÓN` para el ministerio y `EET N° 3100` para la escuela.
+- El PDF se genera igual en ambos casos.
+
+### 6.6 Memoria y efectos
+
+- El XLSX se escribe en un stream `php://memory`.
+- Dompdf devuelve el PDF como string.
+- FPDI devuelve el PDF combinado como string (`Output('S')`).
+- Los certificados se leen desde el disco privado `local`; no se modifican, borran ni reemplazan.
+- Generar un documento no cambia estados, cupos, `updated_at`, alumnos, tutores ni usuarios.
+- El archivo generado no se persiste en la base ni en el disco.
+- Una segunda descarga vuelve a generar el documento desde cero.
+
+---
+
+## 7. Errores
+
+Todos los rechazos usan JSON con `message` en español y sin archivo adjunto.
+
+| Código | Caso | Origen |
+|--------|------|--------|
+| `401` | Token ausente, inválido o vencido; usuario eliminado | `AuthenticateJWT` |
+| `403` | Rol no permitido para la descarga | `CheckRole` |
+| `403` | Tutor dueño de una inscripción no aceptada | `ReportService` |
+| `404` | Inscripción inexistente, eliminada o ajena al tutor; mismo cuerpo en los tres casos | `ReportService` |
+| `422` | Filtro inválido, repetido o en formato arreglo | `EnrolledStudentsReportRequest` |
+| `422` | Curso vinculado con baja lógica o ausente en el formulario | `ReportService` |
+| `422` | Registro del alumno ausente en el formulario | `ReportService` |
+| `422` | Certificado presente pero ilegible o que no se puede colocar en A4 | `ReportService` / `ReportPdfRenderer` |
+| `422` | Texto que no entra en una página ni a 6 pt | `ReportPdfRenderer` |
+
+Mensajes principales:
+
+- `Token no proporcionado.`
+- `Token inválido.`
+- `Su sesión ha expirado, vuelva a iniciar sesión.`
+- `No tiene permisos para realizar esta acción.`
+- `La inscripción no está aceptada.`
+- `Inscripción no encontrada.`
+- `El registro del alumno no existe.`
+- `El curso de la inscripción no está disponible.`
+- `El certificado no se puede leer.`
+- `No se pudo generar el formulario.`
+
+Los errores de validación del listado incluyen el objeto `errors` estándar de Laravel con claves `year`, `studyYear`, `shift` o `speciality`.
+
+---
+
+## 8. Configuración y dependencias
+
+### Configuración
+
+| Clave | Uso |
+|-------|-----|
+| `reports.timezone` | Zona horaria de las fechas de los documentos. |
+| `reports.logos.ministry` | Ruta absoluta al escudo del ministerio. |
+| `reports.logos.school` | Ruta absoluta al escudo de la escuela. |
+
+Los certificados se leen del disco `local`, configurado en `config/filesystems.php` con raíz `storage/app/private`.
+
+### Paquetes
+
+| Paquete | Uso |
+|---------|-----|
+| `dompdf/dompdf` | Renderizar el formulario y el padrón desde Blade a PDF. |
+| `phpoffice/phpspreadsheet` | Generar el XLSX del listado. |
+| `setasign/fpdf` + `setasign/fpdi` | Importar y anexar certificados PDF conservando sus páginas. |
+| `smalot/pdfparser` | Solo desarrollo: leer texto y tamaño de página en los tests. |
+
+También se usan las extensiones GD (decodificación, rotación y re-codificación de imágenes) y EXIF (orientación de fotos).
+
+### Impresión
+
+Los PDF con certificados anexados pueden mezclar páginas A4 con páginas del tamaño original del certificado. Al imprimir, elegir **“Ajustar al área de impresión”** para no recortar su contenido.
+
+---
+
+## 9. Pruebas
+
+Comando específico del circuito:
+
+```sh
+php artisan test --compact \
+  tests/Unit/ReportFormatterTest.php \
+  tests/Feature/EnrollmentFormReportTest.php \
+  tests/Feature/EnrolledStudentsReportTest.php \
+  tests/Feature/StaffReportTest.php
+```
+
+Formato:
+
+```sh
+vendor/bin/pint --dirty --format agent
+```
+
+| Archivo | Qué cubre |
+|---------|-----------|
+| `tests/Unit/ReportFormatterTest.php` | Edad (incluido 29/02), fechas, condiciones, rótulos, secretaría, nombre de archivo, orden y colocación de imágenes. |
+| `tests/Feature/EnrollmentFormReportTest.php` | Acceso, estados, 404/403/422, contenido del PDF, texto largo, logos, certificados, soft deletes y ausencia de efectos. |
+| `tests/Feature/EnrolledStudentsReportTest.php` | Roles, columnas, filtros combinados, nombre de archivo, hoja vacía, soft deletes, tutor ausente y campos ilegibles. |
+| `tests/Feature/StaffReportTest.php` | Solo administrador, inclusión y exclusión de roles, fechas locales, orden, email repetido, campos ilegibles, hoja vacía y multipágina. |
+
+Al cierre de la spec 007: 75 tests específicos en verde, suite completa de 495 tests / 2 079 assertions y Pint sin cambios.
+
+### Cobertura a reforzar
+
+La auditoría de la spec detectó cláusulas que hoy no tienen una aserción directa, aunque el comportamiento esté implementado:
+
+- `RF-01`: token inválido, vencido o de usuario eliminado probado en el middleware, no en cada endpoint de descarga.
+- `RF-04`: curso vinculado físicamente ausente (hoy se prueba el curso con baja lógica).
+- `RF-09`, `RF-12`, `RF-14`: campos opcionales en blanco, tutor físicamente ausente, campo de tutor ilegible y líneas de firma.
+- `RF-17`: línea separadora entre tutor/firmas y secretaría.
+- `RF-18`, `RF-19`: orden de varios certificados juntos y certificado que no puede colocarse en A4.
+- `RF-22`: ausencia de temporales del sistema operativo (hoy se verifica la base y los discos de `Storage`).
+- `RF-24`, `RF-26`, `RF-29`: alumno con dos aceptaciones, desempate por identificador de inscripción y filtro único vacío o solo con espacios.
+
+---
+
+## 10. Cómo extender el circuito
+
+### Agregar un filtro al listado
+
+1. Agregar la clave en `EnrolledStudentsReportRequest::FILTERS`.
+2. Agregar la regla en `rules()` y el mensaje en `messages()`.
+3. Aplicar el filtro en `ReportService::enrolledStudents()` con `whereHas('course', ...)`.
+4. Incluirlo en `ReportFormatter::enrolledStudentsFilename()` si debe aparecer en el nombre.
+5. Agregar tests de valor válido, inválido, repetido y combinado.
+
+### Agregar una columna al listado
+
+1. Agregar el encabezado en `ReportSpreadsheetRenderer::ENROLLED_STUDENTS_HEADERS`.
+2. Agregar el valor en `ReportService::enrolledStudentRow()`, respetando el orden.
+3. Actualizar `tests/Feature/EnrolledStudentsReportTest.php` (encabezados y fila).
+
+### Agregar un informe nuevo
+
+1. Definir la ruta en `routes/api.php` con `auth.jwt` y el `role:` correspondiente.
+2. Crear el método en `ReportController` y la lógica en `ReportService`.
+3. Reutilizar `ReportFormatter` para fechas, rótulos y orden.
+4. Crear un renderizador en memoria (PDF o XLSX) y una plantilla Blade si es PDF.
+5. Devolver bytes con `Content-Type` y `Content-Disposition`.
+6. No persistir el archivo ni modificar datos.
+7. Agregar tests de acceso, contenido, errores y ausencia de efectos.
+
+### Checklist antes de cerrar un cambio
+
+- [ ] El archivo se genera en memoria y no se guarda.
+- [ ] La ruta tiene `auth.jwt` y el rol correcto.
+- [ ] Los errores no entregan archivo.
+- [ ] Las fechas se muestran `DD/MM/AAAA` en la zona de Salta.
+- [ ] Los valores internos en inglés no se filtran a los documentos.
+- [ ] `php artisan test` pasa.
+- [ ] `vendor/bin/pint --dirty --format agent` no deja cambios.
+
+---
+
+## 11. Diagnóstico rápido
+
+| Síntoma | Revisar |
+|---------|---------|
+| `422` en el formulario | Curso vinculado o propuesto ausente/con baja lógica; registro del alumno ausente. |
+| `422` con certificado | El archivo existe pero no se puede leer o decodificar. Un archivo ausente se omite, no falla. |
+| `422` por texto | El contenido no entra ni a 6 pt. Revisar los campos largos del alumno o del tutor. |
+| `403` en el padrón | El usuario no es `ADMINISTRADOR`. |
+| `403` en el formulario | El tutor no es dueño o la inscripción no está `APPROVED`. |
+| `404` en el formulario | Inscripción inexistente, eliminada o ajena. El cuerpo es idéntico en los tres casos. |
+| Faltan los escudos | Verificar `public/logo-ministerio.png` y `public/logo-escuela.png`. Si faltan, se imprime el texto alternativo. |
+| El XLSX solo tiene encabezados | No hay inscripciones aceptadas que cumplan los filtros. Es el comportamiento esperado. |
+| El PDF mezcla tamaños de página | Hay certificados PDF anexados con su tamaño original. Al imprimir, usar “Ajustar al área de impresión”. |
+| Los tests de formulario tardan | El caso de texto largo prueba la reducción hasta 6 pt y es el más costoso de la suite. |

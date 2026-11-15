@@ -1,0 +1,632 @@
+# Guía de Endpoints y Funcionamiento del Circuito de Inscripciones (Registrations)
+
+Base URL: `http://localhost:8000/api`  
+Todas las rutas requieren cabecera `Authorization: Bearer <token>`.  
+Formato de respuesta: `{ data, message, errors }` con atributos en formato `camelCase` y fechas en ISO 8601 (UTC).
+
+---
+
+## 1. Visión General del Circuito de Inscripciones
+
+El circuito de inscripciones es el núcleo operativo de la institución escolar. Conecta de manera controlada y auditable a los **Tutores** (padres o tutores legales de los aspirantes/alumnos) con los **Roles Altos** (Secretaría / Administrativo y Administrador), quienes gestionan las vacantes y admiten a los estudiantes.
+
+### Actores y Responsabilidades
+
+| Rol | Alcance y Responsabilidades en el Circuito |
+|-----|--------------------------------------------|
+| **TUTOR** | - Da inicio al trámite enviando la solicitud para alumnos de su exclusiva responsabilidad.<br>- Consulta su bandeja personal (`/me`) para ver el estado de avance en tiempo real.<br>- Precarga datos del alumno consultando su última inscripción aprobada (`/latest`).<br>- **Subsanación:** Puede editar solicitudes en estado `PENDING` o en estado `OBSERVED` (observadas por secretaría) para corregir datos o adjuntar certificados faltantes.<br>- **Resolución de reasignaciones:** Acepta o rechaza vacantes ofrecidas por secretaría en cursos alternativos.<br>- Descarga el formulario de inscripción oficial en PDF una vez tramitado. |
+| **ADMINISTRATIVO (SECRETARÍA)** | - **No inicia trámites:** No puede enviar solicitudes en nombre de tutores.<br>- Supervisa las solicitudes a través de bandejas operativas especializadas: **abiertas** (`/open`), **pendientes** (`/pending`) y **observadas** (`/observed`).<br>- Realiza búsquedas y auditorías en el padrón completo mediante filtros avanzados (curso, DNI, CUIL, búsqueda desacentuada de nombres).<br>- **Emite dictámenes sobre las solicitudes:**<br>&nbsp;&nbsp;1. **Aprobar:** Asigna vacante definitiva en el curso, incrementa el cupo y cierra automáticamente otras solicitudes del alumno en el mismo año lectivo.<br>&nbsp;&nbsp;2. **Observar:** Detiene temporalmente el trámite señalando faltantes o inconsistencias documentales (`observations` obligatorio) para que el tutor lo corrija.<br>&nbsp;&nbsp;3. **Rechazar:** Desestima la solicitud sin alterar vacantes.<br>&nbsp;&nbsp;4. **Proponer Reasignación:** Ofrece un curso alternativo del mismo ciclo lectivo con motivo justificado obligatorio si el curso original carece de vacantes o por reestructuración. |
+| **ADMINISTRADOR** | - Posee todas las atribuciones operativas de `ADMINISTRATIVO`.<br>- Acceso a auditoría completa (`created_by`, `updated_by`, `deleted_by`) y reportes institucionales. |
+
+---
+
+## 2. Máquina de Estados y Ciclo de Vida
+
+Toda solicitud atraviesa un flujo controlado de estados definidos en el enum `RegistrationStatus`:
+
+```text
+               +-------------------------------------------------------+
+               |                                                       |
+               v                                                       |
+         [  PENDING  ] <------------ (Tutor edita: PUT /{id}) ------+  |
+           |   |   |                                                |  |
+           |   |   +-------- (Secretaría observa: PUT /{id}/observe) +  |
+           |   |                                                       |
+           |   +------------ (Secretaría propone reasignación) ----+    |
+           |                                                       |    |
+           |                                                       v    |
+           |                                            [ PROPOSED_REASSIGNMENT ]
+           |                                                       |    |
+           | (Secretaría aprueba)        (Tutor acepta: accepted=true)  | (Tutor rechaza)
+           v                                                       v    v
+     [ APPROVED ]                                             [ REJECTED ]
+          |                                                        ^
+          | (Aprobación cierra solicitudes hermanas)               |
+          +--------------------------------------------------------+
+```
+
+### Detalle de Estados
+
+1. **`PENDING` (Pendiente):**
+   - Estado inicial tras el envío por el tutor o tras la edición de una solicitud observada.
+   - **No reserva vacante** (`currentCapacity` no varía) para evitar acaparamientos ficticios.
+   - La secretaría puede: **Aprobar**, **Rechazar**, **Observar** o **Proponer Reasignación**.
+   - El tutor puede: **Editarla** para modificar datos, cambiar de curso o agregar certificados.
+
+2. **`OBSERVED` (Observada):**
+   - Dictamen emitido por secretaría cuando la solicitud contiene errores o documentación faltante.
+   - Requiere obligatoriamente un texto explicativo en `observations`.
+   - **No reserva cupo.**
+   - Queda en espera de la intervención del tutor.
+   - Secretaría **no puede** aprobarla, rechazarla ni reasignarla directamente mientras esté en `OBSERVED` (responderá `409 Conflict`).
+   - El tutor la subsana mediante `PUT /api/registrations/{id}`, lo que automáticamente la devuelve al estado `PENDING` para nueva revisión de secretaría.
+
+3. **`PROPOSED_REASSIGNMENT` (Propuesta de Reasignación):**
+   - Emitida por secretaría cuando el curso original está completo o por necesidades organizativas.
+   - Asigna un `proposedCourseId` (del mismo año lectivo) y exige un `reassignmentReason`.
+   - **No reserva cupo** en el nuevo curso hasta que el tutor la acepte formalmente.
+   - Queda en espera de la respuesta del tutor mediante `PUT /api/registrations/{id}/reply-reassignment`.
+   - El tutor puede responder una única vez:
+     * Si `accepted: true`: Pasa a `APPROVED` en el curso propuesto, incrementa el cupo del nuevo curso y cierra en cascada las demás solicitudes del alumno en ese ciclo lectivo.
+     * Si `accepted: false`: Pasa a `REJECTED`. El trámite finaliza y, si el tutor desea vacante, debe iniciar una nueva solicitud.
+
+4. **`APPROVED` (Aprobada - Estado Terminal Exitoso):**
+   - Concreta la vacante del alumno en el curso (`currentCapacity` se incrementa en 1 con bloqueo pesimista `lockForUpdate`).
+   - **Regla de cierre en cascada (RF-09):** En el mismo instante de la aprobación, el sistema busca todas las demás solicitudes activas (`PENDING` o `PROPOSED_REASSIGNMENT`) de ese mismo alumno dentro del mismo año lectivo (`year`) y las pasa automáticamente a `REJECTED`. Las solicitudes pertenecientes a otros ciclos lectivos permanecen intactas (soporte para repitencia o nuevo ciclo).
+   - El estado no puede ser alterado posteriormente desde este módulo.
+
+5. **`REJECTED` (Rechazada - Estado Terminal Definitivo):**
+   - Trámite desestimado por decisión de secretaría, por rechazo del tutor a una reasignación, o por cierre automático al aprobarse otra solicitud del alumno en ese ciclo lectivo.
+   - No consume cupo en ningún curso.
+
+---
+
+## 3. Tabla Resumen de Endpoints
+
+| Método | Endpoint | Rol Autorizado | Acción / Propósito |
+|--------|----------|----------------|--------------------|
+| **POST** | `/api/registrations` | TUTOR | Iniciar solicitud de inscripción en estado `PENDING` |
+| **PUT** | `/api/registrations/{id}` | TUTOR (dueño) | Editar solicitud propia en `PENDING` u `OBSERVED` (retorna a `PENDING`) |
+| **GET** | `/api/registrations/me` | TUTOR | Consultar bandeja de trámites de alumnos a cargo (paginado) |
+| **PUT** | `/api/registrations/{id}/reply-reassignment` | TUTOR (dueño) | Responder propuesta de reasignación (`accepted=true/false`) |
+| **GET** | `/api/registrations/student/{studentId}/latest` | TUTOR (dueño) | Obtener última inscripción aprobada para autocompletar formulario |
+| **GET** | `/api/registrations/{id}/form` | TUTOR (dueño), ADMINISTRATIVO, ADMINISTRADOR | Descargar formulario oficial de inscripción en PDF |
+| **GET** | `/api/registrations/open` | ADMINISTRATIVO, ADMINISTRADOR | Bandeja operativa de solicitudes abiertas (`PENDING` y `OBSERVED`) |
+| **GET** | `/api/registrations/pending` | ADMINISTRATIVO, ADMINISTRADOR | Bandeja de solicitudes pendientes de evaluación (`PENDING`) |
+| **GET** | `/api/registrations/observed` | ADMINISTRATIVO, ADMINISTRADOR | Bandeja de solicitudes retenidas por observaciones (`OBSERVED`) |
+| **GET** | `/api/registrations` | ADMINISTRATIVO, ADMINISTRADOR | Padrón general con filtros multicriterio y búsqueda avanzada |
+| **PUT** | `/api/registrations/{id}/approve` | ADMINISTRATIVO, ADMINISTRADOR | Aprobar solicitud: reserva vacante y cierra hermanas del ciclo |
+| **PUT** | `/api/registrations/{id}/observe` | ADMINISTRATIVO, ADMINISTRADOR | Retener solicitud con observaciones obligatorias (`OBSERVED`) |
+| **PUT** | `/api/registrations/{id}/reject` | ADMINISTRATIVO, ADMINISTRADOR | Rechazar formalmente una solicitud pendiente |
+| **PUT** | `/api/registrations/{id}/propose-reassignment` | ADMINISTRATIVO, ADMINISTRADOR | Ofrecer reasignación a curso alternativo con motivo obligatorio |
+
+---
+
+## 4. Contrato de Datos (`RegistrationResource`)
+
+Este objeto JSON estándar es retornado en la creación, edición, resoluciones y en cada elemento de las colecciones paginadas:
+
+```json
+{
+  "data": {
+    "id": "0192d8f0-1a2b-7c3d-8e4f-0123456789ab",
+    "status": "PENDING",
+    "studentId": "01a16659-d4fc-73a1-9de8-4aa196a4d573",
+    "idCourse": "018f2a10-9cde-7123-b456-9876543210fe",
+    "proposedCourseId": null,
+    "institutionOfOrigin": "Escuela Técnica N° 1234",
+    "relationship": "Padre",
+    "photoAuthorization": true,
+    "healthProblem": true,
+    "inclusionStudent": false,
+    "contactImpediment": false,
+    "legalProceedings": false,
+    "hasHealthProblemCertificate": true,
+    "hasInclusionStudentCertificate": false,
+    "hasContactImpedimentCertificate": false,
+    "hasLegalProceedingsCertificate": false,
+    "reassignmentReason": null,
+    "observations": null,
+    "pendingSubjects": null,
+    "missingDocumentation": null,
+    "student": {
+      "id": "01a16659-d4fc-73a1-9de8-4aa196a4d573",
+      "studentCuil": "20501234567",
+      "firstName": "Lucas",
+      "lastName": "Pérez"
+    },
+    "course": {
+      "id": "018f2a10-9cde-7123-b456-9876543210fe",
+      "code": "2026-1-1-BAS-INF-M",
+      "year": 2026,
+      "studyYear": 1,
+      "division": "1",
+      "cycle": "basic",
+      "shift": "morning",
+      "speciality": "informatics"
+    },
+    "proposedCourse": null,
+    "created_at": "2026-10-31T15:30:00+00:00",
+    "updated_at": "2026-10-31T15:30:00+00:00"
+  }
+}
+```
+
+> **Privacidad y Certificados:** Las rutas internas de almacenamiento de los archivos nunca se exponen al cliente. En su lugar, el recurso provee flags booleanos informativos (`hasHealthProblemCertificate`, etc.) indicando la presencia del certificado cargado.
+
+---
+
+## 5. Detalle de Endpoints — Flujo del Tutor
+
+### 5.1 Enviar Solicitud de Inscripción
+
+Crea una nueva solicitud en estado `PENDING`. Si no incluye archivos, puede enviarse en formato JSON; si adjunta certificados, debe enviarse como `multipart/form-data`.
+
+```http
+POST /api/registrations
+Content-Type: multipart/form-data
+```
+
+**Parámetros:**
+
+| Campo | Tipo | Requerido | Descripción |
+|-------|------|-----------|-------------|
+| `studentId` | UUID | Sí | Identificador del alumno (debe pertenecer al tutor autenticado) |
+| `idCourse` | UUID | Sí | Identificador del curso a inscribir (debe estar activo) |
+| `relationship` | string | Sí | Vínculo con el alumno (ej. "Padre", "Madre", "Tutor Legal") |
+| `photoAuthorization` | boolean | Sí | Autorización de uso de imagen institucional (`true` / `false`) |
+| `healthProblem` | boolean | Sí | ¿Presenta problema de salud crónico o relevante? |
+| `inclusionStudent` | boolean | Sí | ¿Es estudiante en programa de inclusión? |
+| `contactImpediment` | boolean | Sí | ¿Existe medida de impedimento de contacto judicial? |
+| `legalProceedings` | boolean | Sí | ¿El alumno cuenta con causas o procesos judiciales activos? |
+| `institutionOfOrigin` | string | No | Escuela previa (opcional, si proviene de otra institución) |
+| `healthProblemCertificate` | File | No | Certificado médico (PDF o imagen, máx. 5 MB) |
+| `inclusionStudentCertificate` | File | No | Constancia de inclusión escolar (PDF o imagen, máx. 5 MB) |
+| `contactImpedimentCertificate` | File | No | Oficio o documento judicial (PDF o imagen, máx. 5 MB) |
+| `legalProceedingsCertificate` | File | No | Constancia de actuaciones legales (PDF o imagen, máx. 5 MB) |
+
+**Reglas de negocio y validación:**
+- **Propiedad:** Si el `studentId` no existe o pertenece a otro tutor: responde **404 Not Found**.
+- **Curso:** Si `idCourse` no existe: responde **404**. Si existe pero está inactivo (`status = inactive`): responde **422 Unprocessable**.
+- **Coherencia Booleano/Archivo:** Si un booleano de condición especial es `false` y se envía su certificado adjunto, responde **422** indicando la contradicción y **ningún archivo se guarda en disco**.
+- **Certificados Opcionales:** Si un booleano es `true`, la solicitud puede enviarse aún sin el certificado (el certificado es optativo al momento de enviar).
+- **Seguridad de Archivos (Constitución #5):** Validación estricta por contenido real (finfo/bytes mágicos): PDF, JPG, PNG o WEBP. Tamaño máximo 5 MB por archivo. Almacenamiento en disco privado `local` con rutas cifradas en base de datos.
+- **Unicidad en el Curso:** Si el alumno ya tiene una solicitud `PENDING` o `PROPOSED_REASSIGNMENT` en el mismo curso: responde **409 Conflict**.
+- **Unicidad en el Año Lectivo:** Si el alumno ya cuenta con una inscripción `APPROVED` en cualquier curso del mismo año lectivo (`year`): responde **409 Conflict** informando el código del curso ocupado.
+- **Múltiples solicitudes:** Un alumno puede tener solicitudes `PENDING` simultáneas en cursos distintos del mismo año lectivo, siempre que no tenga ninguna aprobada.
+- **Repitencia y Nuevos Años:** Se admiten solicitudes para años lectivos (`year`) diferentes, incluso repitiendo el mismo `studyYear` y división.
+- **Resultado:** **201 Created** con el recurso en estado `PENDING`. No altera `currentCapacity` del curso.
+
+---
+
+### 5.2 Editar Solicitud Propia (Subsanación de Observadas o Pendientes)
+
+Permite al tutor corregir errores, actualizar datos, cambiar el curso solicitado o adjuntar/reemplazar certificados de una solicitud propia en estado `PENDING` u `OBSERVED`.
+
+```http
+PUT /api/registrations/{id}
+Content-Type: multipart/form-data
+```
+
+**Parámetros:**
+Acepta los mismos campos que el envío (`idCourse`, `relationship`, `institutionOfOrigin`, `photoAuthorization`, los 4 booleanos de condiciones especiales y los 4 archivos de certificados).  
+*Nota: `studentId` no es editable; la inscripción mantiene inalterable su alumno original.*
+
+**Reglas de negocio:**
+- **Propiedad:** Si la inscripción no existe o pertenece a otro tutor: responde **404 Not Found**.
+- **Estados editables:** Solo se permite editar si la solicitud está en estado `PENDING` u `OBSERVED`.
+  * Si la solicitud está en `APPROVED`, `REJECTED` o `PROPOSED_REASSIGNMENT`: responde **409 Conflict** con mensaje indicando que no puede editarse en su estado actual.
+- **Transición automática `OBSERVED -> PENDING`:**
+  * Si la solicitud estaba en estado `OBSERVED`, al ser editada exitosamente por el tutor **vuelve automáticamente al estado `PENDING`**, ingresando nuevamente a la bandeja de pendientes de la secretaría para su reevaluación.
+  * Si estaba en `PENDING`, conserva el estado `PENDING`.
+- **Cambio de Curso:** Si el tutor cambia el `idCourse`, se validan nuevamente las reglas de curso existente, activo, duplicidad y año lectivo (RF-03 y RF-07).
+- **Gestión de Archivos:** Al subir un certificado nuevo, se elimina el archivo anterior del almacenamiento privado. Si un booleano cambia de `true` a `false`, el certificado existente asociado es eliminado automáticamente.
+- **Resultado:** **200 OK** con la inscripción actualizada.
+
+---
+
+### 5.3 Bandeja de Trámites Propios del Tutor
+
+Lista cronológicamente las inscripciones pertenecientes a todos los alumnos vinculados al tutor autenticado.
+
+```http
+GET /api/registrations/me?sort=recent&page=1&per_page=15
+```
+
+**Query params:**
+- `sort`: `recent` (por defecto, más recientes primero) u `oldest`.
+- `page`: número de página (entero >= 1).
+- `per_page`: registros por página (1 a 100, por defecto 15).
+
+- Retorna colección paginada estándar (`data`, `links`, `meta`).
+- Si el tutor no tiene trámites iniciados, responde **200 OK** con `"data": []`.
+
+---
+
+### 5.4 Responder a Propuesta de Reasignación
+
+Permite al tutor aceptar o rechazar la vacante en el curso alternativo propuesto por secretaría.
+
+```http
+PUT /api/registrations/{id}/reply-reassignment
+Content-Type: application/json
+```
+
+**Cuerpo JSON o Query Param:**
+```json
+{
+  "accepted": true
+}
+```
+
+**Reglas de negocio:**
+- **Propiedad:** Si la inscripción no existe o es ajena: responde **404 Not Found**.
+- **Estado Requerido:** La solicitud debe estar en estado `PROPOSED_REASSIGNMENT`.
+  * Si se intenta responder sobre una solicitud en `PENDING`, `OBSERVED`, `APPROVED` o `REJECTED`: responde **409 Conflict**.
+  * **Respuesta Única:** El tutor solo puede responder una vez; un segundo intento responde **409 Conflict**.
+- **Si `accepted: false` (Rechazo):**
+  * La solicitud pasa a `REJECTED`.
+  * No consume cupos. El trámite finaliza. Responde **200 OK**.
+- **Si `accepted: true` (Aceptación):**
+  * Concurrencia: Se bloquea el curso propuesto con `lockForUpdate()`.
+  * Se valida que el curso propuesto siga activo y con vacantes disponibles (`currentCapacity < maxCapacity`); si se completó el cupo: responde **422 Unprocessable**.
+  * Se valida que el alumno no haya obtenido otra inscripción `APPROVED` en ese año lectivo: responde **409 Conflict**.
+  * El `course_id` de la inscripción se actualiza con el `proposed_course_id`.
+  * El estado de la inscripción pasa a `APPROVED`.
+  * Se incrementa en 1 la capacidad actual (`currentCapacity`) del nuevo curso.
+  * **Cierre en cascada (RF-09):** Pasa automáticamente a `REJECTED` todas las demás solicitudes activas (`PENDING` o `PROPOSED_REASSIGNMENT`) de ese alumno en el mismo año lectivo.
+  * Responde **200 OK** con la inscripción aprobada.
+
+---
+
+### 5.5 Obtener Última Inscripción Aprobada (Autocompletar Formulario)
+
+Recupera los datos de la inscripción aprobada más reciente de un alumno para precargar el formulario del próximo ciclo.
+
+```http
+GET /api/registrations/student/{studentId}/latest
+```
+
+**Respuesta (`RegistrationPrefillResource`):**
+```json
+{
+  "data": {
+    "id": "0192d8f0-1a2b-7c3d-8e4f-0123456789ab",
+    "studentId": "01a16659-d4fc-73a1-9de8-4aa196a4d573",
+    "idCourse": "018f2a10-9cde-7123-b456-9876543210fe",
+    "institutionOfOrigin": "Escuela Técnica N° 1234",
+    "photoAuthorization": true,
+    "relationship": "Padre",
+    "healthProblem": false,
+    "inclusionStudent": false,
+    "contactImpediment": false,
+    "legalProceedings": false,
+    "course": {
+      "id": "018f2a10-9cde-7123-b456-9876543210fe",
+      "code": "2025-1-1-BAS-INF-M",
+      "year": 2025,
+      "studyYear": 1,
+      "division": "1",
+      "cycle": "basic",
+      "shift": "morning",
+      "speciality": "informatics"
+    },
+    "created_at": "2025-11-10T14:20:00+00:00",
+    "updated_at": "2025-11-15T18:00:00+00:00"
+  }
+}
+```
+
+- Si el alumno no existe o es ajeno al tutor: responde **404 Not Found**.
+- Si el alumno no registra ninguna inscripción histórica en estado `APPROVED`: responde **404 Not Found**.
+
+---
+
+### 5.6 Descargar Formulario Oficial de Inscripción (PDF)
+
+Genera y descarga en memoria el formulario oficial institucional de inscripción en PDF conforme a la normativa escolar vigente (Spec 007).
+
+```http
+GET /api/registrations/{id}/form
+```
+
+- **Acceso:** Tutor dueño del alumno, o Roles Altos (`ADMINISTRATIVO`, `ADMINISTRADOR`).
+- Responde `200 OK` con cabeceras `Content-Type: application/pdf` y `Content-Disposition: attachment; filename="formulario-inscripcion-{DNI}-{codigoCurso}.pdf"`.
+
+---
+
+## 6. Detalle de Endpoints — Flujo de Roles Altos (Secretaría / Administrador)
+
+Los roles altos intervienen de forma decisiva en la supervisión de las vacantes y la resolución de las solicitudes.
+
+### 6.1 Bandeja de Solicitudes Abiertas (`/open`)
+
+Muestra todas las solicitudes que requieren atención o seguimiento institucional: reúne las solicitudes pendientes de dictamen (`PENDING`) y las que se encuentran observadas a la espera de corrección del tutor (`OBSERVED`).
+
+```http
+GET /api/registrations/open?sort=recent&page=1&per_page=15
+```
+
+- **Acceso:** `ADMINISTRATIVO`, `ADMINISTRADOR`.
+- Permite a la secretaría tener un panorama global de trámites en curso no resueltos.
+
+---
+
+### 6.2 Bandeja de Solicitudes Pendientes (`/pending`)
+
+Muestra exclusivamente las solicitudes en estado `PENDING` listas para ser evaluadas y resueltas por secretaría.
+
+```http
+GET /api/registrations/pending?sort=recent&page=1&per_page=15
+```
+
+- **Acceso:** `ADMINISTRATIVO`, `ADMINISTRADOR`.
+- Es la bandeja de trabajo principal para resolver (aprobar, rechazar, observar o proponer reasignación).
+
+---
+
+### 6.3 Bandeja de Solicitudes Observadas (`/observed`)
+
+Muestra exclusivamente las solicitudes en estado `OBSERVED`.
+
+```http
+GET /api/registrations/observed?sort=recent&page=1&per_page=15
+```
+
+- **Acceso:** `ADMINISTRATIVO`, `ADMINISTRADOR`.
+- Permite a la secretaría auditar qué trámites tienen inconsistencias documentales y monitorear si los tutores las han subsanado.
+
+---
+
+### 6.4 Padrón General y Búsqueda Avanzada (`/registrations`)
+
+Consulta el histórico y padrón completo de inscripciones del establecimiento con filtros combinables.
+
+```http
+GET /api/registrations?status=PENDING&year=2026&studyYear=1&division=1&studentLastName=perez&sort=recent&page=1&per_page=15
+```
+
+- **Acceso:** `ADMINISTRATIVO`, `ADMINISTRADOR`.
+- Todos los filtros son opcionales. Sin filtros, devuelve el padrón general paginado.
+
+**Filtros Disponibles:**
+
+| Parámetro | Tipo | Tipo de Coincidencia | Descripción |
+|-----------|------|----------------------|-------------|
+| `status` | string | Exacta | `PENDING`, `APPROVED`, `REJECTED`, `PROPOSED_REASSIGNMENT`, `OBSERVED` |
+| `year` | entero | Exacta | Ciclo lectivo del curso (ej. 2026) |
+| `studyYear` | entero | Exacta | Año curricular (1 a 6) |
+| `division` | string | Parcial (case/accent-insensitive) | División escolar (ej. "1", "A") |
+| `cycle` | string | Exacta | `basic` o `superior` |
+| `shift` | string | Exacta | `morning`, `afternoon`, `night` |
+| `speciality` | string | Exacta | `basic`, `informatics`, `electronics` |
+| `studentDni` | string | Exacta (hash ciego normalizado) | DNI del alumno (solo dígitos) |
+| `studentCuil` | string | Exacta (hash ciego normalizado) | CUIL del alumno (solo dígitos) |
+| `studentLastName` | string | Parcial (sin mayúsculas ni tildes) | Apellido del estudiante (ej. "perez" busca "Pérez") |
+| `studentFirstName` | string | Parcial (sin mayúsculas ni tildes) | Nombre del estudiante |
+| `sort` | string | `recent` (defecto) u `oldest` | Orden cronológico de creación |
+| `per_page` | entero | 1 a 100 (defecto 15) | Elementos por página |
+| `page` | entero | >= 1 | Número de página |
+
+---
+
+### 6.5 Aprobar Solicitud
+
+Otorga la vacante definitiva en el curso solicitado por el tutor.
+
+```http
+PUT /api/registrations/{id}/approve
+Content-Type: application/json
+```
+
+**Cuerpo JSON (opcional):**
+```json
+{
+  "observations": "Legajo verificado y vacante confirmada.",
+  "pendingSubjects": ["Educación Física"],
+  "missingDocumentation": "Constancia de CUIL actualizada"
+}
+```
+
+**Reglas de negocio:**
+- **Estado previo requerido:** La inscripción **debe estar en estado `PENDING`**.
+  * Si ya fue tratada (`APPROVED`, `REJECTED`, `PROPOSED_REASSIGNMENT`) o está `OBSERVED`: responde **409 Conflict** indicando su estado actual.
+- **Control de Cupo Máximo:**
+  * Si el curso solicitado está lleno (`currentCapacity >= maxCapacity`): responde **422 Unprocessable** con mensaje explicativo:
+    ```json
+    {
+      "message": "El cupo del curso solicitado está lleno. Debe proponer una reasignación a otro curso.",
+      "errors": {
+        "course": ["El cupo del curso solicitado está lleno. Debe proponer una reasignación a otro curso."]
+      }
+    }
+    ```
+- **Efectos al aprobar:**
+  1. La solicitud pasa a estado `APPROVED`.
+  2. Incrementa en 1 la capacidad actual del curso (`currentCapacity`).
+  3. **Cierre en cascada (RF-09):** Pasa automáticamente a `REJECTED` cualquier otra solicitud activa (`PENDING` o `PROPOSED_REASSIGNMENT`) de ese mismo alumno en ese mismo ciclo lectivo (`year`).
+  4. Persiste observaciones, materias adeudadas y constancias pendientes si fueron provistas.
+  5. Responde **200 OK** con la inscripción aprobada.
+
+---
+
+### 6.6 Observar Solicitud (Retención por Inconsistencias)
+
+Pasa la solicitud al estado `OBSERVED` para requerir que el tutor subsane errores o envíe certificados pendientes.
+
+```http
+PUT /api/registrations/{id}/observe
+Content-Type: application/json
+```
+
+**Cuerpo JSON (obligatorio):**
+```json
+{
+  "observations": "Falta adjuntar el certificado de inclusión escolar y la constancia médica emitida por organismo oficial."
+}
+```
+
+**Reglas de negocio:**
+- **Estado previo requerido:** La solicitud **debe estar en estado `PENDING`**.
+  * Si ya fue tratada o ya está observada: responde **409 Conflict**.
+- **Observaciones obligatorias:** El campo `observations` es estrictamente requerido y no puede estar vacío (`min:1`). Si falta: responde **422 Unprocessable** con el mensaje `"Debe detallar qué falta o está mal en la solicitud."`.
+- **Efectos al observar:**
+  1. Pasa la solicitud a estado `OBSERVED`.
+  2. Registra el detalle en `observations` (disponible para el tutor en su bandeja).
+  3. No altera cupos.
+  4. Responde **200 OK** con la solicitud en estado `OBSERVED`.
+
+---
+
+### 6.7 Rechazar Solicitud
+
+Rechaza definitivamente una solicitud pendiente.
+
+```http
+PUT /api/registrations/{id}/reject
+Content-Type: application/json
+```
+
+**Cuerpo JSON (opcional):**
+```json
+{
+  "observations": "No cumple los requisitos correlativos para cursar el ciclo superior.",
+  "pendingSubjects": ["Matemática", "Taller de Electrónica"],
+  "missingDocumentation": "Analítico de materias adeudadas de escuela de origen"
+}
+```
+
+**Reglas de negocio:**
+- La solicitud debe estar en estado `PENDING`. Si ya fue tratada: responde **409 Conflict**.
+- Pasa la inscripción a estado `REJECTED`.
+- No modifica vacantes ni afecta a otras solicitudes.
+- Responde **200 OK** con la solicitud rechazada.
+
+---
+
+### 6.8 Proponer Reasignación de Curso
+
+Permite a la secretaría ofrecer al tutor una vacante en otra división o turno del mismo año lectivo (por ejemplo, cuando el curso original se encuentra saturado).
+
+```http
+PUT /api/registrations/{id}/propose-reassignment
+Content-Type: application/json
+```
+
+**Cuerpo JSON (o Query Params):**
+```json
+{
+  "newCourseId": "018f2a20-1111-7123-b456-9876543210fe",
+  "reassignmentReason": "El curso solicitado superó su capacidad máxima. Se ofrece vacante en la división 2 del turno mañana.",
+  "observations": "Queda a la espera de confirmación del tutor.",
+  "pendingSubjects": ["Lengua"],
+  "missingDocumentation": "Partida de nacimiento legalizada"
+}
+```
+
+**Campos obligatorios:**
+- `newCourseId`: UUID del curso propuesto.
+- `reassignmentReason`: Texto explicativo obligatorio justificando la propuesta.
+
+**Reglas de negocio y validaciones:**
+- La inscripción debe estar en estado `PENDING`. Si ya fue tratada: responde **409 Conflict**.
+- Si falta `reassignmentReason` o está vacío: responde **422 Unprocessable**.
+- Si `newCourseId` no existe: responde **404 Not Found**.
+- Si el curso propuesto está inactivo: responde **422 Unprocessable**.
+- Si el curso propuesto es el mismo curso original de la solicitud: responde **422 Unprocessable**.
+- Si el curso propuesto pertenece a otro ciclo lectivo distinto (`year` diferente): responde **422 Unprocessable** (la reasignación solo se admite dentro del mismo ciclo lectivo).
+- Si el alumno ya cuenta con otra solicitud activa (`PENDING` o `PROPOSED_REASSIGNMENT`) en el curso propuesto: responde **422 Unprocessable**.
+- Si el alumno ya está aprobado (`APPROVED`) en otro curso del mismo ciclo lectivo: responde **409 Conflict** informando en qué curso ya está inscripto.
+- **Curso propuesto lleno:** Si el curso destino está completo (`currentCapacity >= maxCapacity`), responde **422 Unprocessable** y adjunta en `data.availableCourses` la lista de cursos del mismo año lectivo que sí cuentan con cupo disponible:
+  ```json
+  {
+    "message": "Este curso no recibe más inscripciones. Por favor, vuelva a intentar con otro curso.",
+    "errors": {
+      "newCourseId": ["Este curso no recibe más inscripciones. Por favor, vuelva a intentar con otro curso."]
+    },
+    "data": {
+      "availableCourses": [
+        {
+          "id": "018f2a20-2222-7123-b456-9876543210fe",
+          "code": "2026-1-3-BAS-INF-T",
+          "year": 2026,
+          "studyYear": 1,
+          "division": "3",
+          "cycle": "basic",
+          "shift": "afternoon",
+          "speciality": "informatics",
+          "maxCapacity": 30,
+          "currentCapacity": 15,
+          "availablePlaces": 15,
+          "status": "active"
+        }
+      ]
+    }
+  }
+  ```
+- **Éxito:** Pasa la inscripción a `PROPOSED_REASSIGNMENT`, almacena `proposedCourseId`, `reassignmentReason`, observaciones y responde **200 OK**. El cupo no se incrementa hasta la aceptación del tutor.
+
+---
+
+## 7. Políticas de Validación de Archivos y Seguridad (Constitución #5)
+
+1. **Inspección de Contenido Real (Magic Bytes):**
+   - No se confía en la extensión del archivo ni en la cabecera `Content-Type` provista por el navegador.
+   - El sistema analiza los primeros bytes del buffer (`finfo_buffer`, `getimagesizefromstring`) para corroborar que el archivo sea efectivamente:
+     * `application/pdf` (con cabecera binaria `%PDF-` válida).
+     * `image/jpeg`
+     * `image/png`
+     * `image/webp`
+   - Si un archivo ejecutable, comprimido o script se renombra a `.pdf`, el sistema lo detecta y lo rechaza con **422 Unprocessable**, sin almacenar nada en disco.
+
+2. **Límites de Tamaño e Integridad:**
+   - Tamaño máximo: **5 MB (5.242.880 bytes)** por certificado.
+   - Archivos vacíos (0 bytes) o imágenes corruptas/truncadas son rechazados con **422**.
+
+3. **Almacenamiento Privado y Cifrado:**
+   - Los certificados se guardan en el disco privado `local` (`storage/app/private/certificates/{studentId}/...`).
+   - Nunca se guardan en el disco público (`public`).
+   - Las rutas de los archivos en la base de datos se almacenan cifradas (`encrypted` cast en Eloquent).
+
+4. **Coherencia Booleano/Certificado:**
+   - Está prohibido marcar la condición en `false` y adjuntar un archivo. Responde **422** de contradicción y cancela la operación antes de tocar el sistema de archivos.
+
+---
+
+## 8. Concurrencia y Bloqueo Pesimista
+
+Para evitar sobreinscripciones accidentales cuando múltiples usuarios interactúan en simultáneo:
+- Las transacciones de **Aprobación**, **Propuesta de Reasignación** y **Aceptación del Tutor** ejecutan consultas con bloqueo pesimista en base de datos (`lockForUpdate()`) tanto sobre la fila de la solicitud como sobre la fila del curso respectivo.
+- La capacidad actual (`currentCapacity`) nunca superará la capacidad máxima (`maxCapacity`) bajo ninguna condición de carrera.
+
+---
+
+## 9. Matriz de Códigos de Respuesta HTTP
+
+| Código HTTP | Significado | Ejemplos en el Circuito |
+|-------------|-------------|-------------------------|
+| **200 OK** | Operación exitosa | Consultas GET, resoluciones de secretaría (aprobar, rechazar, observar, proponer), respuesta del tutor, edición de solicitud. |
+| **201 Created** | Solicitud creada | `POST /api/registrations` exitoso en estado `PENDING`. |
+| **401 Unauthorized** | No autenticado | Token ausente, vencido o con firma no válida. |
+| **403 Forbidden** | Rol no autorizado | Tutor intentando acceder a endpoints de secretaría (`/approve`, `/observe`, `/open`, etc.); personal intentando acceder a endpoints exclusivos de tutor (`/me`, `/reply-reassignment`). |
+| **404 Not Found** | Recurso no encontrado | Solicitud, alumno o curso inexistente; o alumno/inscripción ajena consultada por un Tutor (para no filtrar existencia). |
+| **409 Conflict** | Conflicto de estado | Solicitud ya tratada previamente; alumno ya inscripto en el ciclo lectivo; solicitud activa duplicada en el mismo curso; tutor intentando responder dos veces o sobre un estado distinto a `PROPOSED_REASSIGNMENT`; tutor intentando editar una solicitud en `APPROVED` o `REJECTED`. |
+| **422 Unprocessable** | Inconsistencia de datos / Regla de negocio | Curso lleno al intentar aprobar; certificados inválidos o incoherentes; curso inactivo; falta de motivo obligatorio en reasignación u observaciones al observar; parámetros de paginación o filtros inválidos. |
+
+---
+
+## 10. Referencia de Archivos del Módulo
+
+| Componente | Archivo en Repositorio |
+|------------|------------------------|
+| **Enum de Estados** | `app/Enums/RegistrationStatus.php` |
+| **Migración BD** | `database/migrations/2026_10_28_000001_create_registrations_table.php` |
+| **Búsqueda Desacentuada** | `database/migrations/2026_10_28_000002_add_search_columns_to_students_table.php` |
+| **Modelo Eloquent** | `app/Models/Registration.php` |
+| **Factory de Pruebas** | `database/factories/RegistrationFactory.php` |
+| **Form Requests** | `app/Http/Requests/StoreRegistrationRequest.php`<br>`app/Http/Requests/UpdateRegistrationRequest.php`<br>`app/Http/Requests/ObserveRegistrationRequest.php`<br>`app/Http/Requests/ResolveRegistrationRequest.php`<br>`app/Http/Requests/ReplyReassignmentRequest.php`<br>`app/Http/Requests/IndexRegistrationRequest.php` |
+| **Recursos JSON** | `app/Http/Resources/RegistrationResource.php`<br>`app/Http/Resources/RegistrationPrefillResource.php` |
+| **Lógica de Negocio** | `app/Services/RegistrationService.php` |
+| **Controlador** | `app/Http/Controllers/RegistrationController.php` |
+| **Rutas API** | `routes/api.php` |
+| **Suites de Pruebas** | `tests/Feature/RegistrationSubmissionTest.php`<br>`tests/Feature/RegistrationCertificateValidationTest.php`<br>`tests/Feature/RegistrationResolutionTest.php`<br>`tests/Feature/RegistrationReassignmentTest.php`<br>`tests/Feature/RegistrationQueryTest.php`<br>`tests/Feature/RegistrationEditTest.php`<br>`tests/Feature/RegistrationObserveTest.php` |

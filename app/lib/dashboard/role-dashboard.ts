@@ -9,3 +9,8 @@ export function showsTutorEmptyState(role: UserRole): boolean {
 export function tutorGreeting(name: string): string {
   return `¡Hola, ${name}!`;
 }
+
+/** Solo los roles altos ven el contador de solicitudes pendientes. */
+export function showsPendingRegistrationsCard(role: UserRole): boolean {
+  return role === "ADMINISTRATIVO" || role === "ADMINISTRADOR";
+}

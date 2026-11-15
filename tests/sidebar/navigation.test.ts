@@ -60,6 +60,7 @@ test("Inicio, Cursos, la sección de usuarios y Mi perfil están habilitados", (
       "Inicio",
       "Alumnos",
       "Cursos",
+      "Inscripciones",
       "Gestión de usuarios",
       "Mi perfil",
     ],
@@ -67,6 +68,7 @@ test("Inicio, Cursos, la sección de usuarios y Mi perfil están habilitados", (
       "Inicio",
       "Alumnos",
       "Cursos",
+      "Inscripciones",
       "Gestión de usuarios",
       "Mi perfil",
     ],
@@ -249,6 +251,47 @@ test("Cursos no se activa para TUTOR y no desplaza a Inicio", () => {
   assert.equal(
     getNavigationItemState(home, "/dashboard/courses"),
     "inactive",
+  );
+});
+
+test("Inscripciones está habilitado para roles altos y activo en sus rutas", () => {
+  const adminItem = getRoleNavigation("ADMINISTRATIVO").find(
+    (item) => item.label === "Inscripciones",
+  );
+  const adminItemBoss = getRoleNavigation("ADMINISTRADOR").find(
+    (item) => item.label === "Inscripciones",
+  );
+  const tutorItem = getRoleNavigation("TUTOR").find(
+    (item) => item.label === "Inscripciones",
+  );
+
+  assert.ok(adminItem);
+  assert.equal(adminItem.enabled, true);
+  assert.equal(adminItem.href, "/dashboard/registrations");
+  assert.equal(adminItem.match, "prefix");
+  assert.ok(adminItemBoss);
+  assert.equal(adminItemBoss.enabled, true);
+  assert.equal(adminItemBoss.href, "/dashboard/registrations");
+
+  assert.equal(
+    getNavigationItemState(adminItem, "/dashboard/registrations"),
+    "active",
+  );
+  assert.equal(
+    getNavigationItemState(adminItem, "/dashboard/registrations/r1"),
+    "active",
+  );
+  assert.equal(
+    getNavigationItemState(adminItem, "/dashboard/registrations-otros"),
+    "inactive",
+  );
+
+  assert.ok(tutorItem);
+  assert.equal(tutorItem.enabled, false);
+  assert.equal(tutorItem.href, null);
+  assert.equal(
+    getNavigationItemState(tutorItem, "/dashboard/registrations"),
+    "unavailable",
   );
 });
 

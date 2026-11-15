@@ -47,6 +47,15 @@ const ADMIN_STUDENTS_ITEM: SidebarNavItem = Object.freeze({
   match: "prefix",
 });
 
+/** Inscripciones está habilitado para administrativos y administradores. */
+const ADMIN_INSCRIPTIONS_ITEM: SidebarNavItem = Object.freeze({
+  label: "Inscripciones",
+  icon: "inscriptions",
+  href: "/dashboard/registrations",
+  enabled: true,
+  match: "prefix",
+});
+
 /** Opciones del directorio de personal. */
 const USERS_CHILDREN: readonly SidebarNavChild[] = Object.freeze([
   Object.freeze({
@@ -115,7 +124,7 @@ export const SIDEBAR_NAVIGATION: Readonly<
     HOME_ITEM,
     ADMIN_STUDENTS_ITEM,
     COURSES_ITEM,
-    unavailable("Inscripciones", "inscriptions"),
+    ADMIN_INSCRIPTIONS_ITEM,
     USERS_SECTION,
     PROFILE_ITEM,
   ]),
@@ -123,7 +132,7 @@ export const SIDEBAR_NAVIGATION: Readonly<
     HOME_ITEM,
     ADMIN_STUDENTS_ITEM,
     COURSES_ITEM,
-    unavailable("Inscripciones", "inscriptions"),
+    ADMIN_INSCRIPTIONS_ITEM,
     USERS_SECTION,
     unavailable("Reportes", "reports"),
     PROFILE_ITEM,
