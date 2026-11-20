@@ -1348,3 +1348,4 @@ test("requestRoleChange clasifica red y configuración", async () => {
     }
   }
 });
+

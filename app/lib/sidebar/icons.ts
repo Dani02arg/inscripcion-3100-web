@@ -7,6 +7,7 @@ export const SIDEBAR_ICON_PATHS: Readonly<Record<SidebarIconKey, string>> =
     students: "/icons/ico-read-book.svg",
     courses: "/icons/ico-course.svg",
     inscriptions: "/icons/ico-register.svg",
+    notification: "/icons/ico-bell.svg",
     users: "/icons/ico-users.svg",
     staff: "/icons/ico-staff.svg",
     reports: "/icons/ico-report.svg",

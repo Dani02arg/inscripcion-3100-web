@@ -1,0 +1,1632 @@
+[ 3950311ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 3950340ms] [LOG] [Fast Refresh] done in 5ms @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 4302962ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 4302970ms] [LOG] [Fast Refresh] done in 56ms @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 4379413ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 4379446ms] [LOG] [Fast Refresh] done in 12ms @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 4760000ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 4760028ms] [LOG] [Fast Refresh] done in 14ms @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 4965169ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 4965195ms] [LOG] [Fast Refresh] done in 14ms @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5953846ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5953910ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5953994ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5954078ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5954161ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5954226ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5954296ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5954393ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5954529ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5954530ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5954692ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5954777ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5954844ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5954943ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5955063ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5955097ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5955226ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5955311ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5955378ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5955476ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5955512ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5955612ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5955630ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5955728ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5955746ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5955845ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5955868ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5955961ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5955998ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5956079ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5956113ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5956214ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5956231ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5956315ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5956362ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5956446ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5956464ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5956576ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5956595ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5956677ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5956811ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5956828ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5956979ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5957044ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5957146ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5957211ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5957312ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5957378ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5957470ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5957544ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5957677ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5957712ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5957845ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5957897ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5957998ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5958064ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5958175ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5958228ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5958356ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5958415ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5958529ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5958577ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5958714ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5958747ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5958867ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5958952ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5959063ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5959112ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5959279ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5959309ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5959457ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5959513ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5959628ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5959678ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5959782ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5959860ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5959948ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5960013ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5960097ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5960163ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5960247ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5960328ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5960397ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5960489ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5960549ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5960631ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5960713ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5960780ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5960879ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5960960ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5961081ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5961111ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5961231ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5961314ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5961392ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5961466ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5961562ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5961632ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5961730ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5961796ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5961892ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5961976ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5962042ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5962128ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5962179ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5962262ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5962329ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5962411ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5962479ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5962572ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5962628ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5962699ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5962729ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5962829ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5962846ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5962943ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5962978ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5963065ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5963096ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5963194ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5963212ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5963311ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5963370ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5963428ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5963528ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5963618ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5963714ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5963763ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5963912ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5963949ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5964078ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5964160ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5964229ms] [ERROR] ./app/ui/courses/course-dialog.tsx:125:22
+Error: Unexpected token `<eof>`. Expected jsx identifier
+  123 |   return (
+  124 |     <dialog
+> 125 |       ref={dialogRef}
+      |                      ^
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/ui/courses/course-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/status-dialog.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Client Component Browser]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/ui/courses/course-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/status-dialog.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Client Component SSR]
+    ./app/ui/courses/courses-view.tsx [Server Component]
+    ./app/dashboard/courses/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:1037
+[ 5964310ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5964380ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 5964418ms] [LOG] [Fast Refresh] done in 41ms @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_0bg_dbw5wwicp._.js:761
+[ 6303091ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/hmr?id=G3uAPhJStOeMgDNONX940' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_client_1fhi_376l_90z._.js:16257
+[ 6304099ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/hmr?id=G3uAPhJStOeMgDNONX940' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_client_1fhi_376l_90z._.js:16257
+[ 6305115ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/hmr?id=G3uAPhJStOeMgDNONX940' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_client_1fhi_376l_90z._.js:16257
+[ 6306134ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/hmr?id=G3uAPhJStOeMgDNONX940' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_client_1fhi_376l_90z._.js:16257
+[ 6307150ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/hmr?id=G3uAPhJStOeMgDNONX940' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_client_1fhi_376l_90z._.js:16257
+[ 6312168ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/hmr?id=G3uAPhJStOeMgDNONX940' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_client_1fhi_376l_90z._.js:16257
+[ 6317183ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/hmr?id=G3uAPhJStOeMgDNONX940' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_client_1fhi_376l_90z._.js:16257
+[ 6322216ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/hmr?id=G3uAPhJStOeMgDNONX940' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_client_1fhi_376l_90z._.js:16257
+[ 6327249ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/hmr?id=G3uAPhJStOeMgDNONX940' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_client_1fhi_376l_90z._.js:16257
+[ 6332268ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/hmr?id=G3uAPhJStOeMgDNONX940' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_client_1fhi_376l_90z._.js:16257
+[ 6337362ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/hmr?id=G3uAPhJStOeMgDNONX940' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_client_1fhi_376l_90z._.js:16257
+[ 6342418ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/hmr?id=G3uAPhJStOeMgDNONX940' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0z6s_next_dist_client_1fhi_376l_90z._.js:16257

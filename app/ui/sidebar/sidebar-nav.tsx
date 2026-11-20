@@ -11,11 +11,13 @@ import {
   isSectionItem,
   type SidebarNavSection,
 } from "../../lib/sidebar/navigation.ts";
+import { buildNotificationMenuLabel } from "../../lib/notifications/labels.ts";
 import type {
   SidebarIconKey,
   SidebarMatchMode,
   SidebarNavItem,
 } from "../../lib/sidebar/types.ts";
+import NotificationBadge from "./notification-badge.tsx";
 
 interface SidebarNavProps {
   items: readonly SidebarNavItem[];
@@ -39,6 +41,7 @@ interface NavLinkRowProps {
   activeOverride?: boolean;
   collapsed: boolean;
   indent: boolean;
+  badge?: number;
   tooltipKey: string;
   openTooltip: string | null;
   setOpenTooltip: (key: string | null) => void;
@@ -56,6 +59,7 @@ function NavLinkRow({
   activeOverride,
   collapsed,
   indent,
+  badge,
   tooltipKey,
   openTooltip,
   setOpenTooltip,
@@ -67,6 +71,8 @@ function NavLinkRow({
       ? activeOverride
       : isHrefActive(href, pathname, match));
   const unavailable = !enabled || href === null;
+  const accessibleLabel =
+    badge !== undefined ? buildNotificationMenuLabel(badge) : undefined;
   const tooltipOpen = collapsed && openTooltip === tooltipKey;
   const labelClasses = collapsed
     ? "sr-only"
@@ -92,13 +98,18 @@ function NavLinkRow({
         />
       )}
 
-      <Image
-        src={getSidebarIconPath(icon)}
-        alt=""
-        width={24}
-        height={24}
-        className="h-6 w-6 shrink-0"
-      />
+      <span className={collapsed ? "relative shrink-0" : "shrink-0"}>
+        <Image
+          src={getSidebarIconPath(icon)}
+          alt=""
+          width={24}
+          height={24}
+          className="h-6 w-6 shrink-0"
+        />
+        {collapsed && badge !== undefined && badge > 0 ? (
+          <NotificationBadge count={badge} collapsed />
+        ) : null}
+      </span>
 
       <span className="min-w-0 flex-1">
         <span className={labelClasses}>{label}</span>
@@ -113,6 +124,10 @@ function NavLinkRow({
         )}
       </span>
 
+      {!collapsed && badge !== undefined && badge > 0 ? (
+        <NotificationBadge count={badge} collapsed={false} />
+      ) : null}
+
       {collapsed && (
         <span
           aria-hidden="true"
@@ -121,6 +136,7 @@ function NavLinkRow({
           }`}
         >
           {label}
+          {badge !== undefined && badge > 0 ? ` (${badge} sin leer)` : ""}
           {unavailable ? " — Próximamente" : ""}
         </span>
       )}
@@ -172,6 +188,7 @@ function NavLinkRow({
         <Link
           href={href}
           aria-current={active ? "page" : undefined}
+          aria-label={accessibleLabel}
           onClick={() => {
             setOpenTooltip(null);
             onNavigate?.();
@@ -322,6 +339,7 @@ export default function SidebarNav({
               pathname={pathname}
               collapsed={collapsed}
               indent={false}
+              badge={item.badge}
               tooltipKey={`${item.label}-${item.icon}`}
               openTooltip={openTooltip}
               setOpenTooltip={setOpenTooltip}

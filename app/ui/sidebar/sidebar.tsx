@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 import { writeCollapsePreference } from "../../lib/sidebar/collapse-cookie-client.ts";
 import { getRoleNavigation } from "../../lib/sidebar/navigation.ts";
+import { withNotificationBadge } from "../../lib/notifications/rules.ts";
 import { getNavigationWidth } from "../../lib/sidebar/presentation.ts";
 import type { SidebarAccountState } from "../../lib/sidebar/types.ts";
 import type { UserRole } from "../../lib/auth/types.ts";
@@ -14,6 +15,7 @@ import SidebarAccountMenu from "./sidebar-account-menu";
 import SidebarDrawer from "./sidebar-drawer";
 import SidebarHeader from "./sidebar-header";
 import SidebarNav from "./sidebar-nav";
+import { useUnreadNotifications } from "./use-unread-notifications.ts";
 
 interface SidebarProps {
   role: UserRole;
@@ -45,7 +47,8 @@ export default function Sidebar({
   const desktopAccountTriggerRef = useRef<HTMLButtonElement>(null);
   const drawerAccountTriggerRef = useRef<HTMLButtonElement>(null);
 
-  const items = getRoleNavigation(role);
+  const unreadCount = useUnreadNotifications();
+  const items = withNotificationBadge(getRoleNavigation(role), unreadCount);
 
   const closeDrawer = useCallback(() => {
     setDrawerOpen(false);

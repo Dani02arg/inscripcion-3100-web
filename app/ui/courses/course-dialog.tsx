@@ -15,6 +15,8 @@ interface CourseDialogProps {
   onClose: () => void;
   closeDisabled?: boolean;
   describedBy?: string;
+  closeOnBackdrop?: boolean;
+  wide?: boolean;
 }
 
 const FOCUSABLE_SELECTOR = [
@@ -26,7 +28,6 @@ const FOCUSABLE_SELECTOR = [
   '[tabindex]:not([tabindex="-1"])',
 ].join(",");
 
-/** Diálogo nativo reutilizable con foco atrapado y retorno al disparador. */
 export default function CourseDialog({
   open,
   id,
@@ -35,10 +36,17 @@ export default function CourseDialog({
   onClose,
   closeDisabled = false,
   describedBy,
+  closeOnBackdrop = false,
+  wide = false,
 }: CourseDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
+  const backdropPressRef = useRef(false);
   const titleId = `${id}-title`;
+
+  const dialogWidthClass = wide
+    ? "w-[min(95vw,56rem)]"
+    : "w-[min(95vw,44rem)]";
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -59,6 +67,7 @@ export default function CourseDialog({
     const focusables = Array.from(
       dialog.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
     ).filter((element) => element.offsetParent !== null);
+
     const preferred =
       dialog.querySelector<HTMLElement>("[data-autofocus]") ??
       focusables[0] ??
@@ -118,6 +127,22 @@ export default function CourseDialog({
       aria-modal="true"
       aria-labelledby={titleId}
       aria-describedby={describedBy}
+      onPointerDown={(event) => {
+        backdropPressRef.current = event.target === dialogRef.current;
+      }}
+      onPointerUp={(event) => {
+        const startedOnBackdrop = backdropPressRef.current;
+        backdropPressRef.current = false;
+
+        if (
+          closeOnBackdrop &&
+          !closeDisabled &&
+          startedOnBackdrop &&
+          event.target === dialogRef.current
+        ) {
+          onClose();
+        }
+      }}
       onCancel={(event) => {
         event.preventDefault();
 
@@ -126,24 +151,62 @@ export default function CourseDialog({
         }
       }}
       onKeyDown={handleKeyDown}
-      className="m-auto w-[min(92vw,36rem)] max-h-[calc(100vh-2rem)] overflow-y-auto rounded-2xl border border-borde-input bg-superficie p-0 text-texto-principal shadow-lg"
+      className={`
+        m-auto
+        ${dialogWidthClass}
+        max-h-[calc(100vh-1.5rem)]
+        overflow-y-auto
+        rounded-2xl
+        border border-slate-200
+        bg-white
+        p-0
+        text-slate-800
+        shadow-2xl
+        backdrop:bg-slate-950/40
+        backdrop:backdrop-blur-[2px]
+      `}
     >
-      <div className="flex items-center justify-between gap-3 border-b border-borde-input px-4 py-3">
-        <h2 id={titleId} className="text-lg font-bold text-texto-principal">
+      {/* Encabezado compacto */}
+      <div className="
+        sticky top-0 z-20
+        flex items-center justify-between gap-3
+        border-b border-slate-200
+        bg-white
+        px-5 py-3
+      ">
+        <h2
+          id={titleId}
+          className="text-lg font-semibold tracking-tight text-slate-900"
+        >
           {title}
         </h2>
+
         <button
           type="button"
           onClick={onClose}
           disabled={closeDisabled}
           aria-label="Cerrar diálogo"
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-xl font-semibold text-texto-principal transition-colors hover:bg-fondo-app focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-borde-focus focus-visible:ring-offset-2 focus-visible:ring-offset-superficie disabled:cursor-not-allowed disabled:text-texto-secundario"
+          className="
+            inline-flex h-8 w-8 shrink-0
+            items-center justify-center
+            rounded-lg
+            text-lg text-slate-500
+            transition-colors
+            hover:bg-slate-100 hover:text-slate-900
+            focus-visible:outline-none
+            focus-visible:ring-2 focus-visible:ring-blue-700
+            focus-visible:ring-offset-2
+            disabled:cursor-not-allowed disabled:opacity-40
+          "
         >
           <span aria-hidden="true">×</span>
         </button>
       </div>
 
-      <div className="p-4">{children}</div>
+      {/* Contenido con padding vertical más ajustado */}
+      <div className="px-5 py-3.5 sm:px-6 sm:py-4">
+        {children}
+      </div>
     </dialog>
   );
 }

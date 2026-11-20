@@ -4,6 +4,7 @@ export type SidebarIconKey =
   | "students"
   | "courses"
   | "inscriptions"
+  | "notification"
   | "users"
   | "staff"
   | "reports"
@@ -41,6 +42,8 @@ export interface SidebarNavItem {
   readonly match: SidebarMatchMode;
   /** Opciones de una sección desplegable. */
   readonly children?: readonly SidebarNavChild[];
+  /** Cantidad de no leídas para el badge; ausente cuando no corresponde. */
+  readonly badge?: number;
 }
 
 /** Estado de una opción para una ruta determinada. */

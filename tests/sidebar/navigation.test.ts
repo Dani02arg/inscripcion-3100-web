@@ -20,6 +20,7 @@ test("el tutor recibe sus opciones en el orden de la spec", () => {
 
   assert.deepEqual(labels, [
     "Inicio",
+    "Notificaciones",
     "Mis hijos",
     "Inscripciones",
     "Mi perfil",
@@ -31,6 +32,7 @@ test("el administrativo recibe sus opciones en el orden de la spec", () => {
 
   assert.deepEqual(labels, [
     "Inicio",
+    "Notificaciones",
     "Alumnos",
     "Cursos",
     "Inscripciones",
@@ -44,6 +46,7 @@ test("el administrador recibe sus opciones en el orden de la spec", () => {
 
   assert.deepEqual(labels, [
     "Inicio",
+    "Notificaciones",
     "Alumnos",
     "Cursos",
     "Inscripciones",
@@ -55,9 +58,10 @@ test("el administrador recibe sus opciones en el orden de la spec", () => {
 
 test("Inicio, Cursos, la sección de usuarios y Mi perfil están habilitados", () => {
   const expected: Record<string, readonly string[]> = {
-    TUTOR: ["Inicio", "Mis hijos", "Mi perfil"],
+    TUTOR: ["Inicio", "Notificaciones", "Mis hijos", "Mi perfil"],
     ADMINISTRATIVO: [
       "Inicio",
+      "Notificaciones",
       "Alumnos",
       "Cursos",
       "Inscripciones",
@@ -66,6 +70,7 @@ test("Inicio, Cursos, la sección de usuarios y Mi perfil están habilitados", (
     ],
     ADMINISTRADOR: [
       "Inicio",
+      "Notificaciones",
       "Alumnos",
       "Cursos",
       "Inscripciones",
@@ -460,3 +465,4 @@ test("isHrefActive rechaza destinos nulos y respeta el modo exacto", () => {
   assert.equal(isHrefActive("/dashboard", "/dashboard"), true);
   assert.equal(isHrefActive("/dashboard", "/dashboard/otro"), false);
 });
+

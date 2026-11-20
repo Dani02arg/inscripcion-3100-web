@@ -7,7 +7,6 @@ import {
   INSTITUTION_SHORT_NAME,
 } from "../../lib/sidebar/presentation.ts";
 import type { SidebarMode } from "../../lib/sidebar/types.ts";
-import NotificationBell from "./notification-bell";
 
 interface SidebarHeaderProps {
   mode: SidebarMode;

@@ -10,6 +10,7 @@ import type {
 
 export const PROFILE_PATH = "/dashboard/profile";
 export const ACCOUNT_PATH = "/dashboard/account";
+export const NOTIFICATIONS_PATH = "/dashboard/notifications";
 
 /** Inicio está habilitado para todos los roles. */
 const HOME_ITEM: SidebarNavItem = Object.freeze({
@@ -25,6 +26,15 @@ const COURSES_ITEM: SidebarNavItem = Object.freeze({
   label: "Cursos",
   icon: "courses",
   href: "/dashboard/courses",
+  enabled: true,
+  match: "prefix",
+});
+
+/** Notificaciones está habilitado para los tres roles. */
+const NOTIFICATIONS_ITEM: SidebarNavItem = Object.freeze({
+  label: "Notificaciones",
+  icon: "notification",
+  href: NOTIFICATIONS_PATH,
   enabled: true,
   match: "prefix",
 });
@@ -116,12 +126,14 @@ export const SIDEBAR_NAVIGATION: Readonly<
 > = Object.freeze({
   TUTOR: Object.freeze([
     HOME_ITEM,
+    NOTIFICATIONS_ITEM,
     TUTOR_STUDENTS_ITEM,
     unavailable("Inscripciones", "inscriptions"),
     PROFILE_ITEM,
   ]),
   ADMINISTRATIVO: Object.freeze([
     HOME_ITEM,
+    NOTIFICATIONS_ITEM,
     ADMIN_STUDENTS_ITEM,
     COURSES_ITEM,
     ADMIN_INSCRIPTIONS_ITEM,
@@ -130,6 +142,7 @@ export const SIDEBAR_NAVIGATION: Readonly<
   ]),
   ADMINISTRADOR: Object.freeze([
     HOME_ITEM,
+    NOTIFICATIONS_ITEM,
     ADMIN_STUDENTS_ITEM,
     COURSES_ITEM,
     ADMIN_INSCRIPTIONS_ITEM,

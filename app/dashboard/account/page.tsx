@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 function renderAccountState(
   state: Exclude<AccountState, { readonly status: "loading" }>,
 ): ReactNode {
-  if (state.status === "ready") {
+  if (state.status === "ready") { //si esta configurado correctamente, renderiza la vista de la cuenta
     return <AccountView user={state.user} />;
   }
 

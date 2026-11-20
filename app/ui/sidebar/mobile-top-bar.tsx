@@ -6,7 +6,6 @@ import {
   INSTITUTION_FULL_NAME,
   INSTITUTION_LOGO_PATH,
 } from "../../lib/sidebar/presentation.ts";
-import NotificationBell from "./notification-bell";
 
 interface MobileTopBarProps {
   onOpenMenu: () => void;
@@ -68,8 +67,13 @@ export default function MobileTopBar({
           <span className="sr-only">{INSTITUTION_FULL_NAME}. Ir al inicio.</span>
         </Link>
 
-        <NotificationBell tone="onDark" />
+        <NotificationSpacer />
       </div>
     </header>
   );
+}
+
+/** Mantiene el logo centrado sin mostrar un segundo indicador. */
+function NotificationSpacer() {
+  return <span aria-hidden="true" className="h-11 w-11 shrink-0" />;
 }

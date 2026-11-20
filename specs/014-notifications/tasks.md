@@ -1,0 +1,73 @@
+# Tasks 014 — Módulo de Notificaciones
+
+Spec: `spec.md` (aprobada) · Plan: `plan.md` (aprobado)
+Regla: una tarea a la vez, tests primero cuando aplique, marcar y continuar.
+
+- [x] **T1. Dominio y acceso.** RF-1, RF-9–RF-15, RF-84–RF-90
+  - Hecho cuando: existen tipos, audiencias, filtros, errores, roles lectores/emisores y guardias tipadas.
+- [x] **T2. Validaciones puras.** RF-63–RF-69, RF-80, RF-105–RF-107, RF-113
+  - Hecho cuando: título, contenido, adjunto, payload y errores `422` están cubiertos por funciones puras.
+- [x] **T3. Reglas puras.** RF-3–RF-8, RF-18–RF-25, RF-33–RF-45, RF-49, RF-53–RF-58, RF-88–RF-103
+  - Hecho cuando: badge, orden, filtros, vacíos, resumen, lectura, foco, tutores y cursos son deterministas.
+- [x] **T4. Etiquetas y formatos.** RF-19, RF-20, RF-56, RF-91–RF-93, RF-107, RF-108
+  - Hecho cuando: fechas, resumen, nombres accesibles, tamaños y nombres de archivo están cubiertos.
+- [x] **T5. Red de bandeja y lectura.** RF-16–RF-38, RF-88, RF-117, RF-118
+  - Hecho cuando: listar y marcar leída manejan `401/403/404/5xx`, estructura inválida y duplicados.
+- [x] **T6. Red de envío y descarga.** RF-39–RF-42, RF-73–RF-81, RF-108–RF-114
+  - Hecho cuando: JSON/multipart, `2xx`, `413`, `5xx`, `422`, incierto y adjuntos están tipados.
+- [x] **T7. Datos y guardias.** RF-9–RF-15, RF-49, RF-53–RF-56, RF-84–RF-90
+  - Hecho cuando: bandeja, cursos y tutores se cargan sin caché y las acciones se autorizan por rol.
+- [x] **T8. Núcleos de acciones.** RF-6, RF-28, RF-33–RF-42, RF-49–RF-61, RF-66–RF-82
+  - Hecho cuando: badge, lectura, descarga, envío, cursos y tutores son testeables con dependencias inyectadas.
+- [x] **T9. Server Actions y eventos.** RF-6, RF-76, RF-88, RF-89, RF-118
+  - Hecho cuando: las acciones reales usan token, revalidan y emiten/consumen el evento del badge.
+- [x] **T10. Navegación lateral.** RF-1–RF-4, RF-8, RF-15
+  - Hecho cuando: «Notificaciones» existe para los tres roles con `ico-bell.svg` y soporte de badge.
+- [x] **T11. Hook y badge visual.** RF-3–RF-8, RF-88–RF-91, RF-118
+  - Hecho cuando: el badge se calcula al navegar/leer/enviar, se oculta ante fallo y es accesible.
+- [x] **T12. Barra compacta.** RF-8
+  - Hecho cuando: se retira la campana decorativa y no queda un segundo indicador.
+- [x] **T13. Diálogo compartido.** RF-43, RF-98
+  - Hecho cuando: `CourseDialog` acepta cierre por fondo con presión/liberación sobre el fondo.
+- [x] **T14. Api de usuarios.** RF-53–RF-57, RF-101–RF-103
+  - Hecho cuando: `listAllTutors` recorre páginas, filtra `TUTOR`, respeta criterios y aborta sin parciales.
+- [x] **T15. Ruta, estados y metadata.** RF-9–RF-16, RF-26–RF-28, RNF-12, RNF-13
+  - Hecho cuando: `/dashboard/notifications` tiene página, carga, error, acceso denegado y reintento.
+- [x] **T16. Bandeja.** RF-17–RF-30, RF-95
+  - Hecho cuando: lista, filtros, vacíos, orden, resumen y fila accesible funcionan.
+- [x] **T17. Detalle.** RF-31–RF-45, RF-96–RF-98
+  - Hecho cuando: lectura, cierre, foco, fondo y descarga se comportan según la spec.
+- [x] **T18. Alta: audiencia y curso con búsqueda.** RF-46–RF-52, RF-99, RF-103–RF-104, RF-119–RF-122, RF-129
+  - Hecho cuando: tres audiencias, combobox de curso con lupa, filtro por tecla, máximo cuatro, total/refinar, teclado y modal amplio.
+- [x] **T19. Alta: tutores con búsqueda.** RF-53–RF-61, RF-100–RF-102, RF-123–RF-128, RF-130
+  - Hecho cuando: una línea de búsqueda con lupa, filtro local por tecla, máximo cuatro, total/refinar, selección visible, teclado y tutor sin paginación.
+- [x] **T20. Alta: redacción y adjunto.** RF-62–RF-70, RF-105–RF-107
+  - Hecho cuando: título, contenido, adjunto, reemplazo, tamaño y límites funcionan.
+- [x] **T21. Alta: confirmación y envío.** RF-71–RF-83, RF-110–RF-116
+  - Hecho cuando: confirmación, cancelación, envío único, errores, incierto y navegación están cubiertos.
+- [x] **T22. Configuración de subida.** RF-67–RF-69, RF-111
+  - Hecho cuando: `bodySizeLimit` permite 5.000.000 bytes con margen de multipart.
+- [x] **T23. Tests de red.** RF-16–RF-42, RF-73–RF-81, RF-108–RF-114, RF-117, RF-118
+  - Hecho cuando: `tests/api/notifications.test.ts` cubre éxitos, errores y contratos.
+- [x] **T24. Tests de validación y formatos.** RF-19–RF-20, RF-63–RF-69, RF-80, RF-91–RF-93, RF-105–RF-108
+  - Hecho cuando: `tests/validation/notifications.test.ts` y `tests/notifications/labels.test.ts` están verdes.
+- [x] **T25. Tests de reglas y guardias.** RF-3–RF-8, RF-18–RF-25, RF-33–RF-45, RF-49–RF-58, RF-88–RF-103, RF-119–RF-126
+  - Hecho cuando: reglas, normalización, filtros, máximo cuatro y orden de tutores están verdes.
+- [x] **T26. Tests de acciones.** RF-6, RF-28, RF-33–RF-42, RF-49–RF-61, RF-66–RF-82, RF-110–RF-114
+  - Hecho cuando: `tests/actions/notifications.test.ts` cubre permisos, redirects, errores y revalidación.
+- [x] **T27. Tests de navegación, usuarios y selectores.** RF-1–RF-4, RF-8, RF-53–RF-57, RF-119–RF-130
+  - Hecho cuando: navegación, iconos, directorio de tutores y filtros de selectores están cubiertos.
+- [x] **T28. Verificación completa.** RNF-1–RNF-16
+  - Hecho cuando: `pnpm test`, `pnpm typecheck`, `pnpm lint` y `pnpm build` están en verde.
+- [x] **T29. E2E y cierre.** Todos los RF
+  - Hecho cuando: se valida con backend real (tres roles, badge, bandeja, detalle, descarga, tres audiencias, búsqueda por tecla, máximo cuatro, teclado y ancho del modal) y se actualiza `MEMORY.md`.
+- [x] **T30. Ancho del modal.** RF-129
+  - Hecho cuando: el modal de creación ocupa al menos 70% en 1024 px y 92%–96% en móvil, sin desborde.
+- [x] **T31. Combobox de curso.** RF-119–RF-122, RF-127, RF-128
+  - Hecho cuando: lupa, filtro por tecla, máximo cuatro, total/refinar, selección y teclado funcionan.
+- [x] **T32. Selector de tutor con búsqueda.** RF-123–RF-127
+  - Hecho cuando: una línea de búsqueda con lupa, filtro por tecla, máximo cuatro, total/refinar, selección y teclado funcionan.
+- [x] **T33. Directorio completo de tutores.** RF-124, RF-130
+  - Hecho cuando: carga al abrir, error/reintento, sin paginación y sin resultados parciales.
+- [x] **T34. Pruebas y E2E de selectores.** RF-119–RF-130
+  - Hecho cuando: tests de filtrado y E2E de curso/tutor, teclado y ancho están en verde.

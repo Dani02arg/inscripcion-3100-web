@@ -45,15 +45,21 @@ export default function HomePage() {
             <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
               <Link
                 href="/login"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-[#003b8e] text-white font-medium text-sm transition-all hover:bg-[#002b66] shadow-sm"
+                className="inline-flex items-center justify-center gap-2
+               px-6 py-3 rounded-lg 
+               bg-[#003b8e] 
+               text-white font-medium text-sm transition-all hover:bg-[#002b66] shadow-sm"
               >
-                <LogIn className="size-4" />
-                <span>Iniciar Sesión</span>
+                <LogIn className="size-4 text-white" />
+                <span className="text-white">Iniciar Sesión</span>
               </Link>
 
               <Link
                 href="/register"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-[#f4f4f5] text-slate-800 font-medium text-sm transition-all hover:bg-[#e4e4e7]"
+                className="inline-flex items-center justify-center gap-2
+                 px-6 py-3 rounded-lg
+                 bg-[#d4d4d8] text-slate-700
+                font-medium text-sm transition-all hover:bg-[#e4e4e7]"
               >
                 <UserPlus className="size-4" />
                 <span>Registrarse</span>

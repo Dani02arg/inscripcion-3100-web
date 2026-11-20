@@ -867,6 +867,145 @@ export async function listAllStaff(
   };
 }
 
+/**
+ * Obtiene todos los tutores que coinciden con los criterios recorriendo las
+ * páginas del padrón. Filtra por rol en servidor-doméstico y no devuelve
+ * resultados parciales si una página falla.
+ */
+export async function listAllTutors(
+  token: string,
+  filters: UserFilters,
+  options: UserRequestOptions = {},
+): Promise<UserListResult> {
+  const buildParams = (page: number): URLSearchParams => {
+    const params = new URLSearchParams({
+      per_page: String(USERS_PAGE_SIZE),
+      page: String(page),
+    });
+    const name = filters.name.trim();
+    const lastname = filters.lastname.trim();
+    const email = filters.email.trim();
+
+    if (name.length > 0) {
+      params.set("first_name", name);
+    }
+
+    if (lastname.length > 0) {
+      params.set("last_name", lastname);
+    }
+
+    if (email.length > 0) {
+      params.set("email", email);
+    }
+
+    return params;
+  };
+
+  const firstPage = await requestUserList(
+    token,
+    USERS_ENDPOINT_PATH,
+    buildParams(1),
+    options,
+    parseUserListResponse,
+    USERS_LOAD_ERROR_MESSAGE,
+  );
+
+  if (!firstPage.ok) {
+    return firstPage;
+  }
+
+  if (firstPage.meta.lastPage > USERS_MAX_PAGES) {
+    return failure("failed", null, USERS_LOAD_ERROR_MESSAGE);
+  }
+
+  const name = filters.name.trim().toLowerCase();
+  const lastname = filters.lastname.trim().toLowerCase();
+  const email = filters.email.trim().toLowerCase();
+  const dni = filters.dni.replace(/\D/g, "");
+  const cuil = filters.cuil.replace(/\D/g, "");
+
+  const matches = (user: UserSummary): boolean => {
+    if (user.role !== "TUTOR") {
+      return false;
+    }
+
+    if (name.length > 0 && !user.name.toLowerCase().includes(name)) {
+      return false;
+    }
+
+    if (
+      lastname.length > 0 &&
+      !user.lastname.toLowerCase().includes(lastname)
+    ) {
+      return false;
+    }
+
+    if (
+      email.length > 0 &&
+      !(user.email ?? "").toLowerCase().includes(email)
+    ) {
+      return false;
+    }
+
+    if (
+      dni.length > 0 &&
+      !(user.dni ?? "").replace(/\D/g, "").includes(dni)
+    ) {
+      return false;
+    }
+
+    if (
+      cuil.length > 0 &&
+      !(user.cuil ?? "").replace(/\D/g, "").includes(cuil)
+    ) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const users = firstPage.users.filter(matches);
+  let lastPage = firstPage.meta.lastPage;
+
+  for (let page = 2; page <= lastPage; page += 1) {
+    const result = await requestUserList(
+      token,
+      USERS_ENDPOINT_PATH,
+      buildParams(page),
+      options,
+      parseUserListResponse,
+      USERS_LOAD_ERROR_MESSAGE,
+    );
+
+    if (!result.ok) {
+      return result;
+    }
+
+    lastPage = Math.max(lastPage, result.meta.lastPage);
+
+    if (lastPage > USERS_MAX_PAGES) {
+      return failure("failed", null, USERS_LOAD_ERROR_MESSAGE);
+    }
+
+    users.push(...result.users.filter(matches));
+  }
+
+  const perPage = firstPage.meta.perPage;
+  const total = users.length;
+
+  return {
+    ok: true,
+    users,
+    meta: {
+      currentPage: 1,
+      lastPage: Math.max(1, Math.ceil(total / perPage)),
+      perPage,
+      total,
+    },
+    message: firstPage.message,
+  };
+}
+
 interface UserJsonSuccess {
   readonly ok: true;
   readonly status: number;

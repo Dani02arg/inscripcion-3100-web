@@ -15,6 +15,7 @@ const ICON_KEYS: readonly SidebarIconKey[] = [
   "students",
   "courses",
   "inscriptions",
+  "notification",
   "users",
   "staff",
   "reports",
@@ -76,3 +77,4 @@ test("todos los archivos de icono del menú existen en public/icons", () => {
     assert.equal(existsSync(absolute), true, `Falta ${file}`);
   }
 });
+
