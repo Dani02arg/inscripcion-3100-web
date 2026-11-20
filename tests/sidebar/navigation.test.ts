@@ -37,6 +37,7 @@ test("el administrativo recibe sus opciones en el orden de la spec", () => {
     "Cursos",
     "Inscripciones",
     "Gestión de usuarios",
+    "Reportes",
     "Mi perfil",
   ]);
 });
@@ -66,6 +67,7 @@ test("Inicio, Cursos, la sección de usuarios y Mi perfil están habilitados", (
       "Cursos",
       "Inscripciones",
       "Gestión de usuarios",
+      "Reportes",
       "Mi perfil",
     ],
     ADMINISTRADOR: [
@@ -75,6 +77,7 @@ test("Inicio, Cursos, la sección de usuarios y Mi perfil están habilitados", (
       "Cursos",
       "Inscripciones",
       "Gestión de usuarios",
+      "Reportes",
       "Mi perfil",
     ],
   };
@@ -113,10 +116,11 @@ test("cada rol ve exclusivamente sus opciones", () => {
   assert.equal(administrativo.has("Mis hijos"), false);
   assert.equal(administrativo.has("Alumnos"), true);
   assert.equal(administrativo.has("Gestión de usuarios"), true);
-  assert.equal(administrativo.has("Reportes"), false);
+  assert.equal(administrativo.has("Reportes"), true);
 
   assert.equal(administrador.has("Mis hijos"), false);
   assert.equal(administrador.has("Alumnos"), true);
+  assert.equal(administrador.has("Reportes"), true);
 });
 
 test("ningún rol repite opciones y todos empiezan por Inicio", () => {
@@ -363,6 +367,38 @@ test("el hijo activo de la sección corresponde a la ruta", () => {
     "Padrón de usuarios",
   );
   assert.equal(getActiveChild(section, "/dashboard/courses"), null);
+});
+
+test("Reportes está habilitado para roles altos y activo en sus rutas", () => {
+  const adminReports = getRoleNavigation("ADMINISTRATIVO").find(
+    (item) => item.label === "Reportes",
+  );
+  const bossReports = getRoleNavigation("ADMINISTRADOR").find(
+    (item) => item.label === "Reportes",
+  );
+
+  assert.ok(adminReports);
+  assert.ok(bossReports);
+  assert.equal(adminReports.enabled, true);
+  assert.equal(adminReports.href, "/dashboard/reports");
+  assert.equal(adminReports.match, "prefix");
+  assert.equal(bossReports.enabled, true);
+  assert.equal(bossReports.href, "/dashboard/reports");
+  assert.equal(bossReports.match, "prefix");
+
+  for (const path of [
+    "/dashboard/reports",
+    "/dashboard/reports/preview",
+  ]) {
+    assert.equal(getNavigationItemState(adminReports, path), "active");
+    assert.equal(getNavigationItemState(bossReports, path), "active");
+  }
+
+  assert.equal(
+    getNavigationItemState(adminReports, "/dashboard/reports-otros"),
+    "inactive",
+  );
+  assert.equal(getNavigationItemState(bossReports, "/dashboard"), "inactive");
 });
 
 test("Mi perfil está habilitado y activo en su ruta", () => {

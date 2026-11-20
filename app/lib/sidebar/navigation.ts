@@ -66,6 +66,15 @@ const ADMIN_INSCRIPTIONS_ITEM: SidebarNavItem = Object.freeze({
   match: "prefix",
 });
 
+/** Reportes está habilitado para administrativos y administradores. */
+const REPORTS_ITEM: SidebarNavItem = Object.freeze({
+  label: "Reportes",
+  icon: "reports",
+  href: "/dashboard/reports",
+  enabled: true,
+  match: "prefix",
+});
+
 /** Opciones del directorio de personal. */
 const USERS_CHILDREN: readonly SidebarNavChild[] = Object.freeze([
   Object.freeze({
@@ -138,6 +147,7 @@ export const SIDEBAR_NAVIGATION: Readonly<
     COURSES_ITEM,
     ADMIN_INSCRIPTIONS_ITEM,
     USERS_SECTION,
+    REPORTS_ITEM,
     PROFILE_ITEM,
   ]),
   ADMINISTRADOR: Object.freeze([
@@ -147,7 +157,7 @@ export const SIDEBAR_NAVIGATION: Readonly<
     COURSES_ITEM,
     ADMIN_INSCRIPTIONS_ITEM,
     USERS_SECTION,
-    unavailable("Reportes", "reports"),
+    REPORTS_ITEM,
     PROFILE_ITEM,
   ]),
 });
