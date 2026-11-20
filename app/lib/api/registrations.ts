@@ -117,7 +117,21 @@ function parseRegistrationCourse(value: unknown): RegistrationCourse | null {
     return null;
   }
 
-  return { id, code, year, studyYear, division, cycle, shift, speciality };
+  const currentCapacity = parseInteger(value.currentCapacity, 0);
+  const maxCapacity = parseInteger(value.maxCapacity, 0);
+
+  return {
+    id,
+    code,
+    year,
+    studyYear,
+    division,
+    cycle,
+    shift,
+    speciality,
+    ...(currentCapacity !== null ? { currentCapacity } : {}),
+    ...(maxCapacity !== null ? { maxCapacity } : {}),
+  };
 }
 
 function parseStringArrayOrNull(value: unknown): string[] | null {

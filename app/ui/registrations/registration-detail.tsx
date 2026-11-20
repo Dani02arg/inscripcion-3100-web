@@ -76,6 +76,9 @@ const ACTION_BUTTON_STYLES: Record<
 interface DetailField {
   readonly label: string;
   readonly value: string;
+  readonly containerClassName?: string;
+  readonly labelClassName?: string;
+  readonly valueClassName?: string;
 }
 
 function formatYesNo(value: boolean): string {
@@ -96,11 +99,31 @@ function formatSubjects(value: readonly string[] | null): string {
   return value && value.length > 0 ? value.join(", ") : "No informado";
 }
 
-function DetailItem({ label, value }: DetailField) {
+function DetailItem({
+  label,
+  value,
+  containerClassName,
+  labelClassName,
+  valueClassName,
+}: DetailField) {
   return (
-    <div className="min-w-0 rounded-xl border border-borde-input bg-fondo-app px-3 py-2">
-      <dt className="text-sm font-semibold text-texto-principal">{label}</dt>
-      <dd className="mt-1 break-words text-base font-medium text-texto-principal">
+    <div
+      className={`min-w-0 rounded-xl border px-3 py-2 ${
+        containerClassName ?? "border-borde-input bg-fondo-app"
+      }`}
+    >
+      <dt
+        className={`text-sm font-semibold ${
+          labelClassName ?? "text-texto-principal"
+        }`}
+      >
+        {label}
+      </dt>
+      <dd
+        className={`mt-1 break-words text-base font-medium ${
+          valueClassName ?? "text-texto-principal"
+        }`}
+      >
         {value}
       </dd>
     </div>
@@ -130,7 +153,7 @@ function DetailSection({
       </h2>
       <dl className="mt-4 grid gap-3 sm:grid-cols-2">
         {items.map((item) => (
-          <DetailItem key={item.label} label={item.label} value={item.value} />
+          <DetailItem key={item.label} {...item} />
         ))}
       </dl>
     </section>
@@ -216,267 +239,280 @@ export default function RegistrationDetail({
       label: "Especialidad",
       value: getSpecialityLabel(registration.course.speciality),
     },
-  ];
-
-  const requestItems: readonly DetailField[] = [
-    { label: "Vínculo", value: formatText(registration.relationship) },
-    {
-      label: "Institución de origen",
-      value: formatText(registration.institutionOfOrigin),
-    },
-    {
-      label: "Autorización de imagen",
-      value: formatYesNo(registration.photoAuthorization),
-    },
-  ];
-
-  const tutorItems: readonly DetailField[] = [
-    {
-      label: "Nombre y apellido",
-      value: tutor
-        ? formatText(`${tutor.name} ${tutor.lastname}`.trim())
-        : "No informado",
-    },
-    { label: "Correo electrónico", value: formatText(tutor?.email) },
-    { label: "Teléfono", value: formatText(tutor?.user_phone) },
-  ];
-
-  const conditionsItems: readonly DetailField[] = [
-    {
-      label: "Problema de salud",
-      value: formatYesNo(registration.healthProblem),
-    },
-    {
-      label: "Alumno de inclusión",
-      value: formatYesNo(registration.inclusionStudent),
-    },
-    {
-      label: "Impedimento de contacto",
-      value: formatYesNo(registration.contactImpediment),
-    },
-    {
-      label: "Procesos legales",
-      value: formatYesNo(registration.legalProceedings),
-    },
-  ];
-
-  const certificatesItems: readonly DetailField[] = [
-    {
-      label: "Certificado de salud",
-      value: formatPresent(registration.hasHealthProblemCertificate),
-    },
-    {
-      label: "Certificado de inclusión",
-      value: formatPresent(registration.hasInclusionStudentCertificate),
-    },
-    {
-      label: "Certificado de impedimento",
-      value: formatPresent(registration.hasContactImpedimentCertificate),
-    },
-    {
-      label: "Certificado de procesos legales",
-      value: formatPresent(registration.hasLegalProceedingsCertificate),
-    },
-  ];
-
-  const subjectsItems: readonly DetailField[] = [
-    {
-      label: "Materias adeudadas",
-      value: formatSubjects(registration.pendingSubjects),
-    },
-    {
-      label: "Documentación faltante",
-      value: formatText(registration.missingDocumentation),
-    },
-  ];
-
-  const dateItems: readonly DetailField[] = [
-    { label: "Creada", value: formatRegistrationDate(registration.created_at) },
-    {
-      label: "Última actualización",
-      value: formatRegistrationDate(registration.updated_at),
-    },
-  ];
-
-  const reassignmentItems: readonly DetailField[] =
-    registration.status === "PROPOSED_REASSIGNMENT"
+    ...(canDictate &&
+    typeof registration.course.currentCapacity === "number" &&
+    typeof registration.course.maxCapacity === "number"
       ? [
-        {
-          label: "Curso propuesto",
-          value: registration.proposedCourse
-            ? formatText(registration.proposedCourse.code)
-            : "No informado",
-        },
-        {
-          label: "Motivo",
-          value: formatText(registration.reassignmentReason),
-        },
-      ]
-      : [];
+          {
+            label: "Cupos",
+            value: `${registration.course.currentCapacity} / ${registration.course.maxCapacity}`,
+            containerClassName: "border-naranja-acento bg-naranja-acento/15",
+            labelClassName: "text-azul-institucional",
+            valueClassName: "font-bold text-azul-institucional",
+          },
+        ]
+      : []),
+  ];
 
-  const sections = (
-    <>
-      <DetailSection title="Datos del alumno" items={studentItems} />
-      <DetailSection title="Datos del curso" items={courseItems} />
-      <DetailSection title="Datos de la solicitud" items={requestItems} />
-      <DetailSection title="Tutor responsable" items={tutorItems} />
-      <DetailSection title="Condiciones especiales" items={conditionsItems} />
-      <DetailSection title="Certificados adjuntos" items={certificatesItems} />
-      {reassignmentItems.length > 0 ? (
-        <DetailSection title="Reasignación propuesta" items={reassignmentItems} />
-      ) : null}
-      {registration.observations ? (
-        <DetailSection
-          title="Observaciones"
-          items={[
-            {
-              label: "Observaciones",
-              value: formatText(registration.observations),
-            },
-          ]}
-        />
-      ) : null}
-      <DetailSection title="Materias y documentación" items={subjectsItems} />
-      <DetailSection title="Fechas" items={dateItems} />
-    </>
-  );
+const requestItems: readonly DetailField[] = [
+  { label: "Vínculo", value: formatText(registration.relationship) },
+  {
+    label: "Institución de origen",
+    value: formatText(registration.institutionOfOrigin),
+  },
+  {
+    label: "Autorización de imagen",
+    value: formatYesNo(registration.photoAuthorization),
+  },
+];
 
-  const actions = [
-    { action: "approve-choice", label: "Aprobar" },
-    { action: "observe", label: "Devolver con observaciones" },
-    { action: "reassign", label: "Reasignar" },
-    { action: "reject", label: "Rechazar" },
-  ] as const;
+const tutorItems: readonly DetailField[] = [
+  {
+    label: "Nombre y apellido",
+    value: tutor
+      ? formatText(`${tutor.name} ${tutor.lastname}`.trim())
+      : "No informado",
+  },
+  { label: "Correo electrónico", value: formatText(tutor?.email) },
+  { label: "Teléfono", value: formatText(tutor?.user_phone) },
+];
 
-  return (
-    <div data-action={dialog?.kind ?? undefined} className="space-y-6">
-      <CourseBreadcrumb
+const conditionsItems: readonly DetailField[] = [
+  {
+    label: "Problema de salud",
+    value: formatYesNo(registration.healthProblem),
+  },
+  {
+    label: "Alumno de inclusión",
+    value: formatYesNo(registration.inclusionStudent),
+  },
+  {
+    label: "Impedimento de contacto",
+    value: formatYesNo(registration.contactImpediment),
+  },
+  {
+    label: "Procesos legales",
+    value: formatYesNo(registration.legalProceedings),
+  },
+];
+
+const certificatesItems: readonly DetailField[] = [
+  {
+    label: "Certificado de salud",
+    value: formatPresent(registration.hasHealthProblemCertificate),
+  },
+  {
+    label: "Certificado de inclusión",
+    value: formatPresent(registration.hasInclusionStudentCertificate),
+  },
+  {
+    label: "Certificado de impedimento",
+    value: formatPresent(registration.hasContactImpedimentCertificate),
+  },
+  {
+    label: "Certificado de procesos legales",
+    value: formatPresent(registration.hasLegalProceedingsCertificate),
+  },
+];
+
+const subjectsItems: readonly DetailField[] = [
+  {
+    label: "Materias adeudadas",
+    value: formatSubjects(registration.pendingSubjects),
+  },
+  {
+    label: "Documentación faltante",
+    value: formatText(registration.missingDocumentation),
+  },
+];
+
+const dateItems: readonly DetailField[] = [
+  { label: "Creada", value: formatRegistrationDate(registration.created_at) },
+  {
+    label: "Última actualización",
+    value: formatRegistrationDate(registration.updated_at),
+  },
+];
+
+const reassignmentItems: readonly DetailField[] =
+  registration.status === "PROPOSED_REASSIGNMENT"
+    ? [
+      {
+        label: "Curso propuesto",
+        value: registration.proposedCourse
+          ? formatText(registration.proposedCourse.code)
+          : "No informado",
+      },
+      {
+        label: "Motivo",
+        value: formatText(registration.reassignmentReason),
+      },
+    ]
+    : [];
+
+const sections = (
+  <>
+    <DetailSection title="Datos del alumno" items={studentItems} />
+    <DetailSection title="Datos del curso" items={courseItems} />
+    <DetailSection title="Datos de la solicitud" items={requestItems} />
+    <DetailSection title="Tutor responsable" items={tutorItems} />
+    <DetailSection title="Condiciones especiales" items={conditionsItems} />
+    <DetailSection title="Certificados adjuntos" items={certificatesItems} />
+    {reassignmentItems.length > 0 ? (
+      <DetailSection title="Reasignación propuesta" items={reassignmentItems} />
+    ) : null}
+    {registration.observations ? (
+      <DetailSection
+        title="Observaciones"
         items={[
-          { label: "Inicio", href: "/dashboard" },
-          { label: "Inscripciones", href: "/dashboard/registrations" },
-          { label: "Detalle" },
+          {
+            label: "Observaciones",
+            value: formatText(registration.observations),
+          },
         ]}
       />
+    ) : null}
+    <DetailSection title="Materias y documentación" items={subjectsItems} />
+    <DetailSection title="Fechas" items={dateItems} />
+  </>
+);
 
-      <div>
-        <h1 className="text-2xl font-bold text-texto-principal sm:text-3xl">
-          Detalle de la inscripción
-        </h1>
-        <p className="mt-2 text-base text-texto-principal">
-          {formatRegistrationStudentName(registration.student)}
+const actions = [
+  { action: "approve-choice", label: "Aprobar" },
+  { action: "observe", label: "Devolver con observaciones" },
+  { action: "reassign", label: "Reasignar" },
+  { action: "reject", label: "Rechazar" },
+] as const;
+
+return (
+  <div data-action={dialog?.kind ?? undefined} className="space-y-6">
+    <CourseBreadcrumb
+      items={[
+        { label: "Inicio", href: "/dashboard" },
+        { label: "Inscripciones", href: "/dashboard/registrations" },
+        { label: "Detalle" },
+      ]}
+    />
+
+    <div>
+      <h1 className="text-2xl font-bold text-texto-principal sm:text-3xl">
+        Detalle de la inscripción
+      </h1>
+      <p className="mt-2 text-base text-texto-principal">
+        {formatRegistrationStudentName(registration.student)}
+      </p>
+    </div>
+
+    <div className="hidden lg:grid lg:grid-cols-[1fr_320px] lg:items-start lg:gap-6">
+      <div className="space-y-4">{sections}</div>
+
+      <aside className="rounded-2xl border border-borde-input bg-superficie p-4 shadow-sm">
+        <p className="text-sm font-semibold text-texto-secundario">Estado</p>
+        <p className="mt-1 text-lg font-bold text-texto-principal">
+          {getStatusLabel(registration.status)}
         </p>
-      </div>
 
-      <div className="hidden lg:grid lg:grid-cols-[1fr_320px] lg:items-start lg:gap-6">
-        <div className="space-y-4">{sections}</div>
-
-        <aside className="rounded-2xl border border-borde-input bg-superficie p-4 shadow-sm">
-          <p className="text-sm font-semibold text-texto-secundario">Estado</p>
-          <p className="mt-1 text-lg font-bold text-texto-principal">
-            {getStatusLabel(registration.status)}
+        {canDictate ? (
+          <div className="mt-4 flex flex-col gap-2">
+            {actions.map(({ action, label }) => (
+              <button
+                key={action}
+                type="button"
+                onClick={() =>
+                  setDialog({ kind: action } as DialogState)
+                }
+                className={`${ACTION_BASE_CLASSES} ${ACTION_BUTTON_STYLES[action]}`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-4 text-sm text-texto-secundario">
+            Esta solicitud no admite dictámenes en su estado actual.
           </p>
+        )}
 
-          {canDictate ? (
-            <div className="mt-4 flex flex-col gap-2">
-              {actions.map(({ action, label }) => (
-                <button
-                  key={action}
-                  type="button"
-                  onClick={() =>
-                    setDialog({ kind: action } as DialogState)
-                  }
-                  className={`${ACTION_BASE_CLASSES} ${ACTION_BUTTON_STYLES[action]}`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          ) : (
-            <p className="mt-4 text-sm text-texto-secundario">
-              Esta solicitud no admite dictámenes en su estado actual.
-            </p>
-          )}
-
-          <button
-            type="button"
-            onClick={() => setPdfOpen(true)}
-            className={`${ACTION_BASE_CLASSES} mt-4 border border-borde-input bg-superficie text-texto-principal hover:bg-fondo-app`}
-          >
-            Ver formulario PDF
-          </button>
-        </aside>
-      </div>
-
-      <div className="space-y-4 lg:hidden">{sections}</div>
-
-      <div className="lg:hidden">
         <button
           type="button"
           onClick={() => setPdfOpen(true)}
-          className={`${ACTION_BASE_CLASSES} mb-3 border border-borde-input bg-superficie text-texto-principal hover:bg-fondo-app`}
+          className={`${ACTION_BASE_CLASSES} mt-4 border border-borde-input bg-superficie text-texto-principal hover:bg-fondo-app`}
         >
           Ver formulario PDF
         </button>
-        <RegistrationStatusFab status={registration.status} />
-        {canDictate ? (
-          <RegistrationActionsFab
-            onApprove={() => setDialog({ kind: "approve-choice" })}
-            onObserve={() => setDialog({ kind: "observe" })}
-            onReassign={() => setDialog({ kind: "reassign" })}
-            onReject={() => setDialog({ kind: "reject" })}
-          />
-        ) : null}
-      </div>
-
-      <ApproveChoiceDialog
-        open={dialog?.kind === "approve-choice"}
-        id="registration-approve-choice"
-        onRequested={() => setDialog({ kind: "approve-confirm" })}
-        onReassign={() => setDialog({ kind: "reassign" })}
-        onBack={() => setDialog(null)}
-      />
-
-      <DictamenConfirmDialog
-        open={dialog?.kind === "approve-confirm"}
-        id="registration-approve-confirm"
-        registration={registration}
-        title="Aprobar solicitud"
-        action="aprobar la solicitud"
-        confirmLabel="Aprobar"
-        onConfirm={handleApproveConfirm}
-        onBack={() => setDialog({ kind: "approve-choice" })}
-      />
-
-      <RejectDialog
-        open={dialog?.kind === "reject"}
-        id="registration-reject"
-        registration={registration}
-        onSubmit={handleReject}
-        onBack={() => setDialog(null)}
-      />
-
-      <ObserveDialog
-        open={dialog?.kind === "observe"}
-        id="registration-observe"
-        registration={registration}
-        onSubmit={handleObserve}
-        onBack={() => setDialog(null)}
-      />
-
-      <ReassignDialog
-        open={dialog?.kind === "reassign"}
-        id="registration-reassign"
-        registration={registration}
-        courses={availableCourses}
-        onSubmit={handleReassign}
-        onBack={() => setDialog(null)}
-      />
-
-      <PdfModal
-        open={pdfOpen}
-        registrationId={registration.id}
-        onClose={() => setPdfOpen(false)}
-      />
+      </aside>
     </div>
-  );
+
+    <div className="space-y-4 lg:hidden">{sections}</div>
+
+    <div className="lg:hidden">
+      <button
+        type="button"
+        onClick={() => setPdfOpen(true)}
+        className={`${ACTION_BASE_CLASSES} mb-3 border border-borde-input bg-superficie text-texto-principal hover:bg-fondo-app`}
+      >
+        Ver formulario PDF
+      </button>
+      <RegistrationStatusFab status={registration.status} />
+      {canDictate ? (
+        <RegistrationActionsFab
+          onApprove={() => setDialog({ kind: "approve-choice" })}
+          onObserve={() => setDialog({ kind: "observe" })}
+          onReassign={() => setDialog({ kind: "reassign" })}
+          onReject={() => setDialog({ kind: "reject" })}
+        />
+      ) : null}
+    </div>
+
+    <ApproveChoiceDialog
+      open={dialog?.kind === "approve-choice"}
+      id="registration-approve-choice"
+      onRequested={() => setDialog({ kind: "approve-confirm" })}
+      onReassign={() => setDialog({ kind: "reassign" })}
+      onBack={() => setDialog(null)}
+    />
+
+    <DictamenConfirmDialog
+      open={dialog?.kind === "approve-confirm"}
+      id="registration-approve-confirm"
+      registration={registration}
+      title="Aprobar solicitud"
+      action="aprobar la solicitud"
+      confirmLabel="Aprobar"
+      onConfirm={handleApproveConfirm}
+      onBack={() => setDialog({ kind: "approve-choice" })}
+    />
+
+    <RejectDialog
+      open={dialog?.kind === "reject"}
+      id="registration-reject"
+      registration={registration}
+      onSubmit={handleReject}
+      onBack={() => setDialog(null)}
+    />
+
+    <ObserveDialog
+      open={dialog?.kind === "observe"}
+      id="registration-observe"
+      registration={registration}
+      onSubmit={handleObserve}
+      onBack={() => setDialog(null)}
+    />
+
+    <ReassignDialog
+      open={dialog?.kind === "reassign"}
+      id="registration-reassign"
+      registration={registration}
+      courses={availableCourses}
+      onSubmit={handleReassign}
+      onBack={() => setDialog(null)}
+    />
+
+    <PdfModal
+      open={pdfOpen}
+      registrationId={registration.id}
+      onClose={() => setPdfOpen(false)}
+    />
+  </div>
+);
 }

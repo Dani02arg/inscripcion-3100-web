@@ -36,6 +36,8 @@ export interface RegistrationCourse {
   readonly cycle: string;
   readonly shift: string;
   readonly speciality: string;
+  readonly currentCapacity?: number;
+  readonly maxCapacity?: number;
 }
 
 /** Tutor responsable, obtenido de `GET /api/students/{student}/tutor`. */
@@ -100,6 +102,7 @@ export interface RegistrationFilters {
   readonly cycle: string;
   readonly shift: string;
   readonly speciality: string;
+  
 }
 
 /** Metadatos de paginación informados por el servicio. */
